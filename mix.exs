@@ -38,6 +38,7 @@ defmodule VirtualJudge.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
+     {:hound, "~> 1.0"},
      {:exq, "~> 0.7.2"}]
   end
 
