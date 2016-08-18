@@ -1,0 +1,6 @@
+<%= for p <- @problems do %>
+  <%= p.title %> <br/>
+  <h1><%= p.source %></h1>
+  <%= p.description %>
+  <hr/>
+<% end %>
