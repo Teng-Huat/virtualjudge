@@ -1,6 +1,6 @@
 <%= for p <- @problems do %>
   <%= p.title %> <br/>
   <h1><%= p.source %></h1>
-  <%= p.description %>
+  <%= link "Show", to: problem_path(@conn, :show, p.id) %>
   <hr/>
 <% end %>

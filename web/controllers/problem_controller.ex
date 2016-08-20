@@ -7,4 +7,9 @@ defmodule VirtualJudge.ProblemController do
     problems = Repo.all(Problem)
     render conn, "index.html", problems: problems
   end
+
+  def show(conn, %{ "id" => id}) do
+    problem = Repo.get!(Problem, id)
+    render conn, "show.html", problem: problem
+  end
 end
