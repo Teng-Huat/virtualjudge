@@ -19,19 +19,23 @@ defmodule CodechefWorker do
       |> Enum.map(fn x -> List.to_string(x) end)
 
     for link <- links do
-
-      navigate_to("https://www.codechef.com" <> link)
-
-      title =
-        page_source()
-        |> get_title()
-
-      content =
-        page_source()
-        |> get_problem()
-      VirtualJudge.Repo.insert!(%Problem{title: title, description: content, source: link})
+      source = "https://www.codechef.com" <> link
+      if !VirtualJudge.Repo.get_by(Problem, source: source) do
+        navigate_to(source)
+        :timer.sleep(2000)
+        title =
+          page_source()
+          |> get_title()
+          |> String.strip()
+        content =
+          page_source()
+          |> get_problem()
+          |> String.strip()
+        changeset =
+          Problem.changeset(%Problem{}, %{title: title, description: content, source: source})
+          |> VirtualJudge.Repo.insert()
+      end
     end
-
     # Automatically invoked if the session owner process crashes
     Hound.end_session
   end

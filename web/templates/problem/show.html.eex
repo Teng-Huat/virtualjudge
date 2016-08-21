@@ -2,4 +2,4 @@
   <h1><%= @problem.title %></h1>
   <%= @problem.source %>
 </div>
-<%= raw @problem.description %>
+<iframe sandbox srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>

@@ -19,6 +19,7 @@ defmodule VirtualJudge.Problem do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :time_limit, :memory_limit, :description, :input, :output, :source])
+    |> unique_constraint(:source)
     |> validate_required([:title])
   end
 end

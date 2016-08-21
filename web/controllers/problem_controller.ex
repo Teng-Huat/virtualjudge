@@ -4,7 +4,7 @@ defmodule VirtualJudge.ProblemController do
   alias VirtualJudge.Problem
 
   def index(conn, _params) do
-    problems = Repo.all(Problem)
+    problems = Repo.all(Problem |> order_by(asc: :title))
     render conn, "index.html", problems: problems
   end
 
