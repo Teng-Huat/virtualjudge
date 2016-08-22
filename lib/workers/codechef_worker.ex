@@ -4,6 +4,54 @@ defmodule CodechefWorker do
   alias VirtualJudge.Problem
 
   @doc """
+  Submits the answer to codechef website
+  """
+  def perform(source, answer) do
+    Application.ensure_all_started(:hound)
+
+    username = Application.get_env(:virtual_judge, :codechef_username)
+    password = Application.get_env(:virtual_judge, :codechef_password)
+
+    Hound.start_session
+    # do login
+    navigate_to("https://www.codechef.com/")
+    find_element(:name, "name")
+    |> fill_field(username)
+
+    password_field = find_element(:name, "pass")
+
+    password_field
+    |> fill_field(password)
+
+    password_field |> submit_element()
+
+    #submit answer
+    navigate_to(source)
+
+    find_element(:id, "edit_area_toggle_checkbox_edit-program")
+    |> click()
+
+    find_element(:id, "edit-program")
+    |> fill_field(answer)
+
+    find_element(:id, "problem-submission")
+    |> submit_element()
+
+    :timer.sleep(10000)
+
+    result = page_source()
+              |> Floki.find("#result-box #display_result")
+              |> Floki.text()
+              |> String.strip
+
+    IO.puts result
+
+    find_element(:link_text, "Logout") |> click()
+
+    Hound.end_session
+  end
+
+  @doc """
   Scrapes codechef website for problem and saves them to the database
   """
   def run do
