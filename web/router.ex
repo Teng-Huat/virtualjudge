@@ -17,7 +17,9 @@ defmodule VirtualJudge.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/problem", ProblemController, only: [:index, :show]
+    resources "/problem", ProblemController, only: [:index, :show] do
+      resources "/answer", AnswerController, only: [:create]
+    end
   end
 
   # Other scopes may use custom stacks.

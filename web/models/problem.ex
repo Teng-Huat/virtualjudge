@@ -9,6 +9,7 @@ defmodule VirtualJudge.Problem do
     field :input, :string
     field :output, :string
     field :source, :string
+    has_many :answers, VirtualJudge.Answer
 
     timestamps()
   end

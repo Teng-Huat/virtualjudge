@@ -2,6 +2,7 @@ defmodule VirtualJudge.ProblemController do
   use VirtualJudge.Web, :controller
 
   alias VirtualJudge.Problem
+  alias VirtualJudge.Answer
 
   def index(conn, _params) do
     problems = Repo.all(Problem |> order_by(asc: :title))
@@ -10,6 +11,7 @@ defmodule VirtualJudge.ProblemController do
 
   def show(conn, %{ "id" => id}) do
     problem = Repo.get!(Problem, id)
-    render conn, "show.html", problem: problem
+    answer_changeset = Answer.changeset(%Answer{})
+    render conn, "show.html", problem: problem, answer_changeset: answer_changeset
   end
 end

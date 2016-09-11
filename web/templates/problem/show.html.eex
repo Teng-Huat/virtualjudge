@@ -3,3 +3,17 @@
   <%= @problem.source %>
 </div>
 <iframe sandbox srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
+
+<hr />
+<h2>Submit a answer</h2>
+<%= form_for @answer_changeset, problem_answer_path(@conn, :create, @problem), fn f -> %>
+<div class="form-group">
+    <%= label f, :body, class: "control-label" %>
+    <%= textarea f, :body, class: "form-control", rows: 10 %>
+    <%= error_tag f, :body %>
+  </div>
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
