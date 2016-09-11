@@ -65,6 +65,7 @@ exports.config = {
 
   npm: {
     styles: {bootstrap: ['dist/css/bootstrap.min.css']},
+    globals: {jQuery: 'jquery'},
     enabled: true
   }
 };
