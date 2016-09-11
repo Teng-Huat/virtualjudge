@@ -11,6 +11,14 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
+## Configuring for development
+
+If you are using [tmux](https://tmux.github.io/) with [tmuxinator](https://github.com/tmuxinator/tmuxinator), run:
+
+```
+ln -s `pwd`/virtualjudge.yml ~/.tmuxinator/virtualjudge.yml
+```
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
