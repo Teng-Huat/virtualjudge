@@ -7,7 +7,7 @@ form.link, form.button {
 }
 
 /* Fixes phoenix bad form links from delete/post/put methods */
-.nav > li > form > a {
+.nav form.link > a {
   position: relative;
   display: block;
   padding: 10px 15px;

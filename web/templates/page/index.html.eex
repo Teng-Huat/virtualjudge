@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}", name: "Virtual judge!" %></h2>
-  <p class="lead">Create contests using other virtual judege systems!</p>
+  <p class="lead">Create contests using other virtual judge systems!</p>
 </div>
 
 <div class="row marketing">

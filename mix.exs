@@ -40,6 +40,7 @@ defmodule VirtualJudge.Mixfile do
      {:cowboy, "~> 1.0"},
      {:hound, "~> 1.0"},
      {:floki, "~> 0.10.0"},
+     {:comeonin, "~> 2.5"},
      {:exq, "~> 0.7.2"}]
   end
 

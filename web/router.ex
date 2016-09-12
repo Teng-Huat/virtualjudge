@@ -7,6 +7,7 @@ defmodule VirtualJudge.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug VirtualJudge.Auth, repo: VirtualJudge.Repo
   end
 
   pipeline :api do
@@ -20,6 +21,8 @@ defmodule VirtualJudge.Router do
     resources "/problem", ProblemController, only: [:index, :show] do
       resources "/answer", AnswerController, only: [:create]
     end
+    resources "/sign_up", RegistrationController, only: [:new, :create]
+    resources "/sign_in", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

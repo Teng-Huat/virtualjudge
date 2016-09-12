@@ -58,6 +58,7 @@ defmodule VirtualJudge.Web do
   def router do
     quote do
       use Phoenix.Router
+      import VirtualJudge.Auth, only: [authenticate_user: 2]
     end
   end
 
