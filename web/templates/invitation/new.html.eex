@@ -1,0 +1,7 @@
+<%= form_for @conn, invitation_path(@conn, :create), [as: :invitation, multipart: true], fn f -> %>
+  <div class="form-group">
+    <%= label f, :csv, class: "control-label" %>
+    <%= file_input f, :csv, class: "form-control" %>
+  </div>
+  <%= submit "Invite", class: "btn btn-primary" %>
+<% end %>

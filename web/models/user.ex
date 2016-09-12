@@ -26,6 +26,14 @@ defmodule VirtualJudge.User do
     |> put_password_hash()
   end
 
+  def invitation_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:email])
+    |> validate_required([:email])
+    |> update_change(:email, &String.downcase/1)
+    |> unique_constraint(:email)
+  end
+
   defp put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))
