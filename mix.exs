@@ -42,6 +42,7 @@ defmodule VirtualJudge.Mixfile do
      {:floki, "~> 0.10.0"},
      {:comeonin, "~> 2.5"},
      {:csv, "~> 1.4.2"},
+     {:secure_random, "~> 0.5"},
      {:exq, "~> 0.7.2"}]
   end
 

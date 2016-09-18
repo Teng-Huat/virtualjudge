@@ -10,8 +10,7 @@ defmodule VirtualJudge.InvitationController do
       upload.path
       |> File.stream!
       |> CSV.decode()
-      |> Enum.map(fn x -> Enum.at(x, 0) end)
-      # |> Enum.map(fn x -> %{email: x} end)
+      |> Enum.map(fn row -> Enum.at(row, 0) end)
 
     for email <- emails do
       case Repo.get_by(User, email: email) do

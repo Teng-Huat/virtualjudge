@@ -17,7 +17,7 @@ defmodule VirtualJudge.AnswerController do
         conn
         |> put_flash(:info, "Answer created successfully.")
         |> redirect(to: problem_path(conn, :show, problem))
-      {:error, changeset} ->
+      {:error, _changeset} ->
         conn
         |> put_flash(:error, "Opps, something wrong happened")
         |> redirect(to: problem_path(conn, :show, problem))

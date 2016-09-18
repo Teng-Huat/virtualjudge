@@ -7,6 +7,8 @@ defmodule VirtualJudge.User do
     field :bio, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+
+    field :invitation_token, :string
     timestamps()
   end
 
@@ -31,6 +33,7 @@ defmodule VirtualJudge.User do
     |> cast(params, [:email])
     |> validate_required([:email])
     |> update_change(:email, &String.downcase/1)
+    |> put_change(:invitation_token, SecureRandom.urlsafe_base64) # create invitation token
     |> unique_constraint(:email)
   end
 
