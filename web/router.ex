@@ -25,6 +25,10 @@ defmodule VirtualJudge.Router do
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
+
+    get "/sign_up/:id/:invitation_token", RegistrationController, :edit
+    put "/sign_up/:id/:invitation_token", RegistrationController, :update
+
   end
 
   # Other scopes may use custom stacks.

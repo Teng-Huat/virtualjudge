@@ -17,12 +17,10 @@ defmodule VirtualJudge.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:username, :bio, :password, :email])
+    |> cast(params, [:username, :bio, :password])
     |> validate_required([:username, :password])
     |> validate_length(:username, min: 7, max: 30)
     |> validate_confirmation(:password)
-    |> update_change(:email, &String.downcase/1)
-    |> unique_constraint(:email)
     |> update_change(:username, &String.downcase/1)
     |> unique_constraint(:username)
     |> put_password_hash()
@@ -35,6 +33,13 @@ defmodule VirtualJudge.User do
     |> update_change(:email, &String.downcase/1)
     |> put_change(:invitation_token, SecureRandom.urlsafe_base64) # create invitation token
     |> unique_constraint(:email)
+  end
+
+  def invitation_query(query, id, invitation_token) do
+    from u in query,
+      where: is_nil(u.password_hash)
+        and u.id == ^id
+        and u.invitation_token == ^invitation_token
   end
 
   defp put_password_hash(changeset) do

@@ -21,7 +21,10 @@ defmodule VirtualJudge.InvitationController do
         |> User.invitation_changeset()
         |> Repo.insert_or_update!()
 
-      VirtualJudge.Email.invitation_email(user) |> VirtualJudge.Mailer.deliver_later
+      if user.password_hash == nil do
+        VirtualJudge.Email.invitation_email(conn, user) |> VirtualJudge.Mailer.deliver_later
+      end
+
     end
 
     conn
