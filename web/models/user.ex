@@ -42,6 +42,10 @@ defmodule VirtualJudge.User do
         and u.invitation_token == ^invitation_token
   end
 
+  def signed_up?(user) do
+    user.password_hash != nil
+  end
+
   defp put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))

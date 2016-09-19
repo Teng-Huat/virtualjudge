@@ -29,6 +29,12 @@ defmodule VirtualJudge.Router do
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
     put "/sign_up/:id/:invitation_token", RegistrationController, :update
 
+
+    scope "/admin", Admin, as: :admin do
+      get "/users", UserController, :index
+      get "/export", UserController, :export
+    end
+
   end
 
   # Other scopes may use custom stacks.
