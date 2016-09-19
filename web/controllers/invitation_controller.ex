@@ -1,6 +1,8 @@
 defmodule VirtualJudge.InvitationController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
+  plug VirtualJudge.Authorize, [model: User] when action in [:new, :create]
+
   def new(conn, _params) do
     render(conn, "new.html")
   end

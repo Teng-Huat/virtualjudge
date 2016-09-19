@@ -17,7 +17,6 @@ defmodule VirtualJudge.Admin.UserController do
     |> send_resp(200, csv_content(users))
   end
 
-
   defp csv_content(users) do
     users
     |> CSV.encode(headers: [:email, :username, :signed_up])

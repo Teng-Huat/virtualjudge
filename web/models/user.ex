@@ -8,6 +8,8 @@ defmodule VirtualJudge.User do
     field :password, :string, virtual: true
     field :password_hash, :string
 
+    field :type, :string
+
     field :invitation_token, :string
     timestamps()
   end
@@ -23,6 +25,7 @@ defmodule VirtualJudge.User do
     |> validate_confirmation(:password)
     |> update_change(:username, &String.downcase/1)
     |> unique_constraint(:username)
+    |> put_change(:type, "user")
     |> put_password_hash()
   end
 

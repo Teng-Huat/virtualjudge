@@ -44,6 +44,7 @@ defmodule VirtualJudge.Mixfile do
      {:csv, "~> 1.4.2"},
      {:secure_random, "~> 0.5"},
      {:bamboo, "~> 0.7.0"},
+     {:canada, "~>1.0.0"},
      {:exq, "~> 0.7.2"}]
   end
 
