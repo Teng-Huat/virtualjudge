@@ -23,13 +23,13 @@ defmodule VirtualJudge.Router do
     end
     resources "/sign_up", RegistrationController, only: [:new, :create]
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
-    get "/invite", InvitationController, :new
-    post "/invite", InvitationController, :create
 
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
     put "/sign_up/:id/:invitation_token", RegistrationController, :update
 
     scope "/admin", Admin, as: :admin do
+      get "/invite", InvitationController, :new
+      post "/invite", InvitationController, :create
       get "/users", UserController, :index
       get "/export", UserController, :export
     end

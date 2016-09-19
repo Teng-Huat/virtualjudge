@@ -1,4 +1,4 @@
-defmodule VirtualJudge.InvitationController do
+defmodule VirtualJudge.Admin.InvitationController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
   plug VirtualJudge.Authorize, [model: User] when action in [:new, :create]
