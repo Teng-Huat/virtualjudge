@@ -13,12 +13,15 @@ defmodule VirtualJudge.InvitationController do
       |> Enum.map(fn row -> Enum.at(row, 0) end)
 
     for email <- emails do
-      case Repo.get_by(User, email: email) do
-        nil -> %User{email: email}
-        user -> user
-      end
-      |> User.invitation_changeset()
-      |> Repo.insert_or_update!()
+      user =
+        case Repo.get_by(User, email: email) do
+          nil -> %User{email: email}
+          user -> user
+        end
+        |> User.invitation_changeset()
+        |> Repo.insert_or_update!()
+
+      VirtualJudge.Email.invitation_email(user) |> VirtualJudge.Mailer.deliver_later
     end
 
     conn

@@ -19,7 +19,7 @@ defmodule VirtualJudge.Mixfile do
   def application do
     [mod: {VirtualJudge, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :exq, :tzdata]]
+                    :phoenix_ecto, :postgrex, :exq, :tzdata, :bamboo]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,6 +43,7 @@ defmodule VirtualJudge.Mixfile do
      {:comeonin, "~> 2.5"},
      {:csv, "~> 1.4.2"},
      {:secure_random, "~> 0.5"},
+     {:bamboo, "~> 0.7.0"},
      {:exq, "~> 0.7.2"}]
   end
 
