@@ -10,7 +10,7 @@ defmodule VirtualJudge.Problem do
     field :output, :string
     field :source, :string
     has_many :answers, VirtualJudge.Answer
-
+    embeds_many :programming_languages, VirtualJudge.Programming_language
     timestamps()
   end
 
@@ -22,5 +22,10 @@ defmodule VirtualJudge.Problem do
     |> cast(params, [:title, :time_limit, :memory_limit, :description, :input, :output, :source])
     |> unique_constraint(:source)
     |> validate_required([:title])
+  end
+
+  def put_programming_languages(changeset, programming_languages) do
+    changeset
+    |> put_embed(:programming_languages, programming_languages)
   end
 end

@@ -14,27 +14,10 @@ defmodule CodechefWorker do
 
     Application.ensure_all_started(:hound)
 
-    username = Application.get_env(:virtual_judge, :codechef_username)
-    password = Application.get_env(:virtual_judge, :codechef_password)
 
     Hound.start_session
-    # do login
-    navigate_to("https://www.codechef.com/")
 
-
-    find_element(:name, "name")
-    |> fill_field(username)
-
-    password_field = find_element(:name, "pass")
-
-    password_field
-    |> fill_field(password)
-
-    password_field |> submit_element()
-
-    # javascript dialog
-    dismiss_dialog()
-    dismiss_dialog()
+    do_login()
 
     #submit answer
     navigate_to(answering_link)
@@ -70,6 +53,8 @@ defmodule CodechefWorker do
     Application.ensure_all_started(:hound)
     Hound.start_session
 
+    do_login()
+
     navigate_to("https://www.codechef.com/problems/school")
 
     links =
@@ -87,23 +72,59 @@ defmodule CodechefWorker do
           page_source()
           |> get_title()
           |> String.strip()
+
         content =
           page_source()
           |> get_problem()
           |> String.strip()
+
+        String.replace(source, "/problems/", "/submit/") |> navigate_to()
+
+        programming_languages_supported =
+          page_source()
+          |> get_programming_lang()
+          |> Enum.map(fn([value, lang]) -> %VirtualJudge.Programming_language{name: lang, value: value} end)
+
         changeset =
-          Problem.changeset(%Problem{}, %{title: title, description: content, source: source})
+          Problem.changeset(%Problem{},
+                            %{title: title,
+                              description: content,
+                              source: source})
+          |> Problem.put_programming_languages(programming_languages_supported)
           |> VirtualJudge.Repo.insert()
       end
     end
     # Automatically invoked if the session owner process crashes
+    find_element(:link_text, "Logout") |> click()
     Hound.end_session
+  end
+
+  defp do_login() do
+    username = Application.get_env(:virtual_judge, :codechef_username)
+    password = Application.get_env(:virtual_judge, :codechef_password)
+
+    navigate_to("https://www.codechef.com/")
+
+    find_element(:name, "name")
+    |> fill_field(username)
+
+    password_field = find_element(:name, "pass")
+    password_field
+    |> fill_field(password)
+
+    password_field |> submit_element()
   end
 
   defp get_title(page_source) do
     page_source
     |> Floki.find(".title")
     |> Floki.text()
+  end
+
+  defp get_programming_lang(page_source) do
+    page_source
+    |> Floki.find("select#edit-language option")
+    |> Enum.map(fn({_option, [{"value", value}], [lang]}) -> [value, lang] end)
   end
 
   defp get_problem(page_source) do
