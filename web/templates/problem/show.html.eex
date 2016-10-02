@@ -5,13 +5,23 @@
 <iframe sandbox srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
 
 <hr />
+
 <h2>Submit a answer</h2>
 <%= form_for @answer_changeset, problem_answer_path(@conn, :create, @problem), fn f -> %>
-<div class="form-group">
+  <div class="form-group">
     <%= label f, :body, class: "control-label" %>
     <%= textarea f, :body, class: "form-control", rows: 10 %>
     <%= error_tag f, :body %>
   </div>
+
+  <%= inputs_for f, :programming_language, fn i -> %>
+    <div class="form-group">
+      <%= label i, :value_name, "Language", class: "control-label"%>
+      <%= select i, :value_name, @problem.programming_languages |> Enum.map(&{&1.name, "#{&1.value}|#{&1.name}"}) %>
+      <%= error_tag i, :value_name %>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>

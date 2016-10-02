@@ -4,7 +4,17 @@ defmodule VirtualJudge.AnswerController do
   alias VirtualJudge.Problem
   alias VirtualJudge.Answer
 
-  def create(conn, %{"problem_id" => problem_id, "answer" => answer_params}) do
+
+  def create(conn, %{"problem_id" => problem_id,
+                     "answer" => %{"programming_language" =>
+                      %{ "value_name" => value_name}} = answer_params}) do
+
+    [value, name] =
+      value_name
+      |> String.split("|")
+
+    answer_params = %{answer_params | "programming_language" => %{"name" => name, "value" => value}}
+
     problem = Repo.get!(Problem, problem_id)
     changeset =
       problem

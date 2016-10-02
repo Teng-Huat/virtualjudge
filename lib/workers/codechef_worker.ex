@@ -14,7 +14,6 @@ defmodule CodechefWorker do
 
     Application.ensure_all_started(:hound)
 
-
     Hound.start_session
 
     do_login()
@@ -22,12 +21,16 @@ defmodule CodechefWorker do
     #submit answer
     navigate_to(answering_link)
 
-    find_element(:id, "edit_area_toggle_checkbox_edit-program")
+    # select programming language option
+    find_element(:css, "select#edit-language")
+    |> find_within_element(:css, "option[value='#{answer.programming_language.value}']")
     |> click()
 
+    # fill in answer
     find_element(:id, "edit-program")
     |> fill_field(answer.body)
 
+    # submit the form
     find_element(:id, "problem-submission")
     |> submit_element()
 
