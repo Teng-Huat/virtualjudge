@@ -1,0 +1,28 @@
+<h2>Show contest</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @contest.title %>
+  </li>
+
+  <li>
+    <strong>Start time:</strong>
+    <%= @contest.start_time %>
+  </li>
+
+  <li>
+    <strong>Duration:</strong>
+    <%= @contest.duration %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @contest.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: contest_path(@conn, :edit, @contest) %>
+<%= link "Back", to: contest_path(@conn, :index) %>
