@@ -34,6 +34,18 @@
 
     <div class="col-md-6 problem-container">
       <a href="#" id="add-problem" class="btn btn-primary">Add problem</a>
+      <%= if @contest do %>
+        <%= for problem <- @contest.problems do %>
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="contest[problems][]" value="<%= problem.source %>"/>
+            </div>
+            <div class="col-md-3">
+              <a href="#" class="btn btn-danger remove_field">Remove</a>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 

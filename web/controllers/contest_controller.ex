@@ -1,6 +1,8 @@
 defmodule VirtualJudge.ContestController do
+  require IEx
   use VirtualJudge.Web, :controller
 
+  alias VirtualJudge.Problem
   alias VirtualJudge.Contest
 
   def index(conn, _params) do
@@ -14,7 +16,14 @@ defmodule VirtualJudge.ContestController do
   end
 
   def create(conn, %{"contest" => contest_params}) do
-    changeset = Contest.changeset(%Contest{}, contest_params)
+    problems =
+      contest_params["problems"]
+      |> Enum.map(fn(x) -> Repo.get_by!(VirtualJudge.Problem, source: x) end)
+
+
+    changeset =
+      Contest.changeset(%Contest{}, contest_params)
+      |> Ecto.Changeset.put_assoc(:problems, problems)
 
     case Repo.insert(changeset) do
       {:ok, _contest} ->
@@ -27,19 +36,38 @@ defmodule VirtualJudge.ContestController do
   end
 
   def show(conn, %{"id" => id}) do
-    contest = Repo.get!(Contest, id)
+    contest =
+      Contest
+      |> preload(:problems)
+      |> Repo.get!(id)
     render(conn, "show.html", contest: contest)
   end
 
   def edit(conn, %{"id" => id}) do
-    contest = Repo.get!(Contest, id)
+    contest =
+      Contest
+      |> preload(:problems)
+      |> Repo.get!(id)
     changeset = Contest.changeset(contest)
     render(conn, "edit.html", contest: contest, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "contest" => contest_params}) do
-    contest = Repo.get!(Contest, id)
-    changeset = Contest.changeset(contest, contest_params)
+
+    contest =
+      Contest
+      |> preload(:problems)
+      |> Repo.get!(id)
+
+
+    problems =
+      contest_params["problems"]
+      |> Enum.map(fn(x) -> Repo.get_by!(Problem, source: x) end)
+      |> Enum.map(fn(x) -> Problem.changeset(x) end)
+
+    changeset =
+      Contest.changeset(contest, contest_params)
+      |> Ecto.Changeset.put_assoc(:problems, problems)
 
     case Repo.update(changeset) do
       {:ok, contest} ->

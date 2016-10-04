@@ -24,5 +24,14 @@
 
 </ul>
 
-<%= link "Edit", to: contest_path(@conn, :edit, @contest) %>
+<h2>Problems</h2>
+<ul>
+  <%= for problem <- @contest.problems do %>
+    <li>
+      <%= link "Link", to: problem_path(@conn, :show, problem) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link "Edit", to: contest_path(@conn, :edit, @contest) %> |
 <%= link "Back", to: contest_path(@conn, :index) %>

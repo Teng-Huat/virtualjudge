@@ -11,6 +11,9 @@ defmodule VirtualJudge.Problem do
     field :source, :string
     has_many :answers, VirtualJudge.Answer
     embeds_many :programming_languages, VirtualJudge.Programming_language
+
+    many_to_many :contests, VirtualJudge.Contest, join_through: "contests_problems"
+
     timestamps()
   end
 
