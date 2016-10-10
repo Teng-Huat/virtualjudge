@@ -86,14 +86,14 @@ defmodule CodechefWorker do
         programming_languages_supported =
           page_source()
           |> get_programming_lang()
-          |> Enum.map(fn([value, lang]) -> %VirtualJudge.Programming_language{name: lang, value: value} end)
+          |> Enum.map(fn([value, lang]) -> %{name: lang, value: value} end)
 
         changeset =
           Problem.changeset(%Problem{},
                             %{title: title,
                               description: content,
+                              programming_languages: programming_languages_supported,
                               source: source})
-          |> Problem.put_programming_languages(programming_languages_supported)
           |> VirtualJudge.Repo.insert()
       end
     end
@@ -127,7 +127,9 @@ defmodule CodechefWorker do
   defp get_programming_lang(page_source) do
     page_source
     |> Floki.find("select#edit-language option")
-    |> Enum.map(fn({_option, [{"value", value}], [lang]}) -> [value, lang] end)
+    |> Enum.map(fn {_option, [{"value", value}], [lang]} -> [value, lang]
+                   {_option, [{"selected", "selected"}, {"value", value}], [lang]} -> [value, lang]
+                end)
   end
 
   defp get_problem(page_source) do

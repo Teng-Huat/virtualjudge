@@ -9,7 +9,7 @@ defmodule VirtualJudge.Contest do
     field :duration, :integer
     field :description, :string
 
-    many_to_many :problems, Problem, join_through: "contests_problems", on_replace: :delete
+    many_to_many :problems, Problem, join_through: "contests_problems", on_replace: :delete, on_delete: :delete_all
 
     timestamps()
   end

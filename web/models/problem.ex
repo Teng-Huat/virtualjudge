@@ -23,12 +23,8 @@ defmodule VirtualJudge.Problem do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :time_limit, :memory_limit, :description, :input, :output, :source])
-    |> unique_constraint(:source)
+    |> cast_embed(:programming_languages, required: true)
     |> validate_required([:title])
-  end
-
-  def put_programming_languages(changeset, programming_languages) do
-    changeset
-    |> put_embed(:programming_languages, programming_languages)
+    |> unique_constraint(:source)
   end
 end
