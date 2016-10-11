@@ -2,7 +2,7 @@ defmodule VirtualJudge.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", VirtualJudge.RoomChannel
+  channel "room:*", VirtualJudge.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

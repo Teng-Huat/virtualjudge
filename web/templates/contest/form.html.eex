@@ -46,6 +46,14 @@
           </div>
         <% end %>
       <% end %>
+      <div class="form-group">
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="contest[problems][]" />
+        </div>
+        <div class="col-md-3">
+          <a href="#" class="btn btn-danger remove_field">Remove</a>
+        </div>
+      </div>
     </div>
   </div>
 

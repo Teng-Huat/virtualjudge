@@ -19,7 +19,7 @@ import bootstrap from "bootstrap"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
+import socket from "./socket"
 
 jQuery(document).ready(function(){
   jQuery("#add-problem").click(function(e){ //on add input button click
