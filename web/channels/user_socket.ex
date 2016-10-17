@@ -3,6 +3,7 @@ defmodule VirtualJudge.UserSocket do
 
   ## Channels
   channel "room:*", VirtualJudge.RoomChannel
+  channel "contest:*", VirtualJudge.ContestChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
