@@ -21,6 +21,9 @@ defmodule VirtualJudge.Router do
     resources "/problem", ProblemController, only: [:index, :show] do
       resources "/answer", AnswerController, only: [:create]
     end
+
+    resources "/answer", AnswerController, only: [:index, :show]
+
     resources "/sign_up", RegistrationController, only: [:new, :create]
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
 

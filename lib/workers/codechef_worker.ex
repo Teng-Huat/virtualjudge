@@ -41,7 +41,7 @@ defmodule CodechefWorker do
               |> Floki.text()
               |> String.strip
 
-    answer = Ecto.Changeset.change(answer, result: result)
+    answer = Answer.submitted_changeset(answer, %{result: result})
     Repo.update!(answer)
 
     find_element(:link_text, "Logout") |> click()

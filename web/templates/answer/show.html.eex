@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h1>Answer for <small><%= @answer.problem.title %></small></h1>
+</div>
+
+<h2>You submitted:</h2>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= @answer.body %>
+  </div>
+</div>
+
+<h3>More information</h3>
+<table class="table">
+  <tr>
+    <th>Problem link: </th>
+    <td><%= link "Problem link", to: problem_path(@conn, :show, @answer.problem) %></td>
+  </tr>
+
+  <tr>
+    <th>Status:</th>
+    <td> <%= @answer.status %></td>
+  </tr>
+</table>
+
+<%= link "Back", to: answer_path(@conn, :index) %>
+
+
+

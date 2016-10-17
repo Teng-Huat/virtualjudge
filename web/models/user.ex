@@ -10,6 +10,7 @@ defmodule VirtualJudge.User do
 
     field :type, :string
 
+    has_many :answers, VirtualJudge.Answer
     field :invitation_token, :string
     timestamps()
   end
