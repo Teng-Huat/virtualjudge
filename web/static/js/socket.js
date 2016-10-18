@@ -51,36 +51,12 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-socket.connect()
+// socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
+// // Now that you are connected, you can join channels with a topic:
 // let channel = socket.channel("topic:subtopic", {})
 // channel.join()
 //   .receive("ok", resp => { console.log("Joined successfully", resp) })
 //   .receive("error", resp => { console.log("Unable to join", resp) })
-
-let channel   = socket.channel("room:lobby", {})
-let chatInput = document.querySelector("input[name='contest[problems][]']")
-
-chatInput.addEventListener("blur", blurEvent)
-
-function blurEvent(e) {
-  channel.push("new_msg", {body: chatInput.value})
-  e.preventDefault()
-}
-
-channel.on("new_msg", payload => {
-  if (payload.body == "No such problem"){
-    chatInput.parentNode.parentNode.className += " has-error"
-    let t = document.createTextNode("There is no such problem in the database.")
-    let helpBlock = document.createElement("p").appendChild(t)
-    chatInput.parentNode.appendChild(helpBlock)
-    chatInput.disabled = true
-  }
-})
-
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

@@ -1,67 +1,70 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div id="contest-container" data-user-id=<%= @current_user.id %>>
+  <%= form_for @changeset, @action, fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= label f, :title, class: "control-label" %>
+          <%= text_input f, :title, class: "form-control" %>
+          <%= error_tag f, :title %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :start_time, class: "control-label" %>
+          <%= datetime_select f, :start_time, class: "form-control" %>
+          <%= error_tag f, :start_time %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :duration, "Duration (in mins)", class: "control-label" %>
+          <%= number_input f, :duration, class: "form-control" %>
+          <%= error_tag f, :duration %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :description, class: "control-label" %>
+          <%= textarea f, :description, class: "form-control" %>
+          <%= error_tag f, :description %>
+        </div>
+      </div>
+
+      <div class="col-md-6 problem-container">
+        <div class="form-group">
+          <div class="col-md-9">
+            <input type="text" class="form-control" id="problem-input" />
+          </div>
+          <div class="col-md-3">
+            <a href="#" id="add-problem-btn" class="btn btn-primary">Add problem</a>
+          </div>
+        </div>
+        <div id="problem-inputs-ctn">
+          <%= if @contest do %>
+            <%= for problem <- @contest.problems do %>
+              <div class="form-group">
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="contest[problems][]" value="<%= problem.source %>"/>
+                </div>
+                <div class="col-md-3">
+                  <a href="#" class="btn btn-danger remove_field">Remove</a>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <%= submit "Submit", class: "btn btn-primary" %>
+        </div>
+      </div>
     </div>
   <% end %>
-
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <%= label f, :title, class: "control-label" %>
-        <%= text_input f, :title, class: "form-control" %>
-        <%= error_tag f, :title %>
-      </div>
-
-      <div class="form-group">
-        <%= label f, :start_time, class: "control-label" %>
-        <%= datetime_select f, :start_time, class: "form-control" %>
-        <%= error_tag f, :start_time %>
-      </div>
-
-      <div class="form-group">
-        <%= label f, :duration, "Duration (in mins)", class: "control-label" %>
-        <%= number_input f, :duration, class: "form-control" %>
-        <%= error_tag f, :duration %>
-      </div>
-
-      <div class="form-group">
-        <%= label f, :description, class: "control-label" %>
-        <%= textarea f, :description, class: "form-control" %>
-        <%= error_tag f, :description %>
-      </div>
-    </div>
-
-    <div class="col-md-6 problem-container">
-      <a href="#" id="add-problem" class="btn btn-primary">Add problem</a>
-      <%= if @contest do %>
-        <%= for problem <- @contest.problems do %>
-          <div class="form-group">
-            <div class="col-md-9">
-              <input type="text" class="form-control" name="contest[problems][]" value="<%= problem.source %>"/>
-            </div>
-            <div class="col-md-3">
-              <a href="#" class="btn btn-danger remove_field">Remove</a>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-      <div class="form-group">
-        <div class="col-md-9">
-          <input type="text" class="form-control" name="contest[problems][]" />
-        </div>
-        <div class="col-md-3">
-          <a href="#" class="btn btn-danger remove_field">Remove</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <%= submit "Submit", class: "btn btn-primary" %>
-      </div>
-    </div>
-  </div>
-<% end %>
+</div> <!-- / div#contest-container -->

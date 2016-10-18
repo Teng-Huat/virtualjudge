@@ -1,5 +1,7 @@
 defmodule VirtualJudge.ContestChannel do
   use VirtualJudge.Web, :channel
+  alias VirtualJudge.Problem
+  alias VirtualJudge.User
 
   def join("contest:lobby", payload, socket) do
     if authorized?(payload) do
@@ -9,17 +11,36 @@ defmodule VirtualJudge.ContestChannel do
     end
   end
 
-  # Channels can be used in a request/response fashion
-  # by sending replies to requests from the client
-  def handle_in("ping", payload, socket) do
-    {:reply, {:ok, payload}, socket}
+  def join("contest:"<> user_id, _payload, socket) do
+    {:ok, "Joined contest:#{user_id}", socket}
   end
 
-  # It is also common to receive messages from the client and
-  # broadcast to everyone in the current topic (contest:lobby).
-  def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+  def handle_in("new_problem", %{"url" => url} = params, socket) do
+    push socket, "job_processing", params
+
+    problem = Repo.get_by(Problem, source: url)
+
+    if problem do
+      push socket, "job_done", params
+    end
+
+    # do your stuff here
     {:noreply, socket}
+  end
+
+  def broadcast_job_done(problem, %User{id: user_id}) do
+    payload = %{
+      url: problem.source
+    }
+    VirtualJudge.Endpoint.broadcast("contest:#{user_id}", "job_done", payload)
+  end
+
+  def broadcast_job_fail(problem, %User{id: user_id}) do
+    payload = %{
+      url: problem.source,
+      reason: "Can't scrape.."
+    }
+    VirtualJudge.Endpoint.broadcast("contest:#{user_id}", "job_fail", payload)
   end
 
   # Add authorization logic here as required.
