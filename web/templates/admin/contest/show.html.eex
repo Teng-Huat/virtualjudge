@@ -33,5 +33,5 @@
   <% end %>
 </ul>
 
-<%= link "Edit", to: contest_path(@conn, :edit, @contest) %> |
-<%= link "Back", to: contest_path(@conn, :index) %>
+<%= link "Edit", to: admin_contest_path(@conn, :edit, @contest) %> |
+<%= link "Back", to: admin_contest_path(@conn, :index) %>

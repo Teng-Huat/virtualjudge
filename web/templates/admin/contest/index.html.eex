@@ -20,13 +20,13 @@
       <td><%= contest.description %></td>
 
       <td class="text-right">
-        <%= link "Show", to: contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: contest_path(@conn, :edit, contest), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: contest_path(@conn, :delete, contest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: admin_contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: admin_contest_path(@conn, :edit, contest), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: admin_contest_path(@conn, :delete, contest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New contest", to: contest_path(@conn, :new) %>
+<%= link "New contest", to: admin_contest_path(@conn, :new) %>

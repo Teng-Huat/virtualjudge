@@ -35,9 +35,9 @@ defmodule VirtualJudge.Router do
       post "/invite", InvitationController, :create
       get "/users", UserController, :index
       get "/export", UserController, :export
+      resources "/contests", ContestController
     end
 
-    resources "/contests", ContestController
 
   end
 

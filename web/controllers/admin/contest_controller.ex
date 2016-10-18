@@ -1,4 +1,4 @@
-defmodule VirtualJudge.ContestController do
+defmodule VirtualJudge.Admin.ContestController do
   require IEx
   use VirtualJudge.Web, :controller
 
@@ -29,7 +29,7 @@ defmodule VirtualJudge.ContestController do
       {:ok, _contest} ->
         conn
         |> put_flash(:info, "Contest created successfully.")
-        |> redirect(to: contest_path(conn, :index))
+        |> redirect(to: admin_contest_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -73,7 +73,7 @@ defmodule VirtualJudge.ContestController do
       {:ok, contest} ->
         conn
         |> put_flash(:info, "Contest updated successfully.")
-        |> redirect(to: contest_path(conn, :show, contest))
+        |> redirect(to: admin_contest_path(conn, :show, contest))
       {:error, changeset} ->
         render(conn, "edit.html", contest: contest, changeset: changeset)
     end
@@ -88,6 +88,6 @@ defmodule VirtualJudge.ContestController do
 
     conn
     |> put_flash(:info, "Contest deleted successfully.")
-    |> redirect(to: contest_path(conn, :index))
+    |> redirect(to: admin_contest_path(conn, :index))
   end
 end
