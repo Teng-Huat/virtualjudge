@@ -1,0 +1,28 @@
+<h2>Listing contests</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Start time</th>
+      <th>Duration</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for contest <- @contests do %>
+    <tr>
+      <td><%= contest.title %></td>
+      <td><%= contest.start_time %></td>
+      <td><%= contest.duration %></td>
+      <td><%= contest.description %></td>
+      <td class="text-right">
+        <%= link "View", to: "TODO", class: "btn btn-default btn-xs" %>
+        <%= link "Join", to: "TODO", class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+

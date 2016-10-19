@@ -21,7 +21,6 @@ defmodule VirtualJudge.AnswerController do
     render conn, "show.html", answer: answer
   end
 
-
   def create(conn, %{"problem_id" => problem_id,
                      "answer" => %{"programming_language" =>
                       %{ "value_name" => value_name}} = answer_params}, user) do

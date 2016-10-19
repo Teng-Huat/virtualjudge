@@ -23,4 +23,10 @@ defmodule VirtualJudge.Contest do
     |> cast(params, [:title, :start_time, :duration, :description])
     |> validate_required([:title, :start_time, :duration, :description])
   end
+
+
+  def still_open(query) do
+    from c in query,
+    where: datetime_add(c.start_time, c.duration, "minute") > from_now(0, "minute")
+  end
 end

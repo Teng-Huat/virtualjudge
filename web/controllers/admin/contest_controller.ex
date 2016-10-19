@@ -1,5 +1,4 @@
 defmodule VirtualJudge.Admin.ContestController do
-  require IEx
   use VirtualJudge.Web, :controller
 
   alias VirtualJudge.Problem
