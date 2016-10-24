@@ -1,7 +1,33 @@
 <%= form_for @conn, admin_invitation_path(@conn, :create), [as: :invitation, multipart: true], fn f -> %>
   <div class="form-group">
     <%= label f, :csv, class: "control-label" %>
-    <%= file_input f, :csv, class: "form-control" %>
+    <%= file_input f, :csv %>
   </div>
   <%= submit "Invite", class: "btn btn-primary" %>
 <% end %>
+
+<br />
+<h2>How to create a CSV file</h2>
+To export an excel worksheet as a CSV file, follow the following steps:
+<ol>
+  <li>Click `File` > `Save as`</li>
+  <li>Under filw format, select `CSV UFT-8(Comma delimited)`</li>
+  <li>Choose the file location</li>
+  <li>Click `Save`</li>
+</ol>
+
+<h3>Example excel table format:</h3>
+<p>Note: That the excel sheet not have any headers</p>
+<table class="table table-bordered">
+  <tr><td>John</td><td>john@e.ntu.edu.sg</td></tr>
+  <tr><td>Basil quek</td><td>basil@e.ntu.edu.sg</td></tr>
+</table>
+
+<h3>Example CSV format:</h3>
+<p>
+  The CSV file should contain 2 columns (name and email):
+  <pre>
+  John,john@e.ntu.edu.sg
+  Basil quek,basil@e.ntu.edu.sg</pre>
+  Note that there shouldn't be any spaces inbetween the commas
+</p>
