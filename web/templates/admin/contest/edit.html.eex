@@ -2,6 +2,7 @@
 
 <%= render "form.html", changeset: @changeset,
                         contest: @contest,
+                        current_user: @current_user,
                         action: admin_contest_path(@conn, :update, @contest) %>
 
 <%= link "Back", to: admin_contest_path(@conn, :index) %>

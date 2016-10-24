@@ -1,97 +1,177 @@
-let Contest = {
-  init(socket, element) { if (!element) {return}
-    let userId = element.getAttribute("data-user-id")
-    socket.connect()
-    this.onReady(socket, userId)
-  }, // close init
-  onReady(socket, userId){
+import socket from "./socket"
+import React from "react"
+import ReactDOM from "react-dom"
 
-    let problemInput = document.getElementById("problem-input")
-    let problemButton = document.getElementById("add-problem-btn")
-    let problemInputContainer = document.getElementById("problem-inputs-ctn")
+class ProblemFinder extends React.Component{
+  constructor(props) {
+    super(props);
+    // This binding is necessary to make `this` work in the callback
+    this.handleAddProblemClick = this.handleAddProblemClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
 
-    let contestChannel = socket.channel("contest:"+ userId)
-    // receive job done message
-    contestChannel.on("job_processing", (resp) => {
-      let formGroup = document.createElement("div")
-      formGroup.classList.add("form-group")
-      formGroup.classList.add("has-warning")
-      let divColMd9 = document.createElement("div")
-      divColMd9.classList.add("col-md-9")
-
-      let divColMd3 = document.createElement("div")
-      divColMd3.classList.add("col-md-3")
-
-      let input = document.createElement("input")
-      input.classList.add("form-control")
-      input.setAttribute("readOnly", true)
-      input.setAttribute("value", resp.url)
-
-      let deleteBtn = document.createElement("a")
-      deleteBtn.classList.add("btn")
-      deleteBtn.classList.add("btn-danger")
-      deleteBtn.appendChild(document.createTextNode("Remove"))
-
-      let helpBlock = document.createElement("p")
-      helpBlock.classList.add("help-block")
-      helpBlock.textContent = "Processing.."
-
-      deleteBtn.addEventListener("click", (e) =>{
-        let formGroup = deleteBtn.parentNode.parentNode
-        formGroup.parentNode.removeChild(formGroup)
-      })
-
-      problemInputContainer.appendChild(formGroup)
-
-      // add input to formgroup
-      formGroup.appendChild(divColMd9)
-      divColMd9.appendChild(input)
-      divColMd9.appendChild(helpBlock) // add help block
-
-      // add delete button to formgroup
-      formGroup.appendChild(divColMd3)
-      divColMd3.appendChild(deleteBtn)
-
+    let problems = document.getElementsByClassName("original-problems")
+    problems = Array.prototype.map.call(problems, (input) => {
+      return {url: input.value, status: "done"}
     })
 
-    contestChannel.on("job_done", (resp) => {
-      let inputs = problemInputContainer.getElementsByTagName("input")
-      for (let input of inputs){
-        let formGroup = input.parentNode.parentNode
-        if(input.value == resp.url) {
-          let helpBlock = formGroup.getElementsByClassName("help-block")[0]
-          helpBlock.parentNode.removeChild(helpBlock) // remove the help block
-          formGroup.classList.remove("has-warning")
-          formGroup.classList.add("has-success")
-          input.setAttribute("name", "contest[problems][]")
-        } // close if
-      } // close for loop
+    this.state = {
+      problemInput: "",
+      problems: problems
+    }
+
+  } // close constructor
+
+  componentDidMount(){
+    let element = document.getElementById("contest-container")
+    let userId = element.getAttribute("data-user-id")
+    this.contestChannel = socket.channel("contest:"+ userId)
+
+    this.contestChannel.on("job_processing", (resp) => {
+      this.setState((prevState, props) => ({
+        problems: prevState.problems.concat({url: resp.url, status: "processing"}),
+      }))
+    }) // close on job_processing channel event
+
+    this.contestChannel.on("job_error", (resp) => {
+      let problems = []
+      this.state.problems.forEach((problem) => {
+        if (problem.url == resp.url){
+          let problem = {url: resp.url, status: "error"}
+          problems.push(problem)
+        }else{
+          problems.push(problem)
+        }
+      })
+      this.setState({problems: problems})
+    })
+
+    this.contestChannel.on("job_done", (resp) => {
+      let problems = []
+      this.state.problems.forEach((problem) => {
+        if (problem.url == resp.url){
+          let problem = {url: resp.url, status: "done"}
+          problems.push(problem)
+        }else{
+          problems.push(problem)
+        }
+      })
+      this.setState({problems: problems})
     }) // close on job_done channel event
 
-    // join the channel
-    contestChannel.join()
+    this.contestChannel.join()
       .receive("ok", resp => console.log("Joined the contest channel -> ", resp) )
       .receive("error", reason => console.log("Join failed ->", reason) )
 
-    // create events handler
-    problemInput.addEventListener("keypress", (e) => {
-      let key = e.which || e.keyCode;
-      if (key !== 13) return
-      e.preventDefault()
-      this.addProblem(problemInput, contestChannel)
-    })
-
-    problemButton.addEventListener("click", (e) => {
-      this.addProblem(problemInput, contestChannel)
-    })
-
-  },
-  addProblem(problemInput, contestChannel){
-    let payload = {url: problemInput.value}
-    contestChannel.push("new_problem", payload)
-      .receive("error", e => console.log(e) )
-    problemInput.value = "" // clear the input
   }
-} // close let Contest
 
-export default Contest
+  render() {
+    return (
+      <div>
+        <div className="col-md-9">
+          <div className="form-group">
+            <input type="text"
+              className="form-control"
+              value={this.state.problemInput}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleChange}/>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <a className="btn btn-primary"
+            onClick={this.handleAddProblemClick}>Add problem</a>
+        </div>
+        <br />
+        {this.renderProblems(this.state.problems)}
+      </div>
+    );
+  }
+
+  renderProblems(problems){
+    let rows = []
+    let i = 0
+    this.state.problems.forEach((problem, index) => {
+      rows.push(<ProblemInput value={problem.url} key={i} status={problem.status} handleRemove={this.handleRemove.bind(this, index)}/>)
+      i = i + 1
+    })
+    return rows
+  }
+
+  handleKeyPress(event){
+    if(event.key == "Enter"){
+      event.preventDefault()
+      this.handleAddProblemClick()
+    }
+  }
+
+  handleChange(event){
+    this.setState({problemInput: event.target.value});
+  }
+
+  handleAddProblemClick(){
+    // handle when input is empty
+    if (this.state.problemInput == "") return
+
+    // handle when user adds 2 of the same urls
+    if (this.state.problems.map((problem) => problem.url).includes(this.state.problemInput)){
+      this.setState({problemInput: ""})
+      return
+    }
+
+    let payload = {url: this.state.problemInput}
+    this.contestChannel.push("new_problem", payload)
+      .receive("error", e => console.log(e) )
+
+    this.setState({problemInput: ""})
+  }
+
+  handleRemove(index){
+    this.setState((prevState, props) => ({
+      problems: prevState.problems.slice(0, index).concat(prevState.problems.slice(index + 1))
+    }))
+  } // close handleRemove
+}
+
+class ProblemInput extends React.Component {
+  render() {
+    return (
+      <div className="form-group">
+        <div className="col-md-9">
+          <input className="form-control"
+            name={this.ignoreInput(this.props.status)}
+            value={this.props.value}
+            readOnly />
+          <p className="help-block">{this.statusText(this.props.status)}</p>
+        </div>
+        <div className="col-md-3">
+          <a className="btn btn-danger" onClick={this.props.handleRemove}>Remove</a>
+        </div>
+      </div>
+    )
+  }
+
+  ignoreInput(status) {
+    if (status == "done")
+      return "contest[problems][]"
+    else
+      return ""
+  }
+
+  statusText(status){
+    if (status == "processing")
+      return "Processing..."
+    else if (this.props.status == "done")
+      return "Done :)"
+    else
+      return "There was an error in processing"
+  }
+}
+
+if(document.getElementsByClassName("problem-container").length > 0){
+  ReactDOM.render(
+    <ProblemFinder />,
+    document.getElementsByClassName("problem-container")[0]
+  );
+}
+
+export default ProblemFinder

@@ -22,6 +22,8 @@ defmodule VirtualJudge.ContestChannel do
 
     if problem do
       push socket, "job_done", params
+    else
+      push socket, "job_error", params
     end
 
     # do your stuff here

@@ -17,7 +17,7 @@ defmodule VirtualJudge.Admin.ContestController do
   def create(conn, %{"contest" => contest_params}) do
     problems =
       contest_params["problems"]
-      |> Enum.map(fn(x) -> Repo.get_by!(VirtualJudge.Problem, source: x) end)
+      |> get_problems()
 
 
     changeset =
@@ -61,8 +61,7 @@ defmodule VirtualJudge.Admin.ContestController do
 
     problems =
       contest_params["problems"]
-      |> Enum.map(fn(x) -> Repo.get_by!(Problem, source: x) end)
-      |> Enum.map(fn(x) -> Problem.changeset(x) end)
+      |> get_problems()
 
     changeset =
       Contest.changeset(contest, contest_params)
@@ -88,5 +87,11 @@ defmodule VirtualJudge.Admin.ContestController do
     conn
     |> put_flash(:info, "Contest deleted successfully.")
     |> redirect(to: admin_contest_path(conn, :index))
+  end
+
+  defp get_problems(nil), do: []
+  defp get_problems(list) do
+    list
+    |> Enum.map(fn(x) -> Repo.get_by!(Problem, source: x) end)
   end
 end

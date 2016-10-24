@@ -20,6 +20,5 @@ import bootstrap from "bootstrap"
 // paths "./socket" or full ones "web/static/js/socket".
 
 import socket from "./socket"
-import Contest from "./contest"
 
-Contest.init(socket, document.getElementById("contest-container"))
+import Contest from "./contest"
