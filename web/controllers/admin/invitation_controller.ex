@@ -8,19 +8,19 @@ defmodule VirtualJudge.Admin.InvitationController do
   end
 
   def create(conn, %{"invitation" => %{"csv" => upload}}) do
-    emails =
+    name_and_email_list =
       upload.path
       |> File.stream!
       |> CSV.decode()
-      |> Enum.map(fn row -> Enum.at(row, 0) end)
+      |> Enum.map(fn row -> [Enum.at(row, 0), Enum.at(row, 1)] end)
 
-    for email <- emails do
+    for [name, email] <- name_and_email_list do
       user =
         case Repo.get_by(User, email: email) do
           nil -> %User{email: email}
           user -> user
         end
-        |> User.invitation_changeset()
+        |> User.invitation_changeset(%{name: name})
         |> Repo.insert_or_update!()
 
       if user.password_hash == nil do

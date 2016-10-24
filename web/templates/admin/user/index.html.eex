@@ -11,14 +11,14 @@
     <table class="table">
       <tr>
         <th>Email</th>
-        <th>Username</th>
+        <th>Name</th>
         <th>Invited at</th>
         <th>Signed up?</th>
       </tr>
       <%= for user <- @users do %>
         <tr>
           <td><%= user.email %></td>
-          <td><%= user.username %></td>
+          <td><%= user.name %></td>
           <td><%= user.inserted_at %></td>
           <td><%= signed_up(user) %></td>
         </tr>

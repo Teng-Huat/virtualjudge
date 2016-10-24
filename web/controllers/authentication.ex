@@ -37,9 +37,9 @@ defmodule VirtualJudge.Auth do
     end
   end
 
-  def login_by_username_and_pass(conn, username, given_pass, opts) do
+  def login_by_email_and_pass(conn, email, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
-    user = repo.get_by(VirtualJudge.User, username: String.downcase(username))
+    user = repo.get_by(VirtualJudge.User, email: String.downcase(email))
     cond do
       user && checkpw(given_pass, user.password_hash) ->
         {:ok, login(conn, user)}
@@ -50,4 +50,5 @@ defmodule VirtualJudge.Auth do
         {:error, :not_found, conn}
     end
   end
+
 end

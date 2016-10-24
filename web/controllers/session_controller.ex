@@ -5,8 +5,8 @@ defmodule VirtualJudge.SessionController do
     render conn, "new.html"
   end
 
-  def create(conn, %{"session" => %{"username" => username, "password" => password}}) do
-    case VirtualJudge.Auth.login_by_username_and_pass(conn, username, password, repo: Repo) do
+  def create(conn, %{"session" => %{"email" => email, "password" => password}}) do
+    case VirtualJudge.Auth.login_by_email_and_pass(conn, email, password, repo: Repo) do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back")
@@ -14,7 +14,7 @@ defmodule VirtualJudge.SessionController do
 
       {:error, _reason, conn} ->
         conn
-        |> put_flash(:error, "Invalid username/password combination")
+        |> put_flash(:error, "Invalid email/password combination")
         |> render("new.html")
     end
   end

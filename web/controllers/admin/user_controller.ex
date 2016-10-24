@@ -8,8 +8,8 @@ defmodule VirtualJudge.Admin.UserController do
 
   def export(conn, _params) do
     users =
-      Repo.all(from u in User, select: map(u, [:username, :email]))
-      |> Enum.map(fn u -> Map.put(u, :signed_up, u.username == nil) end)
+      Repo.all(from u in User, select: map(u, [:name, :email, :password_hash]))
+      |> Enum.map(fn u -> Map.put(u, :signed_up, User.signed_up?(u)) end)
 
     conn
     |> put_resp_content_type("text/csv")
@@ -19,7 +19,7 @@ defmodule VirtualJudge.Admin.UserController do
 
   defp csv_content(users) do
     users
-    |> CSV.encode(headers: [:email, :username, :signed_up])
+    |> CSV.encode(headers: [:email, :name, :signed_up])
     |> Enum.to_list
     |> to_string
   end

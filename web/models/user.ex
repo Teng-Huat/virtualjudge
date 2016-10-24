@@ -2,8 +2,8 @@ defmodule VirtualJudge.User do
   use VirtualJudge.Web, :model
 
   schema "users" do
-    field :username, :string
     field :email, :string
+    field :name, :string
     field :bio, :string
     field :password, :string, virtual: true
     field :password_hash, :string
@@ -20,19 +20,16 @@ defmodule VirtualJudge.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:username, :bio, :password])
-    |> validate_required([:username, :password])
-    |> validate_length(:username, min: 7, max: 30)
+    |> cast(params, [:name, :bio, :password])
+    |> validate_required([:password])
     |> validate_confirmation(:password)
-    |> update_change(:username, &String.downcase/1)
-    |> unique_constraint(:username)
     |> put_change(:type, "user")
     |> put_password_hash()
   end
 
   def invitation_changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email])
+    |> cast(params, [:email, :name])
     |> validate_required([:email])
     |> update_change(:email, &String.downcase/1)
     |> put_change(:invitation_token, SecureRandom.urlsafe_base64) # create invitation token
