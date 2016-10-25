@@ -27,7 +27,7 @@
           </li>
         <% end %>
 
-        <li><%= link "Practice", to: problem_path(@conn, :index) %></li>
+        <li><%= link "Practice", to: practice_path(@conn, :index) %></li>
         <li><%= link "Submitted answers", to: answer_path(@conn, :index) %></li>
         <%= if @current_user do %>
           <li><%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>

@@ -32,7 +32,7 @@ defmodule VirtualJudge.Router do
     end
     resources "/answer", AnswerController, only: [:index, :show]
     resources "/contest", ContestController
-
+    resources "/practice", PracticeController, only: [:index]
   end
 
   # admin scope

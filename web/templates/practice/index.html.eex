@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1>Practice problems</h1>
+</div>
+<%= for practice <- @practices do %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= practice.name %></h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+          <%= for problem <- practice.problems do %>
+            <li><%= link problem.title, to: problem_path(@conn, :show, problem) %></li>
+          <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
