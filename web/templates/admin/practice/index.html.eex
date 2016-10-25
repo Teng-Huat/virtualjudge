@@ -1,0 +1,17 @@
+<h1>Listing all practices</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Actions</td>
+    </tr>
+  </thead>
+<%= for practice <- @practices do %>
+  <tr>
+    <td><%= practice.name %></td>
+    <td>
+      <%= link "Show", to: admin_practice_path(@conn, :show, practice) %>
+    </td>
+  </tr>
+<% end %>
+</table>

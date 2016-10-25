@@ -22,6 +22,7 @@
               <li><%= link "Manage invitations", to: admin_invitation_path(@conn, :new) %></li>
               <li><%= link "Manage users", to: admin_user_path(@conn, :index) %></li>
               <li><%= link "Manage contests", to: admin_contest_path(@conn, :index) %></li>
+              <li><%= link "Manage practices", to: admin_practice_path(@conn, :index) %></li>
             </ul>
           </li>
         <% end %>

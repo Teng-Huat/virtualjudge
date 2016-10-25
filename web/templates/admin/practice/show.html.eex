@@ -1,0 +1,10 @@
+<h1><%= @practice.name %></h1>
+
+<hr />
+
+<h2>Problems</h2>
+<%= for problem <- @practice.problems do %>
+  <%= link problem.title, to: problem_path(@conn, :show, problem)%>
+  <%=  %>
+  <br />
+<% end %>

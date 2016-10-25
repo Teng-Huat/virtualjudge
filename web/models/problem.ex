@@ -14,6 +14,7 @@ defmodule VirtualJudge.Problem do
 
     many_to_many :contests, VirtualJudge.Contest, join_through: "contests_problems"
 
+    many_to_many :problems, VirtualJudge.Problem, join_through: "practices_problems"
     timestamps()
   end
 
