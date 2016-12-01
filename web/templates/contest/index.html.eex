@@ -1,4 +1,7 @@
 <h2>Listing contests</h2>
+
+<p>Listing all contests that are available now for you to join</p>
+
 <table class="table">
   <thead>
     <tr>
@@ -18,8 +21,7 @@
       <td><%= contest.duration %></td>
       <td><%= contest.description %></td>
       <td class="text-right">
-        <%= link "View", to: "TODO", class: "btn btn-default btn-xs" %>
-        <%= link "Join", to: "TODO", class: "btn btn-default btn-xs" %>
+        <%= link "View", to: contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
       </td>
     </tr>
 <% end %>

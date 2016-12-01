@@ -7,11 +7,10 @@ defmodule VirtualJudge.User do
     field :bio, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-
-    field :type, :string
-
-    has_many :answers, VirtualJudge.Answer
     field :invitation_token, :string
+    field :type, :string
+    has_many :answers, VirtualJudge.Answer
+    many_to_many :contests, VirtualJudge.Contest, join_through: "contests_users"
     timestamps()
   end
 

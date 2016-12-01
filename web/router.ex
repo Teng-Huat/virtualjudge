@@ -31,7 +31,8 @@ defmodule VirtualJudge.Router do
       resources "/answer", AnswerController, only: [:create]
     end
     resources "/answer", AnswerController, only: [:index, :show]
-    resources "/contest", ContestController
+    resources "/contest", ContestController, only: [:index, :show]
+    put "/contest/:id", ContestController, :join
     resources "/practice", PracticeController, only: [:index]
   end
 

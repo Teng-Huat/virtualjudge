@@ -2,8 +2,6 @@ defmodule VirtualJudge.Admin.PracticeController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.Practice
   alias VirtualJudge.Problem
-  alias VirtualJudge.User
-
 
   def index(conn, _params) do
     practices = Repo.all(Practice)

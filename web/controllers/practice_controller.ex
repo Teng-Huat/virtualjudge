@@ -1,6 +1,5 @@
 defmodule VirtualJudge.PracticeController do
   use VirtualJudge.Web, :controller
-  alias VirtualJudge.Problem
   alias VirtualJudge.Practice
 
   def index(conn, _params) do

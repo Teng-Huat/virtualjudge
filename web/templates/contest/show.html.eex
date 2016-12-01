@@ -1,0 +1,41 @@
+<h1><%= @contest.title %></h1>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-bordered">
+      <tr>
+        <th>Start time:</th>
+        <th><%= @contest.start_time %></th>
+      </tr>
+      <tr>
+        <th>Duration:</th>
+        <td><%= @contest.duration %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Problems</h3>
+      </div> <div class="panel-body">
+        <%= if @joined do %>
+          <ol>
+            <%= for problem <- @contest.problems do %>
+              <li>
+                <%= link problem.title, to: problem_path(@conn, :show, problem) %>
+              </li>
+            <% end %>
+          </ol>
+        <% else %>
+          Problems will be displayed once you've joined
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if not @joined do %>
+  <center>
+    <%= link "Join contest", to: contest_path(@conn, :join, @contest), method: :put, class: "btn btn-primary btn-lg" %>
+  </center>
+<% end %>
+
