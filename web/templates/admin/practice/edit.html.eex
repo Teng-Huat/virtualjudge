@@ -1,7 +1,5 @@
-<h1>New practice</h1>
-
 <%= render "form.html", changeset: @changeset,
-                        practice: nil,
+                        practice: @practice,
                         current_user: @current_user,
                         action: admin_practice_path(@conn, :create) %>
 

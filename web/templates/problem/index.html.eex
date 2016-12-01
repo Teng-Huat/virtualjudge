@@ -1,5 +1,0 @@
-<%= for p <- @problems do %>
-  <h1><%= p.title %></h1>
-  <%= link "Show", to: problem_path(@conn, :show, p.id) %>
-  <hr/>
-<% end %>

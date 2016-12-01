@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1>Listing all problems scraped in the database</h1>
+</div>
+<table class="table">
+  <tr>
+    <th>Problem title</th>
+    <th>Source</th>
+    <th>Actions</th>
+  </tr>
+<%= for p <- @problems do %>
+  <tr>
+    <td><%= p.title %></td>
+    <td><%= p.source %></td>
+    <td><%= link "Show", to: problem_path(@conn, :show, p.id), class: "btn btn-default btn-sm" %></td>
+  </tr>
+<% end %>
+</table>

@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Practice problems</h1>
+  <h1>Practice problems <small>Some problems for you to practice</small></h1>
 </div>
 <%= for practice <- @practices do %>
   <div class="panel panel-default">

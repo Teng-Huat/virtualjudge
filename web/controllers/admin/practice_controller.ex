@@ -43,6 +43,23 @@ defmodule VirtualJudge.Admin.PracticeController do
     render(conn, "show.html", practice: practice)
   end
 
+  def edit(conn, %{"id" => id}) do
+    practice =
+      Practice
+      |> preload(:problems)
+      |> Repo.get!(id)
+    changeset = Practice.changeset(practice)
+    render(conn, "edit.html", changeset: changeset, practice: practice)
+  end
+
+  def delete(conn, %{"id" => id}) do
+    problem = Repo.get!(Problem, id)
+    Repo.delete!(problem)
+    conn
+    |> put_flash(:info, "Contest deleted successfully.")
+    |> redirect(to: admin_practice_path(conn, :index))
+  end
+
 
   defp get_problems(nil), do: []
   defp get_problems(list) do

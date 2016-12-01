@@ -27,7 +27,7 @@ defmodule VirtualJudge.Router do
   # normal user authenticated scope
   scope "/", VirtualJudge do
     pipe_through [:browser, :authenticate_user] # Use the default browser stack
-    resources "/problem", ProblemController, only: [:index, :show] do
+    resources "/problem", ProblemController, only: [:show] do
       resources "/answer", AnswerController, only: [:create]
     end
     resources "/answer", AnswerController, only: [:index, :show]
@@ -44,6 +44,7 @@ defmodule VirtualJudge.Router do
     get "/export", UserController, :export
     resources "/contest", ContestController
     resources "/practice", PracticeController
+    resources "/problem", ProblemController, only: [:index]
   end
 
   # Other scopes may use custom stacks.
