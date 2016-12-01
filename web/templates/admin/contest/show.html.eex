@@ -1,37 +1,39 @@
-<h2>Show contest</h2>
-
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @contest.title %>
-  </li>
-
-  <li>
-    <strong>Start time:</strong>
-    <%= @contest.start_time %>
-  </li>
-
-  <li>
-    <strong>Duration:</strong>
-    <%= @contest.duration %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @contest.description %>
-  </li>
-
-</ul>
-
-<h2>Problems</h2>
-<ul>
-  <%= for problem <- @contest.problems do %>
-    <li>
-      <%= link "Link", to: problem_path(@conn, :show, problem) %>
-    </li>
-  <% end %>
-</ul>
+<h1>Showing contest details</h1>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-bordered">
+      <tr>
+        <th>Title:</th>
+        <td><%= @contest.title %></td>
+      </tr>
+      <tr>
+        <th>Start time:</th>
+        <th><%= @contest.start_time %></th>
+      </tr>
+      <tr>
+        <th>Duration:</th>
+        <td><%= @contest.duration %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Problems</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <%= for problem <- @contest.problems do %>
+            <li>
+              <%= link problem.title, to: problem_path(@conn, :show, problem) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%= link "Edit", to: admin_contest_path(@conn, :edit, @contest) %> |
 <%= link "Back", to: admin_contest_path(@conn, :index) %>
+
