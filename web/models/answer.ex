@@ -3,6 +3,7 @@ defmodule VirtualJudge.Answer do
   alias VirtualJudge.Problem
   alias VirtualJudge.Programming_language
   alias VirtualJudge.User
+  alias VirtualJudge.Contest
 
   schema "answers" do
     field :body, :string
@@ -10,6 +11,7 @@ defmodule VirtualJudge.Answer do
     field :status, :string
     belongs_to :problem, Problem
     belongs_to :user, User
+    belongs_to :contest, Contest
     embeds_one :programming_language, Programming_language
 
     timestamps()
@@ -20,7 +22,7 @@ defmodule VirtualJudge.Answer do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:body, :problem_id, :status, :result])
+    |> cast(params, [:body, :problem_id, :status, :result, :contest_id])
     |> cast_embed(:programming_language)
     |> validate_required([:body, :problem_id])
   end

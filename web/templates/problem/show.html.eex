@@ -8,13 +8,14 @@
 
 <h2>Submit a answer</h2>
 <%= form_for @answer_changeset, problem_answer_path(@conn, :create, @problem), fn f -> %>
+  <%= hidden_input f, :contest_id %>
   <div class="form-group">
     <%= label f, :body, class: "control-label" %>
     <%= textarea f, :body, class: "form-control", rows: 10 %>
     <%= error_tag f, :body %>
   </div>
 
-  <p id="status">File API & FileReader API not supported</p>
+  <p id="status">File API &amp; FileReader API not supported</p>
 
   <%= inputs_for f, :programming_language, fn i -> %>
     <div class="form-group">

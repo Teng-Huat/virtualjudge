@@ -3,6 +3,7 @@ defmodule VirtualJudge.Contest do
 
   alias VirtualJudge.Problem
   alias VirtualJudge.User
+  alias VirtualJudge.Answer
 
   schema "contests" do
     field :title, :string
@@ -11,6 +12,7 @@ defmodule VirtualJudge.Contest do
     field :description, :string
     many_to_many :problems, Problem, join_through: "contests_problems", on_replace: :delete, on_delete: :delete_all
     many_to_many :users, User, join_through: "contests_users", on_delete: :delete_all
+    has_many :answers, Answer
     timestamps()
   end
 
