@@ -36,7 +36,10 @@ config :exq,
   max_retries: 25,
   shutdown_timeout: 5000
 
-  config :hound, http: [recv_timeout: :infinity]
+config :hound, http: [recv_timeout: :infinity]
+
+config :scrivener_html,
+  routes_helper: VirtualJudge.Router.Helpers
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

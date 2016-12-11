@@ -18,8 +18,20 @@ defmodule VirtualJudge.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {VirtualJudge, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :exq, :tzdata, :bamboo]]
+     applications: [:phoenix,
+                    :phoenix_pubsub,
+                    :phoenix_html,
+                    :cowboy,
+                    :logger,
+                    :gettext,
+                    :phoenix_ecto,
+                    :postgrex,
+                    :exq,
+                    :tzdata,
+                    :bamboo,
+                    :scrivener_ecto,
+                    :scrivener_html
+                  ]]
   end
 
   # Specifies which paths to compile per environment.
@@ -45,6 +57,8 @@ defmodule VirtualJudge.Mixfile do
      {:secure_random, "~> 0.5"},
      {:bamboo, "~> 0.7.0"},
      {:canada, "~>1.0.0"},
+     {:scrivener_ecto, "~> 1.0"},
+     {:scrivener_html, "~> 1.1"},
      {:exq, "~> 0.7.2"}]
   end
 
