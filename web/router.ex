@@ -48,6 +48,7 @@ defmodule VirtualJudge.Router do
     get "/users", UserController, :index
     get "/export", UserController, :export
     resources "/contest", ContestController
+    get "/contest/export/:id", ContestController, :export
     resources "/practice", PracticeController
     resources "/problem", ProblemController, only: [:index]
   end

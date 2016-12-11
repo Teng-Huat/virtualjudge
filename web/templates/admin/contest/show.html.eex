@@ -26,6 +26,7 @@
           <%= for problem <- @contest.problems do %>
             <li>
               <%= link problem.title, to: problem_path(@conn, :show, problem) %>
+              | ID (<%= problem.id %>)
             </li>
           <% end %>
         </ul>
@@ -34,6 +35,6 @@
   </div>
 </div>
 
+<%= link "Export contest results", to: admin_contest_path(@conn, :export, @contest) %> |
 <%= link "Edit", to: admin_contest_path(@conn, :edit, @contest) %> |
 <%= link "Back", to: admin_contest_path(@conn, :index) %>
-

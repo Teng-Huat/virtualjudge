@@ -38,4 +38,9 @@ defmodule VirtualJudge.Answer do
     |> changeset(params)
     |> put_change(:status, "Done")
   end
+
+  def order_by_user_then_problem_id(query) do
+    from q in query, order_by: [q.user_id, q.problem_id]
+  end
+
 end

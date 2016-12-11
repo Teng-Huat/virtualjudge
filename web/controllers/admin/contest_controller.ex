@@ -3,6 +3,7 @@ defmodule VirtualJudge.Admin.ContestController do
 
   alias VirtualJudge.Problem
   alias VirtualJudge.Contest
+  alias VirtualJudge.Answer
 
   def index(conn, _params) do
     contests = Repo.all(Contest)
@@ -87,6 +88,42 @@ defmodule VirtualJudge.Admin.ContestController do
     conn
     |> put_flash(:info, "Contest deleted successfully.")
     |> redirect(to: admin_contest_path(conn, :index))
+  end
+
+  def export(conn, %{"id" => id}) do
+
+    answer_query =
+      Answer
+      |> Answer.order_by_user_then_problem_id()
+
+    contest =
+      Contest
+      |> Repo.get!(id)
+      |> Repo.preload([answers: answer_query, answers: :user])
+
+    filename = convert_to_filename(contest.title)
+
+    conn
+    |> put_resp_content_type("text/csv")
+    |> put_resp_header("Content-Disposition", "attachment; filename=\"#{filename}.csv\"")
+    |> send_resp(200, csv_content(contest.answers))
+  end
+
+  defp convert_to_filename(title) do
+    title
+    |> String.replace(" ", "_")
+    |> String.downcase()
+  end
+
+  defp csv_content(answers) do
+    answers
+    |> Enum.map(fn(a) -> %{user_name: a.user.name,
+                           status: a.status,
+                           submitted_at: a.inserted_at,
+                           problem_id: a.problem_id} end)
+    |> CSV.encode(headers: [:user_name, :status, :submitted_at, :problem_id])
+    |> Enum.to_list
+    |> to_string
   end
 
   defp get_problems(nil), do: []
