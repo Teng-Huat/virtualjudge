@@ -5,6 +5,7 @@ defmodule VirtualJudge.Admin.ContestController do
   alias VirtualJudge.Contest
   alias VirtualJudge.Answer
 
+
   def index(conn, _params) do
     contests = Repo.all(Contest)
     render(conn, "index.html", contests: contests)
@@ -20,6 +21,9 @@ defmodule VirtualJudge.Admin.ContestController do
       contest_params["problems"]
       |> get_problems()
 
+    contest_params =
+      contest_params
+      |>put_in(["start_time", "time_zone"], "Singapore")
 
     changeset =
       Contest.changeset(%Contest{}, contest_params)
@@ -59,6 +63,9 @@ defmodule VirtualJudge.Admin.ContestController do
       |> preload(:problems)
       |> Repo.get!(id)
 
+    contest_params =
+      contest_params
+      |>put_in(["start_time", "time_zone"], "Singapore")
 
     problems =
       contest_params["problems"]
@@ -130,5 +137,6 @@ defmodule VirtualJudge.Admin.ContestController do
   defp get_problems(list) do
     list
     |> Enum.map(fn(x) -> Repo.get_by!(Problem, source: x) end)
+    |> Enum.map(fn(x) -> Problem.changeset(x) end)
   end
 end

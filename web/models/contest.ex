@@ -7,7 +7,8 @@ defmodule VirtualJudge.Contest do
 
   schema "contests" do
     field :title, :string
-    field :start_time, Ecto.DateTime
+    field :start_time, Calecto.DateTime
+    field :end_time, Calecto.DateTime
     field :duration, :integer
     field :description, :string
     many_to_many :problems, Problem, join_through: "contests_problems", on_replace: :delete, on_delete: :delete_all
@@ -24,10 +25,21 @@ defmodule VirtualJudge.Contest do
     struct
     |> cast(params, [:title, :start_time, :duration, :description])
     |> validate_required([:title, :start_time, :duration, :description])
+    |> put_endtime()
   end
 
   def still_open(query) do
+    now = Calendar.DateTime.now_utc
     from c in query,
-    where: datetime_add(c.start_time, c.duration, "minute") > from_now(0, "minute")
+    where: c.start_time >= type(^now, Calecto.DateTime)
+    and c.end_time > type(^now, Calecto.DateTime)
   end
+
+  defp put_endtime(%Ecto.Changeset{valid?: true, changes: %{start_time: start_time, duration: duration}} = changeset) do
+    end_time =
+       start_time
+       |> Calendar.DateTime.add!(duration * 60)
+      put_change(changeset, :end_time, end_time)
+  end
+  defp put_endtime(changeset), do: changeset
 end

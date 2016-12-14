@@ -23,6 +23,7 @@ defmodule VirtualJudge.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      use Calecto.Schema, usec: true
     end
   end
 

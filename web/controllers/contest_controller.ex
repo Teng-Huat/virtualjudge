@@ -7,7 +7,7 @@ defmodule VirtualJudge.ContestController do
   def index(conn, _params) do
     contests =
       Contest
-      # |> Contest.still_open()
+      |> Contest.still_open()
       |> Repo.all
     render conn, "index.html", contests: contests
   end

@@ -59,6 +59,7 @@ defmodule VirtualJudge.Mixfile do
      {:canada, "~>1.0.0"},
      {:scrivener_ecto, "~> 1.0"},
      {:scrivener_html, "~> 1.1"},
+     {:calecto, "~> 0.16.0"},
      {:exq, "~> 0.7.2"}]
   end
 
