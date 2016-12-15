@@ -7,8 +7,8 @@ defmodule VirtualJudge.Contest do
 
   schema "contests" do
     field :title, :string
-    field :start_time, Calecto.DateTime
-    field :end_time, Calecto.DateTime
+    field :start_time, VirtualJudge.DateTime
+    field :end_time, VirtualJudge.DateTime
     field :duration, :integer
     field :description, :string
     many_to_many :problems, Problem, join_through: "contests_problems", on_replace: :delete, on_delete: :delete_all
