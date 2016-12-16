@@ -2,7 +2,6 @@ defmodule VirtualJudge.ContestController do
   use VirtualJudge.Web, :controller
 
   alias VirtualJudge.Contest
-  require IEx
 
   def index(conn, _params) do
     contests =
@@ -28,15 +27,24 @@ defmodule VirtualJudge.ContestController do
   end
 
   def join(conn, %{ "id" => id }) do
-    Contest
-    |> preload(:users)
-    |> Repo.get!(id)
-    |> Contest.changeset()
-    |> Ecto.Changeset.put_assoc(:users, [conn.assigns.current_user])
-    |> Repo.update()
+    contest =
+      Contest
+      |> preload(:users)
+      |> Repo.get!(id)
 
-    conn
-    |> put_flash(:info, "Successfully joined contest")
-    |> redirect(to: contest_path(conn, :show, id))
+    if Contest.joinable?(contest) do
+      contest
+      |> Contest.changeset()
+      |> Ecto.Changeset.put_assoc(:users, [conn.assigns.current_user])
+      |> Repo.update()
+
+      conn
+      |> put_flash(:info, "Successfully joined contest.")
+      |> redirect(to: contest_path(conn, :show, id))
+    else
+      conn
+      |> put_flash(:error, "Opps, the contest is not joinable anymore.")
+      |> redirect(to: contest_path(conn, :show, id))
+    end
   end
 end

@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<%= if not @joined do %>
+<%= if not @joined and VirtualJudge.Contest.joinable?(@contest) do %>
   <center>
     <%= link "Join contest", to: contest_path(@conn, :join, @contest), method: :put, class: "btn btn-primary btn-lg" %>
   </center>

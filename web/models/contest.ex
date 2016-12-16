@@ -31,8 +31,13 @@ defmodule VirtualJudge.Contest do
   def still_open(query) do
     now = Calendar.DateTime.now_utc
     from c in query,
-    where: c.start_time >= type(^now, Calecto.DateTime)
-    and c.end_time > type(^now, Calecto.DateTime)
+    where: c.end_time > type(^now, Calecto.DateTime)
+  end
+
+  def joinable?(%VirtualJudge.Contest{} = contest) do
+    now = Calendar.DateTime.now_utc()
+    Calendar.DateTime.before?(contest.start_time, now) and
+    Calendar.DateTime.after?(contest.end_time, now)
   end
 
   defp put_endtime(%Ecto.Changeset{valid?: true, changes: %{start_time: start_time, duration: duration}} = changeset) do
