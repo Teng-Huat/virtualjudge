@@ -66,7 +66,14 @@ exports.config = {
 
   npm: {
     styles: {bootstrap: ['dist/css/bootstrap.min.css']},
-    globals: {jQuery: 'jquery'},
+    globals: {
+      jQuery: 'jquery',
+      $: 'jquery',
+      moment: 'moment',
+    },
+    static: [
+      "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"
+    ],
     enabled: true,
     whitelist: ["phoenix", "phoenix_html", "react", "react-dom"]
   }
