@@ -28,7 +28,7 @@ defmodule VirtualJudge.InputHelpers do
       case Phoenix.HTML.Form.field_value(form, field) do
         %DateTime{} = datetime ->
           datetime
-          |> Calendar.Strftime.strftime!("%m/%d/%Y %l:%M %p")
+          |> VirtualJudge.FormattingHelpers.format_datetime()
         datetime_string when is_bitstring(datetime_string) -> datetime_string
         nil -> nil
       end

@@ -4,11 +4,15 @@
     <table class="table table-bordered">
       <tr>
         <th>Start time:</th>
-        <th><%= @contest.start_time %></th>
+        <td><%= @contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+      </tr>
+      <tr>
+        <th>End time:</th>
+        <td><%= @contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
       </tr>
       <tr>
         <th>Duration:</th>
-        <td><%= @contest.duration %></td>
+        <td><%= @contest.duration %> mins</td>
       </tr>
     </table>
   </div>

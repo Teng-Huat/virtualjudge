@@ -19,7 +19,7 @@
         <tr>
           <td><%= user.email %></td>
           <td><%= user.name %></td>
-          <td><%= user.inserted_at %></td>
+          <td><%= user.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
           <td><%= signed_up(user) %></td>
         </tr>
       <% end %>

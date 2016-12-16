@@ -16,8 +16,8 @@
 <%= for contest <- @contests do %>
     <tr>
       <td><%= contest.title %></td>
-      <td><%= contest.start_time %></td>
-      <td><%= contest.end_time %></td>
+      <td><%= contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+      <td><%= contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
       <td><%= contest.duration %></td>
       <td><%= contest.description %></td>
 
