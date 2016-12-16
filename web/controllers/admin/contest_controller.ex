@@ -5,7 +5,6 @@ defmodule VirtualJudge.Admin.ContestController do
   alias VirtualJudge.Contest
   alias VirtualJudge.Answer
 
-
   def index(conn, _params) do
     contests = Repo.all(Contest)
     render(conn, "index.html", contests: contests)
@@ -20,10 +19,6 @@ defmodule VirtualJudge.Admin.ContestController do
     problems =
       contest_params["problems"]
       |> get_problems()
-
-    contest_params =
-      contest_params
-      |>put_in(["start_time", "time_zone"], "Singapore")
 
     changeset =
       Contest.changeset(%Contest{}, contest_params)
@@ -53,6 +48,7 @@ defmodule VirtualJudge.Admin.ContestController do
       |> preload(:problems)
       |> Repo.get!(id)
     changeset = Contest.changeset(contest)
+
     render(conn, "edit.html", contest: contest, changeset: changeset)
   end
 
@@ -62,10 +58,6 @@ defmodule VirtualJudge.Admin.ContestController do
       Contest
       |> preload(:problems)
       |> Repo.get!(id)
-
-    contest_params =
-      contest_params
-      |>put_in(["start_time", "time_zone"], "Singapore")
 
     problems =
       contest_params["problems"]

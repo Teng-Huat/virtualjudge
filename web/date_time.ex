@@ -1,7 +1,4 @@
 defmodule VirtualJudge.DateTime do
-  # require Calendar.DateTime
-  # import Calecto.Utils
-
   @behaviour Ecto.Type
   @doc """
   The Ecto primitive type.
@@ -13,20 +10,20 @@ defmodule VirtualJudge.DateTime do
   """
   def cast(string) when is_binary(string) do
     case Regex.run(~r/^([0-9]+)\/([0-9]+)\/([0-9]+)\s([0-9]+):([0-9]+)\s(AM|PM)$/, string) do
-      [_match, dd, mm, yyyy, hh, mm, "AM"] ->
-      Calecto.DateTime.cast(%{"year"=>yyyy,
-                            "month"=>mm,
-                            "day"=>dd,
-                            "hour"=>hh,
-                            "minute"=>mm,
-                            "time_zone" => "Singapore"})
-      [_match, dd, mm, yyyy, hh, mm, "PM"] ->
-      Calecto.DateTime.cast(%{"year"=>yyyy,
-                            "month"=>mm,
-                            "day"=>dd,
-                            "hour"=> String.to_integer(hh) + 12 |> to_string(),
-                            "minute"=>mm,
-                            "time_zone" => "Singapore"})
+      [_match, month, day, year, hour, min, "AM"] ->
+        Calecto.DateTime.cast(%{"year"=>year,
+                              "month"=>month,
+                              "day"=>day,
+                              "hour"=>hour,
+                              "minute"=>min,
+                              "time_zone" => "Singapore"})
+      [_match, month, day, year, hour, min, "PM"] ->
+        Calecto.DateTime.cast(%{"year"=>year,
+                              "month"=>month,
+                              "day"=>day,
+                              "hour"=> String.to_integer(hour) + 12 |> to_string(),
+                              "minute"=>min,
+                              "time_zone" => "Singapore"})
       nil -> :error
     end
   end

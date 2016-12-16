@@ -14,11 +14,12 @@
 import "phoenix_html"
 
 import bootstrap from "bootstrap"
+
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
 import socket from "./socket"
-
 import Contest from "./contest"
+import "./datetime_picker"

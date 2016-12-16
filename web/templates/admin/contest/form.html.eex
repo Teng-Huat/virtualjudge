@@ -8,29 +8,10 @@
 
     <div class="row">
       <div class="col-md-6">
-        <div class="form-group">
-          <%= label f, :title, class: "control-label" %>
-          <%= text_input f, :title, class: "form-control" %>
-          <%= error_tag f, :title %>
-        </div>
-
-        <div class="form-group">
-          <%= label f, :start_time, class: "control-label" %>
-          <%= datetime_select f, :start_time, class: "form-control" %>
-          <%= error_tag f, :start_time %>
-        </div>
-
-        <div class="form-group">
-          <%= label f, :duration, "Duration (in mins)", class: "control-label" %>
-          <%= number_input f, :duration, class: "form-control" %>
-          <%= error_tag f, :duration %>
-        </div>
-
-        <div class="form-group">
-          <%= label f, :description, class: "control-label" %>
-          <%= textarea f, :description, class: "form-control" %>
-          <%= error_tag f, :description %>
-        </div>
+        <%= input f, :title %>
+        <%= input f, :start_time, using: :datetimepicker %>
+        <%= input f, :duration, label: "Duration (in mins)", using: :number_input %>
+        <%= input f, :description, using: :textarea %>
       </div>
 
       <div class="col-md-6 problem-container">

@@ -52,6 +52,7 @@ defmodule VirtualJudge.Web do
 
       import VirtualJudge.Router.Helpers
       import VirtualJudge.ErrorHelpers
+      import VirtualJudge.InputHelpers
       import VirtualJudge.Gettext
     end
   end
