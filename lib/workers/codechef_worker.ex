@@ -1,4 +1,5 @@
 defmodule CodechefWorker do
+  # do your stuff here
   use Hound.Helpers
 
   alias VirtualJudge.Problem

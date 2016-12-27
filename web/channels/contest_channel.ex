@@ -1,7 +1,6 @@
 defmodule VirtualJudge.ContestChannel do
   use VirtualJudge.Web, :channel
   alias VirtualJudge.Problem
-  alias VirtualJudge.User
 
   def join("contest:lobby", payload, socket) do
     if authorized?(payload) do
@@ -17,32 +16,35 @@ defmodule VirtualJudge.ContestChannel do
 
   def handle_in("new_problem", %{"url" => url} = params, socket) do
     push socket, "job_processing", params
-
     problem = Repo.get_by(Problem, source: url)
-
     if problem do
       push socket, "job_done", params
     else
-      push socket, "job_error", params
+      # problem not found in database, send the job to codechef worker
+      "contest:" <> user_id = socket.topic
+      case VirtualJudge.WorkRouter.route(url) do
+        {:ok, worker} -> {:ok, _ack} = Exq.enqueue(Exq, "default", worker, [url, user_id])
+        {:error, _reason} -> push socket, "job_error", params
+      end
     end
 
-    # do your stuff here
     {:noreply, socket}
+
   end
 
-  def broadcast_job_done(problem, %User{id: user_id}) do
+  def broadcast_job_done(problem, user_id) do
     payload = %{
       url: problem.source
     }
     VirtualJudge.Endpoint.broadcast("contest:#{user_id}", "job_done", payload)
   end
 
-  def broadcast_job_fail(problem, %User{id: user_id}) do
+  def broadcast_job_fail(problem, user_id) do
     payload = %{
       url: problem.source,
       reason: "Can't scrape.."
     }
-    VirtualJudge.Endpoint.broadcast("contest:#{user_id}", "job_fail", payload)
+    VirtualJudge.Endpoint.broadcast("contest:#{user_id}", "job_error", payload)
   end
 
   # Add authorization logic here as required.

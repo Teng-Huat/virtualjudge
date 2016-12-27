@@ -29,8 +29,7 @@ root: ~/code/virtual_judge
 windows:
   - editor: nvim .
   - git: git status
-  - console: iex -S mix
-  - server: mix phoenix.server
+  - server: iex -S mix phoenix.server
   - redis: redis-server /usr/local/etc/redis.conf
   - selenium: selenium-server -p 4444
 
