@@ -26,10 +26,16 @@ root: ~/code/virtual_judge
 # Runs after everything. Use it to attach to tmux with custom options etc.
 # post: tmux -CC attach -t examhorror
 
+pre:
+  - redis-server /usr/local/etc/redis.conf --daemonize yes # redis
+  - pg_ctl -D /usr/local/var/postgres start # start postgres
+
 windows:
   - editor: nvim .
   - git: git status
   - server: iex -S mix phoenix.server
-  - redis: redis-server /usr/local/etc/redis.conf
-  - selenium: selenium-server -p 4444
+  - selenium: selenium-server -port 4444
+
+post:
+  - open -a "Google Chrome" 'http://localhost:4000'
 
