@@ -19,6 +19,12 @@ If you are using [tmux](https://tmux.github.io/) with [tmuxinator](https://githu
 ln -s `pwd`/virtualjudge.yml ~/.tmuxinator/virtualjudge.yml
 ```
 
+## Some useful cli commands
+
+```
+redis-cli flushdb # resets the redisdb
+```
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
