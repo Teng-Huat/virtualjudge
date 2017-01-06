@@ -14,7 +14,6 @@ defmodule CodeForceWorker.Submitter do
   def perform(answer_id) do
     answer = Repo.get!(Answer, answer_id) |> Repo.preload(:problem)
 
-    # TODO - to check
     [_full_match, answer_path] = Regex.run(~r/^http:\/\/.*\.com(.*)/, answer.problem.source)
 
     username = Application.get_env(:virtual_judge, :codeforce_username)

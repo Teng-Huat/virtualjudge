@@ -41,7 +41,6 @@ defmodule VirtualJudge.AnswerController do
 
     case Repo.insert(changeset) do
       {:ok, answer} ->
-        # TODO - Need to do routing also (Check if working)
         {:ok, worker} = VirtualJudge.WorkRouter.route(problem.source, :submit)
         {:ok, _ack} = Exq.enqueue(Exq, "default", worker, [answer.id])
         conn
