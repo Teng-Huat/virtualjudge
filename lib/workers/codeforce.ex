@@ -1,6 +1,8 @@
 defmodule CodeForce do
   use HTTPoison.Base
+
   @endpoint "http://codeforces.com"
+  @user_agent "Firefox"
 
   def process_url(url) do
     @endpoint <> url
@@ -98,13 +100,55 @@ defmodule CodeForce do
     languages = body
                 |> Floki.find("select[name=programTypeId] option")
                 |> Enum.map(fn {_option, [{"value", value}], [lang]} -> [value, lang]
-                               {_option, [{"selected", "selected"}, {"value", value}], [lang]} -> [value, lang] end)
+                               {_option, [{"selected", "selected"}, {"value", value}], [lang]} -> [value, lang]
+                               {_option, [{"value",value}, {"selected", "true"}], [lang]} -> [value, lang] end)
                 |> Enum.map(fn([value, lang]) -> %{name: lang, value: value} end)
 
     source = process_url(problem_url)
 
     {title, problem, languages, source}
   end
+
+  @doc """
+  Submits the
+  """
+  def submit_answer(answer_url, answer, language_val, cookies) do
+    # get necessary informations
+    resp = __MODULE__.get!(answer_url, [{"cookie", cookies}])
+
+    csrf_token =
+      resp.body
+      |> Floki.find("input[name=csrf_token]")
+      |> Enum.at(0)
+      |> Floki.attribute("value")
+      |> List.to_string()
+
+    submitted_problem_index =
+      resp.body
+      |> Floki.find("input[name=submittedProblemIndex]")
+      |> Enum.at(0)
+      |> Floki.attribute("value")
+      |> List.to_string()
+
+      {:ok, path} = Briefly.create()
+      File.write!(path, answer)
+
+      # submit answer
+      __MODULE__.post!(answer_url <> "?csrf_token=" <> csrf_token,
+                       {:multipart, [{:file, path, { ["form-data"], [name: "\"sourceFile\""]},[]},
+                                       {"csrf_token", csrf_token},
+                                       {"ftaa", ""},
+                                       {"bfaa", ""},
+                                       {"action", "submitSolutionFormSubmitted"},
+                                       {"submittedProblemIndex", submitted_problem_index},
+                                       {"source", ""},
+                                       {"programTypeId", language_val},
+                                       {"submittedProblemIndex", submitted_problem_index}
+                                     ]}, [{"cookie", cookies}])
+  end
+
+  def get_relative_path(@endpoint <> relative_path), do: relative_path
+  def get_relative_path(relative_path), do: relative_path
 
   defp find_cookies_to_set(headers) do
     headers
@@ -117,6 +161,11 @@ defmodule CodeForce do
     |> String.split(";")
     |> Enum.at(0)
   end
+
+  def process_request_headers(headers) do
+    Dict.put(headers, :"User-Agent", @user_agent)
+  end
+
 end
 
 
