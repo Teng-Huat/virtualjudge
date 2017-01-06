@@ -30,7 +30,8 @@ defmodule VirtualJudge.Mixfile do
                     :tzdata,
                     :bamboo,
                     :scrivener_ecto,
-                    :scrivener_html
+                    :scrivener_html,
+                    :briefly
                   ]]
   end
 
@@ -60,7 +61,9 @@ defmodule VirtualJudge.Mixfile do
      {:scrivener_ecto, "~> 1.0"},
      {:scrivener_html, "~> 1.1"},
      {:calecto, "~> 0.16.0"},
-     {:exq, "~> 0.7.2"}]
+     {:exq, "~> 0.7.2"},
+     {:briefly, "~> 0.3"}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

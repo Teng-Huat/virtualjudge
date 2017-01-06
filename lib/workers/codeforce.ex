@@ -147,6 +147,23 @@ defmodule CodeForce do
                                      ]}, [{"cookie", cookies}])
   end
 
+  @doc """
+  Retrives the latest results of the last answer submitted by the `username`.
+
+  Returns a string with the result
+
+  Examples:
+  iex> CodeForce.retrieve_latest_result("steve0hh")
+  "Compilation error"
+  """
+  def retrieve_latest_result(username) do
+    resp = __MODULE__.get!("/submissions/#{username}")
+    resp.body
+    |> Floki.find("td.status-cell")
+    |> Enum.at(0)
+    |> Floki.text()
+  end
+
   def get_relative_path(@endpoint <> relative_path), do: relative_path
   def get_relative_path(relative_path), do: relative_path
 
