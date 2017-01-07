@@ -4,7 +4,7 @@ defmodule VirtualJudge.Email do
   alias VirtualJudge.Router.Helpers
   def invitation_email(conn, user) do
 
-    new_email
+    new_email()
     |> to(user.email)
     |> from("admin@icpc.ntu.edu.sg")
     |> subject("Your invitation link")
