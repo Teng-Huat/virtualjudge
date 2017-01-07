@@ -9,6 +9,17 @@ defmodule CodeForce do
   end
 
   @doc """
+  Sets the default headers that should be sent out for CodeForce wrapper.
+  Takes in a `header` keyword list and injects User-Agent key into it.
+  This function is used primarily by HTTPoison before each requests.
+
+  Returns a keyword list with User-Agent and value added inside
+  """
+  def process_request_headers(headers) do
+    Enum.into(["User-Agent": @user_agent], headers)
+  end
+
+  @doc """
   Logins to codeforce in using the `username` and `password`
 
   Returns a string of cookie to be set for all requests that needs authentication
@@ -177,10 +188,6 @@ defmodule CodeForce do
     cookie
     |> String.split(";")
     |> Enum.at(0)
-  end
-
-  def process_request_headers(headers) do
-    Dict.put(headers, :"User-Agent", @user_agent)
   end
 
 end
