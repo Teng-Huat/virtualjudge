@@ -52,7 +52,7 @@ defmodule CodeForce do
   @doc """
   Scrapes and parse the problems listing page
 
-  Returns a list of all problems lisitng links.
+  Returns a list of all problems listing links.
 
   ## Examples
 
@@ -121,7 +121,10 @@ defmodule CodeForce do
   end
 
   @doc """
-  Submits the
+  Submits the `answer` and `language_val` as form attribute values to
+  the `answer_url` with the `cookies` in the header of the request
+
+  This function does not return anything
   """
   def submit_answer(answer_url, answer, language_val, cookies) do
     # get necessary informations
