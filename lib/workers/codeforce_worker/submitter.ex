@@ -1,4 +1,4 @@
-defmodule CodeForceWorker.Submitter do
+defmodule CodeforceWorker.Submitter do
   alias VirtualJudge.Problem
   alias VirtualJudge.Answer
   alias VirtualJudge.Repo

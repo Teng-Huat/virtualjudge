@@ -1,4 +1,4 @@
-defmodule CodechefWorker do
+defmodule CodechefWorker.Submitter do
   # do your stuff here
   use Hound.Helpers
 
@@ -95,7 +95,8 @@ defmodule CodechefWorker do
                               description: content,
                               programming_languages: programming_languages_supported,
                               source: source})
-          |> VirtualJudge.Repo.insert()
+
+          VirtualJudge.Repo.insert(changeset)
       end
     end
     # Automatically invoked if the session owner process crashes

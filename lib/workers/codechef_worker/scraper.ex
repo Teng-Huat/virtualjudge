@@ -1,4 +1,4 @@
-defmodule CodechefWorker.UrlScrapper do
+defmodule CodechefWorker.Scraper do
   use Hound.Helpers
   alias VirtualJudge.Problem
   alias VirtualJudge.Repo

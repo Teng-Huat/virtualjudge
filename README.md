@@ -16,8 +16,10 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 If you are using [tmux](https://tmux.github.io/) with [tmuxinator](https://github.com/tmuxinator/tmuxinator), run:
 
 ```
-ln -s `pwd`/virtualjudge.yml ~/.tmuxinator/virtualjudge.yml
+cp `pwd`/virtualjudge.yml ~/.tmuxinator/virtualjudge.yml
 ```
+
+Then edit it to your own likings and binding to your OS
 
 ## Some useful cli commands
 

@@ -1,4 +1,4 @@
-defmodule CodeForceWorker.Scraper do
+defmodule CodeforceWorker.Scraper do
   alias VirtualJudge.Problem
   alias VirtualJudge.Repo
 
