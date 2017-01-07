@@ -12,6 +12,9 @@ defmodule VirtualJudge.WorkRouter do
   def route("https://www.codechef.com/" <> _path, :scrape),
     do: {:ok, "CodechefWorker.Scraper"}
 
+  def route("http://poj.org/" <> _path, :scrape),
+    do: {:ok, "PojWorker.Scraper"}
+
   def route(_invalid_url, :scrape), do: do_invalid_url_error()
   def route(_invalid_url, :submit), do: do_invalid_url_error()
   def do_invalid_url_error(), do: {:error, "Invalid URL"}
