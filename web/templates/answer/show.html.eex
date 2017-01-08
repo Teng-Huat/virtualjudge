@@ -5,7 +5,7 @@
 <h2>You submitted:</h2>
 <div class="panel panel-default">
   <div class="panel-body">
-    <%= @answer.body %>
+    <%= text_to_html(@answer.body) %>
   </div>
 </div>
 
@@ -19,6 +19,10 @@
   <tr>
     <th>Status:</th>
     <td> <%= @answer.status %></td>
+  </tr>
+  <tr>
+    <th>Result:</th>
+    <td> <%= @answer.result %></td>
   </tr>
 </table>
 
