@@ -9,6 +9,9 @@ defmodule VirtualJudge.WorkRouter do
   def route("http://poj.org/" <> _path, :submit),
     do: {:ok, "PojWorker.Submitter"}
 
+  def route("http://acm.timus.ru/" <> _path, :submit),
+    do: {:ok, "TimusWorker.Submitter"}
+
   def route("http://codeforces.com/" <> _path, :scrape),
     do: {:ok, "CodeforceWorker.Scraper"}
 
