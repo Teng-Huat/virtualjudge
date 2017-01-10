@@ -9,7 +9,7 @@ defmodule Poj do
   end
 
   @doc """
-  Sets the default headers that should be sent out for CodeForce wrapper.
+  Sets the default headers that should be sent out for POJ wrapper.
   Takes in a `header` keyword list and injects User-Agent key into it.
   This function is used primarily by HTTPoison before each requests.
 
@@ -20,7 +20,7 @@ defmodule Poj do
   end
 
   @doc """
-  Logins to codeforce in using the `username` and `password`
+  Logins to POJ in using the `username` and `password`
 
   Returns a string of cookie to be set for all requests that needs authentication
   """
