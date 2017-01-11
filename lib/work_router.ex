@@ -1,5 +1,7 @@
 defmodule VirtualJudge.WorkRouter do
 
+  # Submitting routes
+
   def route("https://www.codechef.com/" <> _path, :submit),
     do: {:ok, "CodechefWorker.Submitter"}
 
@@ -9,12 +11,16 @@ defmodule VirtualJudge.WorkRouter do
   def route("http://poj.org/" <> _path, :submit),
     do: {:ok, "PojWorker.Submitter"}
 
+  def route("http://acm.zju.edu.cn/" <> _path, :submit),
+    do: {:ok, "ZojWorker.Submitter"}
+
+  # Scraping routes
+
   def route("http://codeforces.com/" <> _path, :scrape),
     do: {:ok, "CodeforceWorker.Scraper"}
 
   def route("https://www.codechef.com/" <> _path, :scrape),
     do: {:ok, "CodechefWorker.Scraper"}
-
 
   def route("http://poj.org/" <> _path, :scrape),
     do: {:ok, "PojWorker.Scraper"}
