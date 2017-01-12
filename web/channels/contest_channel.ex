@@ -22,6 +22,7 @@ defmodule VirtualJudge.ContestChannel do
     else
       # problem not found in database, send the job to codechef worker
       "contest:" <> user_id = socket.topic
+      IO.puts user_id
       case VirtualJudge.WorkRouter.route(url, :scrape) do
         {:ok, worker} -> {:ok, _ack} = Exq.enqueue(Exq, "default", worker, [url, user_id])
         {:error, _reason} -> push socket, "job_error", params
