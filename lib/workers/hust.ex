@@ -109,7 +109,7 @@ defmodule Hust do
                      {:form, form_data}, [{"Cookie", cookies}])
   end
 
-  defp get_problem_id("http://acm.hust.edu.cn/problem/show/" <> id), do: id
+  defp get_problem_id("/problem/show/" <> id), do: id
 
   @doc """
   Retrives the latest results of the last answer submitted by the `username`.
