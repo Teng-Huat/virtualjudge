@@ -42,6 +42,9 @@ defmodule VirtualJudge.WorkRouter do
   def route("http://www.lydsy.com/JudgeOnline/" <> _path, :scrape),
     do: {:ok, "LydsyWorker.Scraper"}
 
+  def route("http://acm.fzu.edu.cn/" <> _path, :scrape),
+    do: {:ok, "FzuWorker.Scraper"}
+
   def route(_invalid_url, :scrape), do: do_invalid_url_error()
   def route(_invalid_url, :submit), do: do_invalid_url_error()
   def do_invalid_url_error(), do: {:error, "Invalid URL"}
