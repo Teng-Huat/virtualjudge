@@ -86,4 +86,40 @@ defmodule Lydsy do
     {title, problem, languages, source}
   end
 
+  def login(username, password) do
+    resp = __MODULE__.get!("/JudgeOnline/loginpage.php")
+    cookie = WorkHelper.find_cookies_to_set(resp.headers)
+    form_data = [user_id: username, password: password, submit: "Submit"]
+    __MODULE__.post!("/JudgeOnline/login.php", {:form, form_data}, [{"Cookie", cookie}])
+    cookie
+  end
+
+  def submit_answer(problem_url, answer, language_val, cookie_string) do
+
+    form_data = [id: get_id(problem_url),
+                 language: language_val,
+                 source: answer]
+
+    __MODULE__.post!("/JudgeOnline/submit.php", {:form, form_data}, [{"Cookie", cookie_string}])
+  end
+
+  defp get_id(answer_url) do
+    URI.parse(answer_url)
+    |> Map.get(:query)
+    |> URI.decode_query()
+    |> Map.get("id")
+  end
+
+  def retrieve_latest_result(username) do
+    resp = __MODULE__.get!("/JudgeOnline/status.php?user_id=" <> username)
+
+    resp.body
+    |> Floki.find("table")
+    |> Enum.at(2)
+    |> Floki.find("tr")
+    |> Enum.at(1)
+    |> Floki.find("td font")
+    |> Enum.at(0)
+    |> Floki.text()
+  end
 end

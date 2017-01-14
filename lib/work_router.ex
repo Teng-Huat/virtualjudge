@@ -18,6 +18,8 @@ defmodule VirtualJudge.WorkRouter do
   def route("http://acm.hust.edu.cn/" <> _path, :submit),
     do: {:ok, "HustWorker.Submitter"}
 
+  def route("http://www.lydsy.com/JudgeOnline/" <> _path, :submit),
+    do: {:ok, "LydsyWorker.Submitter"}
   # Scraping routes
   def route("http://codeforces.com/" <> _path, :scrape),
     do: {:ok, "CodeforceWorker.Scraper"}
