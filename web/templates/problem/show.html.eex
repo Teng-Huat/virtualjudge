@@ -2,7 +2,7 @@
   <h1><%= @problem.title %></h1>
   <%= @problem.source %>
 </div>
-<iframe sandbox srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
+<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>" srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
 
 <hr />
 
