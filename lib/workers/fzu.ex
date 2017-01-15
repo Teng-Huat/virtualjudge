@@ -52,6 +52,35 @@ defmodule Fzu do
 
     {title, problem, languages, source}
   end
+
+  def login(username, password) do
+    form_data = [uname: username, upassword: password, submit: "Submit"]
+    resp = __MODULE__.post!("/login.php?act=1&dir=",
+                     {:form, form_data})
+    WorkHelper.find_cookies_to_set(resp.headers)
+  end
+
+  def submit_answer(source_url, answer, language_val, cookie) do
+    problem_id = get_problem_id(source_url)
+
+    form_data = [
+      lang: language_val,
+      pid: problem_id,
+      code: answer,
+      submit: "Submit"
+    ]
+    __MODULE__.post!("/submit.php?act=5", {:form, form_data}, [{"Cookie", cookie}])
+  end
+
+  def retrieve_latest_result(username) do
+    __MODULE__.get!("/log.php?user=" <> username).body
+    |> Floki.find("table tr td")
+    |> Enum.at(2)
+    |> Floki.text()
+  end
+
+  def get_problem_id("http://acm.fzu.edu.cn/problem.php?pid=" <> id), do: id
+  def get_problem_id("/problem.php?pid=" <> id), do: id
 end
 
 
