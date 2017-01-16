@@ -1,5 +1,6 @@
 defmodule CodeforceWorker.SiteScraper do
   alias VirtualJudge.Repo
+  @wait_time 5000
 
   @doc """
   Runs the scrapping of all problems in CodeForce
@@ -22,6 +23,7 @@ defmodule CodeforceWorker.SiteScraper do
     |> Stream.filter(fn(path) -> not WorkHelper.problem_exists?(CodeForce, path) end) # filter out problems that exists in the database
     |> Stream.map(fn(x) -> CodeForce.scrape_problem(x, cookies) end) # scrape problems
     |> Stream.map(fn(problem_tuple) -> WorkHelper.create_problem_struct(problem_tuple) end) # create a struct
+    |> Stream.each(fn(_struct) -> :timer.sleep(@wait_time) end) # do wait time
     |> Stream.each(fn(x) -> Repo.insert(x, on_conflict: :nothing) end) # insert them into database
     |> Stream.run()
   end
