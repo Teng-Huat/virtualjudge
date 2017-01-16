@@ -29,39 +29,3 @@
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
-
-<script type="text/javascript" charset="utf-8">
-var holder = document.getElementById('answer_body'),
-    state = document.getElementById('status');
-
-if (typeof window.FileReader === 'undefined') {
-  state.className = 'fail';
-} else {
-  state.className = 'success';
-  state.innerHTML = 'File API & FileReader available';
-}
-
-holder.ondragover = function() {
-  this.className = 'hover form-control';
-  return false;
-};
-holder.ondragend = function() {
-  this.className = 'form-control';
-  return false;
-};
-holder.ondrop = function(e) {
-  this.className = 'form-control';
-  e.preventDefault();
-
-  var file = e.dataTransfer.files[0],
-  reader = new FileReader();
-  reader.onload = function(event) {
-    console.log(event.target);
-    holder.innerText = event.target.result;
-  };
-  console.log(file);
-  reader.readAsText(file);
-
-  return false;
-};
-</script>

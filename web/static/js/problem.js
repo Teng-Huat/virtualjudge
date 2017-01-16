@@ -22,3 +22,37 @@ if(document.getElementById("problem-sandbox") != null) {
   problem = problem.replace(/src="(\/[^\"]*)/g, "src=\""+ url.origin +"$1");
   problemSandbox.srcdoc = problem
 }
+
+// Allowing of file drop in problem page
+if(document.getElementById('answer_body')!= null) {
+  var holder = document.getElementById('answer_body'),
+    state = document.getElementById('status');
+  if (typeof window.FileReader === 'undefined') {
+    state.className = 'fail';
+  } else {
+    state.className = 'success';
+    state.innerHTML = 'File API & FileReader available';
+  }
+  holder.ondragover = function() {
+    this.className = 'hover form-control';
+    return false;
+  };
+  holder.ondragend = function() {
+    this.className = 'form-control';
+    return false;
+  };
+  holder.ondrop = function(e) {
+    this.className = 'form-control';
+    e.preventDefault();
+
+    var file = e.dataTransfer.files[0],
+      reader = new FileReader();
+    reader.onload = function(event) {
+      // console.log(event.target);
+      holder.innerText = event.target.result;
+    };
+    // console.log(file);
+    reader.readAsText(file);
+    return false;
+  };
+}
