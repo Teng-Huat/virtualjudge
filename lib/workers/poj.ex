@@ -64,7 +64,8 @@ defmodule Poj do
     |> Floki.find("center a")
     |> Enum.map(fn(x) -> Floki.attribute(x, "href") end)
     |> List.flatten()
-    |> Enum.filter(fn("problemlist?volume=" <> _page) -> true
+    |> Enum.map(fn(link) -> "/" <> link end)
+    |> Enum.filter(fn("/problemlist?volume=" <> _page) -> true
                      (_other_links) -> false end)
   end
 
@@ -82,7 +83,8 @@ defmodule Poj do
     |> Floki.find("tr a")
     |> Enum.map(fn(x) -> Floki.attribute(x, "href") end)
     |> List.flatten()
-    |> Enum.filter(fn("problemstatus?problem_id=" <> _problem_id) -> true
+    |> Enum.map(fn(link) -> "/" <> link end)
+    |> Enum.filter(fn("/problem?id=" <> _problem_id) -> true
                      (_other_links) -> false end)
   end
 
