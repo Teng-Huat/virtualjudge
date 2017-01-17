@@ -31,11 +31,10 @@ defmodule Lydsy do
       resp.body
       |> Floki.find("h3 a")
       |> Floki.attribute("href")
-      |> Enum.map(fn(link) -> "/" <> link end)
-      |> Enum.filter(fn("/problemset.php?page=" <> _page) -> true
+      |> List.insert_at(0, "problemset.php?page=1")
+      |> Enum.map(fn(link) -> "/JudgeOnline/" <> link end)
+      |> Enum.filter(fn("/JudgeOnline/problemset.php?page=" <> _page) -> true
                        (_other_links) -> false end)
-
-    ["/problemset.php?page=1"] ++ links
   end
 
   @doc """
@@ -49,8 +48,8 @@ defmodule Lydsy do
     resp.body
     |> Floki.find("tbody tr td[align=left] a")
     |> Floki.attribute("href")
-    |> Enum.map(fn(link) -> "/" <> link end)
-    |> Enum.filter(fn("/problem.php?id=" <> _params) -> true
+    |> Enum.map(fn(link) -> "/JudgeOnline/" <> link end)
+    |> Enum.filter(fn("/JudgeOnline/problem.php?id=" <> _params) -> true
                      (_other_links) -> false end)
   end
 
