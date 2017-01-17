@@ -4,7 +4,7 @@ defmodule HustWorker.SiteScraper do
   @wait_time 2000
 
   @doc """
-  Runs the scrapping of all problems in http://acm.fzu.edu.cn/list.php
+  Runs the scrapping of all problems in http://acm.hust.edu.cn/
 
   This function does not return anything
   """

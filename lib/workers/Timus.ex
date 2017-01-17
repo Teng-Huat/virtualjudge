@@ -34,7 +34,8 @@ defmodule Timus do
     |> Floki.find(".problemset_problemlistlink")
     |> Enum.map(fn(x) -> Floki.attribute(x, "href") end)
     |> List.flatten()
-    |> Enum.filter(fn("problemset.aspx?" <> _page) -> true
+    |> Enum.map(fn(link) -> "/" <> link end)
+    |> Enum.filter(fn("/problemset.aspx?" <> _page) -> true
                      (_other_links) -> false end)
   end
 
@@ -50,7 +51,8 @@ defmodule Timus do
     |> Floki.find(".problemset tr td.name a")
     |> Enum.map(fn(x) -> Floki.attribute(x, "href") end)
     |> List.flatten()
-    |> Enum.filter(fn("problem.aspx?" <> _params) -> true
+    |> Enum.map(fn(link) -> "/" <> link end)
+    |> Enum.filter(fn("/problem.aspx?" <> _params) -> true
                      (_other_links) -> false end)
   end
 
