@@ -4,8 +4,9 @@ defmodule VirtualJudge.InputHelpers do
     type = opts[:using] || Phoenix.HTML.Form.input_type(form, field)
     wrapper_opts = [class: "form-group #{state_class(form, field)}"]
     label_opts = [class: "control-label"]
-    input_opts = [class: "form-control"]
 
+    additional_input_class = opts[:input_class] || ""
+    input_opts = [class: "form-control " <> additional_input_class , id: opts[:input_id]]
     content_tag :div, wrapper_opts do
       label = label(form, field, opts[:label] || humanize(field), label_opts)
       input = input(type, form, field, input_opts)

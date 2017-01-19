@@ -24,3 +24,5 @@ import socket from "./socket"
 import Contest from "./contest"
 import "./datetime_picker"
 import "./problem"
+
+import "./html_beautifier"

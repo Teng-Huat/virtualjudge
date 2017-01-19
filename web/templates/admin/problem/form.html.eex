@@ -4,9 +4,8 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-
   <%= input f, :title %>
-  <%= input f, :description, using: :textarea %>
+  <%= input f, :description, using: :textarea, input_class: "beautify-html", input_id: "problem-description-input" %>
   <%= submit "Submit", class: "btn btn-primary" %>
 <% end %>
 
