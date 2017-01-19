@@ -26,3 +26,8 @@ import "./datetime_picker"
 import "./problem"
 
 import "./html_beautifier"
+import "./clipboard"
+
+
+
+

@@ -1,6 +1,21 @@
 <div class="page-header">
   <h1><%= @problem.title %></h1>
-  <%= @problem.source %>
+  <div class="row">
+    <div class="col-md-5">
+      <input id="problem-link" class="form-control" value="<%= @problem.source %>" readonly>
+    </div>
+    <button class="btn btn-default copy-to-clipboard" data-clipboard-target="#problem-link">Copy link to clipboard</button>
+  </div>
+
 </div>
+<div class="row">
+  <div class="col-md-12">
+    <%= link "Edit problem", to: admin_problem_path(@conn, :edit, @problem), class: "btn btn-primary" %>
+
+    <%= link "Delete problem", to: admin_problem_path(@conn, :delete, @problem), class: "btn btn-danger", method: "delete", data: [confirm: "Are you sure?"]%>
+  </div>
+</div>
+<hr />
 <iframe id="problem-sandbox" sandbox src="<%= @problem.source %>" srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
 <hr />
+

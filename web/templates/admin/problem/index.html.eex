@@ -11,7 +11,7 @@
   <tr>
     <td><%= p.title %></td>
     <td><%= p.source %></td>
-    <td><%= link "Show", to: problem_path(@conn, :show, p.id), class: "btn btn-default btn-sm" %></td>
+    <td><%= link "Show", to: admin_problem_path(@conn, :show, p), class: "btn btn-default btn-sm" %></td>
   </tr>
 <% end %>
 </table>

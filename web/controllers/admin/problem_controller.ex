@@ -44,6 +44,14 @@ defmodule VirtualJudge.Admin.ProblemController do
       {:error, changeset} ->
         render(conn, "edit.html", problem: problem, changeset: changeset)
     end
+  end
 
+  def delete(conn, %{"id" => id}) do
+    problem = Repo.get!(Problem, id)
+    Repo.delete!(problem)
+
+    conn
+    |> put_flash(:info, "Problem deleted successfully.")
+    |> redirect(to: admin_problem_path(conn, :index))
   end
 end
