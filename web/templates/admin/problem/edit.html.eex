@@ -1,0 +1,7 @@
+<h2>Edit contest</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        problem: @problem,
+                        current_user: @current_user,
+                        action: admin_problem_path(@conn, :update, @problem) %>
+
