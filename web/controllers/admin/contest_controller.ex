@@ -67,6 +67,7 @@ defmodule VirtualJudge.Admin.ContestController do
       Contest.changeset(contest, contest_params)
       |> Ecto.Changeset.put_assoc(:problems, problems)
 
+
     case Repo.update(changeset) do
       {:ok, contest} ->
         conn

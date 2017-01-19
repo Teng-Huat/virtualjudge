@@ -20,19 +20,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Problems</h3>
-      </div> <div class="panel-body">
-        <%= if @joined do %>
-          <ol>
-            <%= for problem <- @contest.problems do %>
-              <li>
-                <%= link problem.title, to: contest_problem_path(@conn, :show, @contest, problem) %>
-                <%= link "View and submit answer", to: contest_problem_path(@conn, :show, @contest, problem), class: "btn btn-default btn-xs" %>
-              </li>
-            <% end %>
-          </ol>
-        <% else %>
-          Problems will be displayed once you've joined
-        <% end %>
+      </div>
+      <div class="panel-body">
+        <%= render_problem_content(@conn,
+                                   @joined,
+                                   @contest,
+                                   VirtualJudge.Contest.joinable?(@contest),
+                                   VirtualJudge.Contest.expired?(@contest)) %>
       </div>
     </div>
   </div>

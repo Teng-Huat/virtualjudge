@@ -34,17 +34,48 @@ defmodule VirtualJudge.Contest do
     where: c.end_time > type(^now, Calecto.DateTime)
   end
 
+  @doc """
+  Takes in a `contest` struct loaded from database, and a `user` struct
+
+  Retruns a query which when executed, will give you true if the user has
+  already joined the contest, and false otherwise.
+  """
+  def check_joined_query(%__MODULE__{} = contest, %User{id: user_id}) do
+      contest
+      |> assoc(:users)
+      |> select(true)
+      |> where(id: ^user_id)
+  end
+
   def joinable?(%VirtualJudge.Contest{} = contest) do
     now = Calendar.DateTime.now_utc()
     Calendar.DateTime.before?(contest.start_time, now) and
     Calendar.DateTime.after?(contest.end_time, now)
   end
 
+  def expired?(%VirtualJudge.Contest{} = contest) do
+    now = Calendar.DateTime.now_utc()
+    Calendar.DateTime.before?(contest.end_time, now)
+  end
+
   defp put_endtime(%Ecto.Changeset{valid?: true, changes: %{start_time: start_time, duration: duration}} = changeset) do
+    do_put_endtime(changeset, start_time, duration)
+  end
+
+  defp put_endtime(%Ecto.Changeset{valid?: true, changes: %{duration: duration}} = changeset) do
+    do_put_endtime(changeset, changeset.data.start_time, duration)
+  end
+
+  defp put_endtime(%Ecto.Changeset{valid?: true, changes: %{start_time: start_time}} = changeset) do
+    do_put_endtime(changeset, start_time, changeset.data.duration)
+  end
+
+  defp put_endtime(changeset), do: changeset
+
+  defp do_put_endtime(changeset, start_time, duration) do
     end_time =
        start_time
        |> Calendar.DateTime.add!(duration * 60)
       put_change(changeset, :end_time, end_time)
   end
-  defp put_endtime(changeset), do: changeset
 end

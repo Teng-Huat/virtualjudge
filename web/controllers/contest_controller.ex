@@ -18,10 +18,9 @@ defmodule VirtualJudge.ContestController do
       |> preload(:users)
       |> Repo.get!(id)
 
-    # although this may look inefficient, the maximum number of users joining
-    # a contest will be < 50,
-    %Contest{users: users} = contest
-    joined = Enum.any?(users, fn(x) -> x == conn.assigns.current_user end)
+    joined =
+      Contest.check_joined_query(contest, conn.assigns.current_user)
+      |> Repo.one()
 
     render conn, "show.html", contest: contest, joined: joined
   end

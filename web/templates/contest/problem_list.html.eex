@@ -1,0 +1,8 @@
+<ol>
+  <%= for problem <- @contest.problems do %>
+    <li>
+      <%= link problem.title, to: contest_problem_path(@conn, :show, @contest, problem) %>
+      <%= link "View and submit answer", to: contest_problem_path(@conn, :show, @contest, problem), class: "btn btn-default btn-xs" %>
+    </li>
+  <% end %>
+</ol>
