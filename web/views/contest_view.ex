@@ -1,7 +1,7 @@
 defmodule VirtualJudge.ContestView do
   use VirtualJudge.Web, :view
 
-  def render_problem_content(__conn, _joined, _conn, false = _joinable, _expired) do
+  def render_problem_content(_conn, _joined, _conn, false = _joinable, _expired) do
     "Problems will be displayed once it is joinable"
   end
 

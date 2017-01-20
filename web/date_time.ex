@@ -17,6 +17,13 @@ defmodule VirtualJudge.DateTime do
                               "hour"=>hour,
                               "minute"=>min,
                               "time_zone" => "Singapore"})
+      [_match, month, day, year, "12", min, "PM"] ->
+        Calecto.DateTime.cast(%{"year"=>year,
+                              "month"=>month,
+                              "day"=>day,
+                              "hour"=>"12",
+                              "minute"=>min,
+                              "time_zone" => "Singapore"})
       [_match, month, day, year, hour, min, "PM"] ->
         Calecto.DateTime.cast(%{"year"=>year,
                               "month"=>month,

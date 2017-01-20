@@ -21,9 +21,13 @@ defmodule VirtualJudge.ContestController do
     joined =
       Contest.check_joined_query(contest, conn.assigns.current_user)
       |> Repo.one()
+      |> nil_to_false()
 
     render conn, "show.html", contest: contest, joined: joined
   end
+
+  defp nil_to_false(nil), do: false
+  defp nil_to_false(true), do: true
 
   def join(conn, %{ "id" => id }) do
     contest =
