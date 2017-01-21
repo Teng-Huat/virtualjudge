@@ -15,8 +15,6 @@ defmodule FzuWorker.Submitter do
       programming_language:
       %Programming_language{value: language_val}} = answer
 
-      url_path = WorkHelper.get_path(source)
-
       username = Application.get_env(:virtual_judge, :fzu_username)
       password = Application.get_env(:virtual_judge, :fzu_password)
 

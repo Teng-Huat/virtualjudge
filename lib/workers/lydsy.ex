@@ -27,7 +27,6 @@ defmodule Lydsy do
   def scrape_problem_listing_links() do
     resp = __MODULE__.get!("/JudgeOnline/problemset.php")
 
-    links =
       resp.body
       |> Floki.find("h3 a")
       |> Floki.attribute("href")

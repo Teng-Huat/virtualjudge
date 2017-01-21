@@ -42,7 +42,7 @@ config :virtual_judge, VirtualJudge.Repo,
   hostname: "localhost",
   pool_size: 10
 
-  import_config "dev.secret.exs"
-
 config :virtual_judge, VirtualJudge.Mailer,
   adapter: Bamboo.LocalAdapter
+
+import_config "dev.secret.exs"
