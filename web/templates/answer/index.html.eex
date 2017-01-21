@@ -1,22 +1,3 @@
 <h1>Your submitted answers</h1>
-<table class="table">
-  <tr>
-    <th>Problem</th>
-    <th>Result</th>
-    <th>Status</th>
-    <th>Submitted</th>
-    <th>Actions</th>
-  </tr>
-  <%= for answer <- @answers do %>
-      <tr>
-        <td><%= answer.problem.title %></td>
-        <td><%= answer.result %></td>
-        <td><%= answer.status %></td>
-        <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
-        <td>
-          <%= link "Problem link", to: problem_path(@conn, :show, answer.problem), class: "btn btn-default btn-xs" %>
-          <%= link "More info", to: answer_path(@conn, :show, answer), class: "btn btn-default btn-xs" %>
-        </td>
-      </tr>
-  <% end %>
-</table>
+<%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, answers: @answers %>
+

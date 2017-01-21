@@ -38,3 +38,6 @@
   </center>
 <% end %>
 
+<%= if @joined do %>
+  <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, answers: @answers %>
+<% end %>

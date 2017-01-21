@@ -15,7 +15,6 @@ defmodule VirtualJudge.ContestController do
     contest =
       Contest
       |> preload(:problems)
-      |> preload(:users)
       |> Repo.get!(id)
 
     joined =
@@ -23,7 +22,14 @@ defmodule VirtualJudge.ContestController do
       |> Repo.one()
       |> nil_to_false()
 
-    render conn, "show.html", contest: contest, joined: joined
+    answers =
+      contest
+      |> assoc(:answers)
+      |> preload(:problem)
+      |> where(user_id: ^conn.assigns.current_user.id)
+      |> Repo.all()
+
+    render conn, "show.html", contest: contest, joined: joined, answers: answers
   end
 
   defp nil_to_false(nil), do: false

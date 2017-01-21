@@ -27,6 +27,3 @@
 </table>
 
 <%= link "Back", to: answer_path(@conn, :index) %>
-
-
-
