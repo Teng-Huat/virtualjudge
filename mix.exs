@@ -31,7 +31,8 @@ defmodule VirtualJudge.Mixfile do
                     :bamboo,
                     :scrivener_ecto,
                     :scrivener_html,
-                    :briefly
+                    :briefly,
+                    :httpoison
                   ]]
   end
 
@@ -62,7 +63,8 @@ defmodule VirtualJudge.Mixfile do
      {:scrivener_html, "~> 1.1"},
      {:calecto, "~> 0.16.0"},
      {:exq, "~> 0.8.2"},
-     {:briefly, "~> 0.3"}
+     {:briefly, "~> 0.3"},
+     {:httpoison, "~> 0.11.0"}
    ]
   end
 
