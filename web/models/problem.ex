@@ -3,11 +3,7 @@ defmodule VirtualJudge.Problem do
 
   schema "problems" do
     field :title, :string
-    field :time_limit, :integer
-    field :memory_limit, :integer
     field :description, :string
-    field :input, :string
-    field :output, :string
     field :source, :string
     has_many :answers, VirtualJudge.Answer
     embeds_many :programming_languages, VirtualJudge.Programming_language
