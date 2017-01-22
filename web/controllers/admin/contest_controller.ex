@@ -118,10 +118,11 @@ defmodule VirtualJudge.Admin.ContestController do
   defp csv_content(answers) do
     answers
     |> Enum.map(fn(a) -> %{user_name: a.user.name,
+                           result: a.result,
                            status: a.status,
-                           submitted_at: a.inserted_at,
+                           submitted_at: a.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime(),
                            problem_id: a.problem_id} end)
-    |> CSV.encode(headers: [:user_name, :status, :submitted_at, :problem_id])
+    |> CSV.encode(headers: [:user_name, :result, :status, :submitted_at, :problem_id])
     |> Enum.to_list
     |> to_string
   end
