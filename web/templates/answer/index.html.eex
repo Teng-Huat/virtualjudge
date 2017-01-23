@@ -1,3 +1,5 @@
 <h1>Your submitted answers</h1>
-<%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, answers: @answers %>
+<%= render VirtualJudge.SharedView, "answer_list.html",
+conn: @conn,
+answers: @answers %>
 

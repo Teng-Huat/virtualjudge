@@ -9,7 +9,7 @@
     <div class="panel-body">
       <ul>
           <%= for problem <- practice.problems do %>
-            <li><%= link problem.title, to: problem_path(@conn, :show, problem) %></li>
+            <li><%= link problem.title, to: practice_problem_path(@conn, :show, practice, problem) %></li>
           <% end %>
       </ul>
     </div>

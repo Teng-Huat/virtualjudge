@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1><%= @problem.title %></h1>
+  <%= @problem.source %>
+</div>
+
+<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>" srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
+
+<hr />
+
+<h2>Submit a answer</h2>
+<%= render VirtualJudge.SharedView, "answer_form.html",
+                                    problem: @problem,
+                                    action: contest_problem_answer_path(@conn, :create, @contest, @problem),
+                                    changeset: @answer_changeset %>

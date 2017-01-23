@@ -27,17 +27,21 @@ defmodule VirtualJudge.Router do
   # normal user authenticated scope
   scope "/", VirtualJudge do
     pipe_through [:browser, :authenticate_user] # Use the default browser stack
-    resources "/problem", ProblemController, only: [:show] do
-      resources "/answer", AnswerController, only: [:create]
-    end
+    resources "/problem", ProblemController, only: [:show]
     resources "/answer", AnswerController, only: [:index, :show]
 
     resources "/contest", ContestController, only: [:index, :show] do
-      resources "/problems", ProblemController, only: [:show]
+      resources "/problems", ProblemController, only: [:show] do
+        resources "/answer", AnswerController, only: [:create]
+      end
     end
     put "/contest/:id", ContestController, :join
 
-    resources "/practice", PracticeController, only: [:index]
+    resources "/practice", PracticeController, only: [:index] do
+      resources "/problem", ProblemController, only: [:show] do
+        resources "/answer", AnswerController, only: [:create]
+      end
+    end
   end
 
   # admin scope
