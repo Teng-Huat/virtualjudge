@@ -1,5 +1,6 @@
 <h1>Your submitted answers</h1>
 <%= render VirtualJudge.SharedView, "answer_list.html",
 conn: @conn,
+link_type: :problem_path,
 answers: @answers %>
 

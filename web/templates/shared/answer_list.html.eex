@@ -13,11 +13,12 @@
         <td><%= answer.status %></td>
         <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
         <td>
-          <%= if answer.contest_id == nil do %>
+          <%= if @link_type == :problem_path do %>
             <%= link "Problem link", to: problem_path(@conn, :show, answer.problem), class: "btn btn-default btn-xs" %>
-          <% else %>
+          <% end %>
+          <%= if @link_type == :contest_problem_path do %>
             <%= link "View and resubmit", to: contest_problem_path(@conn, :show, answer.contest_id, answer.problem), class: "btn btn-default btn-xs" %>
-        <% end %>
+          <% end %>
           <%= link "More info", to: answer_path(@conn, :show, answer), class: "btn btn-default btn-xs" %>
         </td>
       </tr>

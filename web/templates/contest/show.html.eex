@@ -39,5 +39,5 @@
 <% end %>
 
 <%= if @joined do %>
-  <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, answers: @answers %>
+  <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, link_type: :contest_problem_path, answers: @answers %>
 <% end %>
