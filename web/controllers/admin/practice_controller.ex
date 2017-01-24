@@ -32,6 +32,10 @@ defmodule VirtualJudge.Admin.PracticeController do
     end
   end
 
+  def create(conn, %{"practice" => practice_params}) do
+    __MODULE__.create(conn, %{"contest" => %{"problems": []}, "practice" => practice_params})
+  end
+
 
   def show(conn, %{"id" => id}) do
     practice =
@@ -48,6 +52,35 @@ defmodule VirtualJudge.Admin.PracticeController do
       |> Repo.get!(id)
     changeset = Practice.changeset(practice)
     render(conn, "edit.html", changeset: changeset, practice: practice)
+  end
+
+  def update(conn, %{"id" => id, "contest" => contest_params, "practice" => practice_params}) do
+    practice =
+      Practice
+      |> preload(:problems)
+      |> Repo.get!(id)
+
+    problems_changeset =
+      contest_params["problems"]
+      |> get_problems()
+      |> Enum.map(&Ecto.Changeset.change/1)
+
+    changeset =
+      Practice.changeset(practice, practice_params)
+      |> Ecto.Changeset.put_assoc(:problems, problems_changeset)
+
+    case Repo.update(changeset) do
+      {:ok, practice} ->
+        conn
+        |> put_flash(:info, "Problem was updated successfully!")
+        |> redirect(to: admin_practice_path(conn, :show, practice))
+      {:error, changeset} ->
+        render(conn, "edit.html", pratice: practice, changeset: changeset)
+    end
+  end
+
+  def update(conn, %{"id" => id, "practice" => practice_params}) do
+    __MODULE__.update(conn, %{"id" => id, "contest" => %{"problems": []}, "practice" => practice_params})
   end
 
   def delete(conn, %{"id" => id}) do

@@ -1,6 +1,6 @@
 <%= render "form.html", changeset: @changeset,
                         practice: @practice,
                         current_user: @current_user,
-                        action: admin_practice_path(@conn, :create) %>
+                        action: admin_practice_path(@conn, :update, @practice) %>
 
 <%= link "Back", to: admin_practice_path(@conn, :index) %>
