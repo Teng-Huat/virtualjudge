@@ -1,0 +1,5 @@
+<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>"
+                                     srcdoc="<%= link_css(@problem.source) %><%= @problem.description %>"
+                                     frameborder="0"
+                                     height="600px"
+                                     class="col-md-12"></iframe>

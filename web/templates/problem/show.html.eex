@@ -3,4 +3,4 @@
   <%= @problem.source %>
 </div>
 
-<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>" srcdoc="<%= @problem.description %>" frameborder="0" height="600px" class="col-md-12"></iframe>
+<%= render VirtualJudge.SharedView, "problem_iframe.html", problem: @problem %>
