@@ -110,8 +110,8 @@ defmodule CodeChef do
     logout_remaining_sessions(cookie_string, num)
   end
 
-  def logout_remaining_sessions(_cookie_string, 0), do: nil
-  def logout_remaining_sessions(cookie_string, n) do
+  defp logout_remaining_sessions(_cookie_string, 0), do: nil
+  defp logout_remaining_sessions(cookie_string, n) do
     page_source = __MODULE__.get!("/session/limit", [{"Cookie", cookie_string}])
                   |> Map.fetch!(:body)
 
@@ -144,14 +144,12 @@ defmodule CodeChef do
       form_id: "session_limit_page"
     ]
 
-    IO.inspect form_data
     __MODULE__.post!("/session/limit",{:form, form_data}, [{"Cookie", cookie_string}]).body
-    |> IO.puts()
 
     logout_remaining_sessions(cookie_string, n - 1)
   end
 
-  def find_num_connected_sessions(session_limit_page_source) do
+  defp find_num_connected_sessions(session_limit_page_source) do
     session_limit_page_source
     |> Floki.find("#session-limit-page input[name=sid]")
     |> Enum.count
@@ -166,6 +164,15 @@ defmodule CodeChef do
       |> Enum.at(0)
       |> Floki.attribute("title")
       |> List.to_string()
+  end
+
+  @doc """
+  Takes in a `problem_source` and tries to find the problem code
+
+  Returns a problem_code string
+  """
+  def get_problem_code("https://www.codechef.com/problems/" <> problem_code) do
+    problem_code
   end
 
   defp get_language() do
