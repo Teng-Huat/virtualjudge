@@ -4,14 +4,16 @@ defmodule VirtualJudge.AnswerController do
   alias VirtualJudge.Problem
   alias VirtualJudge.Answer
 
-  def index(conn, _params, user) do
-    answers =
+  def index(conn, %{"page" => page_number}, user) do
+    page =
       user
       |> assoc(:answers)
       |> preload(:problem)
-      |> Repo.all()
-    render conn, "index.html", answers: answers
+      |> Repo.paginate(%{page: page_number})
+    render conn, "index.html", answers: page.entries, page: page
   end
+
+  def index(conn, _params, user), do: index(conn, %{"page" => 1}, user)
 
   def show(conn, %{"id" => id}, _user) do
     answer =

@@ -4,3 +4,7 @@ conn: @conn,
 link_type: :problem_path,
 answers: @answers %>
 
+<center>
+  <%= pagination_links @page %>
+</center>
+

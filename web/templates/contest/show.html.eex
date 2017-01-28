@@ -39,5 +39,6 @@
 <% end %>
 
 <%= if @joined do %>
+  <h2>Your previously submitted answers for this contest:</h2>
   <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, link_type: :contest_problem_path, answers: @answers %>
 <% end %>
