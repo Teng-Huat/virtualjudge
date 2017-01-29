@@ -1,9 +1,9 @@
 defmodule VirtualJudge.UserTest do
-  use VirtualJudge.ModelCase
+  use VirtualJudge.ModelCase, async: true
 
   alias VirtualJudge.User
 
-  @valid_attrs %{bio: "some content", email: "some content", password_hash: "some content", username: "some content"}
+  @valid_attrs %{password: "some password"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

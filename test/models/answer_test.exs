@@ -1,9 +1,9 @@
 defmodule VirtualJudge.AnswerTest do
-  use VirtualJudge.ModelCase
+  use VirtualJudge.ModelCase, async: true
 
   alias VirtualJudge.Answer
 
-  @valid_attrs %{body: "some content"}
+  @valid_attrs %{body: "some content", problem_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

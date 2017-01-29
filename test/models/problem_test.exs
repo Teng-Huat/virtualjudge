@@ -1,9 +1,9 @@
 defmodule VirtualJudge.ProblemTest do
-  use VirtualJudge.ModelCase
+  use VirtualJudge.ModelCase, async: true
 
   alias VirtualJudge.Problem
 
-  @valid_attrs %{description: "some content", input: "some content", memory_limit: 42, output: "some content", source: "some content", time_limit: 42, title: "some content"}
+  @valid_attrs %{title: "some content", programming_languages: [%{name: "C++0x (g++ 4.7.2)", value: "9"}]}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

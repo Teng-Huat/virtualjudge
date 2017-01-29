@@ -1,5 +1,5 @@
 defmodule VirtualJudge.PracticeTest do
-  use VirtualJudge.ModelCase
+  use VirtualJudge.ModelCase, async: true
 
   alias VirtualJudge.Practice
 

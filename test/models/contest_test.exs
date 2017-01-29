@@ -1,9 +1,14 @@
 defmodule VirtualJudge.ContestTest do
-  use VirtualJudge.ModelCase
+  use VirtualJudge.ModelCase, async: true
 
   alias VirtualJudge.Contest
 
-  @valid_attrs %{description: "some content", duration: 42, start_time: %{day: 17, hour: 14, min: 0, month: 4, sec: 0, year: 2010}, title: "some content"}
+  @valid_attrs %{
+    title: "some content",
+    start_time: %{"year"=>2010, "month"=>12, "day"=>12, "hour"=>12, "minute"=>12, "second"=>12, "time_zone" => "Asia/Singapore"},
+    duration: 42,
+    description: "some content",
+  }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
