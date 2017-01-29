@@ -26,6 +26,7 @@ defmodule VirtualJudge.ConnCase do
       import Ecto.Query
 
       import VirtualJudge.Router.Helpers
+      import VirtualJudge.TestHelpers
 
       # The default endpoint for testing
       @endpoint VirtualJudge.Endpoint

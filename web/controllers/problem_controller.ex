@@ -34,7 +34,6 @@ defmodule VirtualJudge.ProblemController do
 
   def show(conn, %{ "id" => id }) do
     problem = Repo.get!(Problem ,id)
-    answer_changeset = Answer.changeset(%Answer{})
     render conn, "show.html", problem: problem
   end
 end
