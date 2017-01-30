@@ -27,9 +27,7 @@ defmodule VirtualJudge.ContestChannel do
         {:error, _reason} -> push socket, "job_error", params
       end
     end
-
     {:noreply, socket}
-
   end
 
   def broadcast_job_done(problem, user_id) do

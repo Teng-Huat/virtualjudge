@@ -4,28 +4,17 @@ defmodule VirtualJudge.ContestChannelTest do
   alias VirtualJudge.ContestChannel
 
   setup do
-    {:ok, _, socket} =
-      socket("user_id", %{some: :assign})
-      |> subscribe_and_join(ContestChannel, "contest:lobby")
-
-    {:ok, socket: socket}
+    user = VirtualJudge.TestHelpers.insert_user()
+    # {:ok, _, socket} =
+    #   socket("user_id", %{some: :assign})
+    #   |> subscribe_and_join(ContestChannel, "contest:lobby")
+    # {:ok, socket: socket, user: user}
+    {:ok, socket} = connect(VirtualJudge.UserSocket, %{})
+    {:ok, socket: socket, user: user}
   end
 
-  @tag :skip
-  test "ping replies with status ok", %{socket: socket} do
-    ref = push socket, "ping", %{"hello" => "there"}
-    assert_reply ref, :ok, %{"hello" => "there"}
-  end
-
-  @tag :skip
-  test "shout broadcasts to contest:lobby", %{socket: socket} do
-    push socket, "shout", %{"hello" => "all"}
-    assert_broadcast "shout", %{"hello" => "all"}
-  end
-
-  @tag :skip
-  test "broadcasts are pushed to the client", %{socket: socket} do
-    broadcast_from! socket, "broadcast", %{"some" => "data"}
-    assert_push "broadcast", %{"some" => "data"}
+  test "join replies with message", %{socket: socket, user: user} do
+    user_id = to_string(user.id)
+    assert {:ok, "Joined contest:"<>^user_id, _socket} = subscribe_and_join(socket, "contest:#{user_id}")
   end
 end
