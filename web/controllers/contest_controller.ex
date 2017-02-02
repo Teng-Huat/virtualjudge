@@ -41,11 +41,16 @@ defmodule VirtualJudge.ContestController do
       |> preload(:users)
       |> Repo.get!(id)
 
+    user_changesets =
+      contest.users
+      |> Enum.concat([conn.assigns.current_user])
+      |> Enum.map(&Ecto.Changeset.change/1)
+
     if Contest.joinable?(contest) do
       contest
       |> Contest.changeset()
-      |> Ecto.Changeset.put_assoc(:users, [conn.assigns.current_user])
-      |> Repo.update()
+      |> Ecto.Changeset.put_assoc(:users, user_changesets)
+      |> Repo.update!()
 
       conn
       |> put_flash(:info, "Successfully joined contest.")
