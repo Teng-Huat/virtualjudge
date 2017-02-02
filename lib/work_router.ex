@@ -1,55 +1,56 @@
 defmodule VirtualJudge.WorkRouter do
-  # Submitting routes
-  def route("https://www.codechef.com/" <> _path, :submit),
-    do: {:ok, "CodechefWorker.Submitter"}
+  @doc """
+  Pattern matches the `source` url and finds the respective workers
 
-  def route("http://codeforces.com/" <> _path, :submit),
-    do: {:ok, "CodeforceWorker.Submitter"}
+  Returns the worker modules associated with it
+  """
+  def route("https://www.codechef.com/" <> _path),         do: do_valid_url(CodechefWorker)
+  def route("http://codeforces.com/" <> _path),            do: do_valid_url(CodeforceWorker)
+  def route("http://poj.org/" <> _path),                   do: do_valid_url(PojWorker)
+  def route("http://acm.zju.edu.cn/" <> _path),            do: do_valid_url(ZojWorker)
+  def route("http://acm.timus.ru/" <> _path),              do: do_valid_url(TimusWorker)
+  def route("http://acm.hust.edu.cn/" <> _path),           do: do_valid_url(HustWorker)
+  def route("http://www.lydsy.com/JudgeOnline/" <> _path), do: do_valid_url(LydsyWorker)
+  def route("http://acm.fzu.edu.cn/" <> _path),            do: do_valid_url(FzuWorker)
+  # catch all for errors where it doesn't match any OJs listed
+  def route(_invalid_url),            do: do_invalid_url_error()
 
-  def route("http://poj.org/" <> _path, :submit),
-    do: {:ok, "PojWorker.Submitter"}
+  defp do_valid_url(module), do: {:ok, module}
+  defp do_invalid_url_error(), do: {:error, "Invalid URL"}
 
-  def route("http://acm.zju.edu.cn/" <> _path, :submit),
-    do: {:ok, "ZojWorker.Submitter"}
+  @doc """
+  Gets the `source` url and find it's respective worker and maps it to the Submitter module
 
-  def route("http://acm.timus.ru/" <> _path, :submit),
-    do: {:ok, "TimusWorker.Submitter"}
+  Returns the respective worker module along with it's Submitter module
 
-  def route("http://acm.hust.edu.cn/" <> _path, :submit),
-    do: {:ok, "HustWorker.Submitter"}
+  Example:
+  iex> VirtualJudge.WorkRouter.route("http://acm.timus.ru/problem.aspx?space=1&num=1313", :submit)
+  {:ok, TimusWorker.Submitter}
+  iex> VirtualJudge.WorkRouter.route("http://randomurl.com", :submit)
+  {:error, "Invalid URL"}
+  """
+  def route(source, :submit) do
+    case route(source) do
+      {:ok, module}       -> {:ok, Module.safe_concat(module, Submitter)}
+      {:error, reason}    -> {:error, reason}
+    end
+  end
 
-  def route("http://www.lydsy.com/JudgeOnline/" <> _path, :submit),
-    do: {:ok, "LydsyWorker.Submitter"}
+  @doc """
+  Gets the `source` url and find it's respective worker and maps it to the Scraper module
 
-  def route("http://acm.fzu.edu.cn/" <> _path, :submit),
-    do: {:ok, "FzuWorker.Submitter"}
+  Returns the respective worker module along with it's Scraper module
 
-  # Scraping routes
-  def route("http://codeforces.com/" <> _path, :scrape),
-    do: {:ok, "CodeforceWorker.Scraper"}
-
-  def route("https://www.codechef.com/" <> _path, :scrape),
-    do: {:ok, "CodechefWorker.Scraper"}
-
-  def route("http://poj.org/" <> _path, :scrape),
-    do: {:ok, "PojWorker.Scraper"}
-
-  def route("http://acm.zju.edu.cn/" <> _path, :scrape),
-    do: {:ok, "ZojWorker.Scraper"}
-
-  def route("http://acm.timus.ru/" <> _path, :scrape),
-    do: {:ok, "TimusWorker.Scraper"}
-
-  def route("http://acm.hust.edu.cn/" <> _path, :scrape),
-    do: {:ok, "HustWorker.Scraper"}
-
-  def route("http://www.lydsy.com/JudgeOnline/" <> _path, :scrape),
-    do: {:ok, "LydsyWorker.Scraper"}
-
-  def route("http://acm.fzu.edu.cn/" <> _path, :scrape),
-    do: {:ok, "FzuWorker.Scraper"}
-
-  def route(_invalid_url, :scrape), do: do_invalid_url_error()
-  def route(_invalid_url, :submit), do: do_invalid_url_error()
-  def do_invalid_url_error(), do: {:error, "Invalid URL"}
+  Example:
+  iex> VirtualJudge.WorkRouter.route("http://acm.timus.ru/problem.aspx?space=1&num=1313", :scrape)
+  {:ok, TimusWorker.Scraper}
+  iex> VirtualJudge.WorkRouter.route("http://randomurl.com", :scrape)
+  {:error, "Invalid URL"}
+  """
+  def route(source, :scrape) do
+    case route(source) do
+      {:ok, module}       -> {:ok, Module.safe_concat(module, Scraper)}
+      {:error, reason}    -> {:error, reason}
+    end
+  end
 end
