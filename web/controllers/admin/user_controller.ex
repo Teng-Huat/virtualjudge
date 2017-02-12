@@ -17,6 +17,15 @@ defmodule VirtualJudge.Admin.UserController do
     |> send_resp(200, csv_content(users))
   end
 
+  def delete(conn, %{"id" => id}) do
+    problem = Repo.get!(User, id)
+    Repo.delete!(problem)
+
+    conn
+    |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: admin_user_path(conn, :index))
+  end
+
   defp csv_content(users) do
     users
     |> CSV.encode(headers: [:email, :name, :signed_up])

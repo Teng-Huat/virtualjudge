@@ -14,6 +14,7 @@
         <th>Name</th>
         <th>Invited at</th>
         <th>Signed up?</th>
+        <th>Actions</th>
       </tr>
       <%= for user <- @users do %>
         <tr>
@@ -21,6 +22,7 @@
           <td><%= user.name %></td>
           <td><%= user.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
           <td><%= signed_up(user) %></td>
+          <td><%= link "Delete", to: admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-danger" %></td>
         </tr>
       <% end %>
     </table>

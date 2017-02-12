@@ -50,7 +50,7 @@ defmodule VirtualJudge.Router do
     pipe_through [:browser] # Use the default browser stack
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
-    get "/users", UserController, :index
+    resources "/user", UserController, only: [:index, :delete]
     get "/export", UserController, :export
     resources "/contest", ContestController
     get "/contest/export/:id", ContestController, :export
