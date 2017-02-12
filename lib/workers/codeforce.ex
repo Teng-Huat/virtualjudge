@@ -172,10 +172,17 @@ defmodule CodeForce do
   """
   def retrieve_latest_result(username) do
     resp = __MODULE__.get!("/submissions/#{username}")
-    resp.body
+    result = resp.body
     |> Floki.find("td.status-cell")
     |> Enum.at(0)
     |> Floki.text()
+    case result do
+      "Running on " <> _test_xx ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 10 seconds
+        retrieve_latest_result(username) # recursively run
+      _ -> result # all other results, return it upwards
+    end
   end
 
   def get_relative_path(@endpoint <> relative_path), do: relative_path
