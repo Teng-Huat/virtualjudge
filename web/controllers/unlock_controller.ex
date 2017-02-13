@@ -1,4 +1,4 @@
-defmodule VirtualJudge.UnlockController do
+defmodule VirtualJudge.ResetPasswordController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
 

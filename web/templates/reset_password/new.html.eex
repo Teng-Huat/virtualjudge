@@ -1,4 +1,4 @@
-<%= form_for @conn, unlock_path(@conn, :create), [as: :unlock], fn f -> %>
+<%= form_for @conn, reset_password_path(@conn, :create), [as: :unlock], fn f -> %>
   <div class="form-group">
     <%= label f, :email, "Email", class: "control-label" %>
     <%= text_input f, :email, class: "form-control", placeholder: "Please enter email" %>

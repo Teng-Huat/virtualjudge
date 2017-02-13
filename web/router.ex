@@ -22,10 +22,11 @@ defmodule VirtualJudge.Router do
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
     put "/sign_up/:id/:invitation_token", RegistrationController, :update
-    get "/reset_password", UnlockController, :new
-    post "/reset_password", UnlockController, :create
-    get "/reset_password/:id/:reset_password_token", UnlockController, :edit
-    put "/reset_password/:id", UnlockController, :reset
+    # reset password routes
+    get "/reset_password", ResetPasswordController, :new
+    post "/reset_password", ResetPasswordController, :create
+    get "/reset_password/:id/:reset_password_token", ResetPasswordController, :edit
+    put "/reset_password/:id", ResetPasswordController, :reset
   end
 
   # normal user authenticated scope

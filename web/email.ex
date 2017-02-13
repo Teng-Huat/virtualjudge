@@ -23,7 +23,7 @@ defmodule VirtualJudge.Email do
     email_body = """
     Hello,
 
-    <p>Please follow this <a href='#{Helpers.unlock_url(conn, :edit, user, user.reset_password_token)}'>link</a> to reset your password</p>
+    <p>Please follow this <a href='#{Helpers.reset_password_url(conn, :edit, user, user.reset_password_token)}'>link</a> to reset your password</p>
     <p>Note that you've to be in NTU's network to access the server</p>
 
     Thank you.

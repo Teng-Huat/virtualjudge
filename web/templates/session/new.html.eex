@@ -10,7 +10,7 @@
   </div>
 
   <div class="form-group">
-    <%= link "Forget password?", to: unlock_path(@conn, :new) %>
+    <%= link "Forget password?", to: reset_password_path(@conn, :new) %>
   </div>
 
   <%= submit "Log in", class: "btn btn-primary" %>
