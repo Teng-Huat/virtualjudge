@@ -22,6 +22,10 @@ defmodule VirtualJudge.Router do
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
     put "/sign_up/:id/:invitation_token", RegistrationController, :update
+    get "/reset_password", UnlockController, :new
+    post "/reset_password", UnlockController, :create
+    get "/reset_password/:id/:reset_password_token", UnlockController, :edit
+    put "/reset_password/:id", UnlockController, :reset
   end
 
   # normal user authenticated scope
@@ -50,6 +54,7 @@ defmodule VirtualJudge.Router do
     pipe_through [:browser] # Use the default browser stack
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
+
     resources "/user", UserController, only: [:index, :delete]
     get "/export", UserController, :export
     resources "/contest", ContestController

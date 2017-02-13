@@ -1,0 +1,7 @@
+<%= form_for @conn, unlock_path(@conn, :create), [as: :unlock], fn f -> %>
+  <div class="form-group">
+    <%= label f, :email, "Email", class: "control-label" %>
+    <%= text_input f, :email, class: "form-control", placeholder: "Please enter email" %>
+  </div>
+  <%= submit "Send recovery email", class: "btn btn-primary" %>
+<% end %>
