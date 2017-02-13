@@ -2,7 +2,10 @@ defmodule VirtualJudge.Admin.UserController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
   def index(conn, _params) do
-    users = Repo.all(User)
+    users =
+      User
+      |> preload(:team)
+      |> Repo.all()
     render conn, "index.html", users: users
   end
 

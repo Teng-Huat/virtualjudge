@@ -32,7 +32,7 @@ defmodule VirtualJudge.ResetPasswordController do
     changeset = User.reset_password_changeset(user, params)
 
     case Repo.update(changeset) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "Password updated! Please login now.")
         |> redirect(to: session_path(conn, :new))

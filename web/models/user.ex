@@ -12,6 +12,7 @@ defmodule VirtualJudge.User do
     field :type, :string
     has_many :answers, VirtualJudge.Answer
     many_to_many :contests, VirtualJudge.Contest, join_through: "contests_users"
+    belongs_to :team, VirtualJudge.Team
     timestamps()
   end
 
@@ -35,7 +36,7 @@ defmodule VirtualJudge.User do
     |> unique_constraint(:email)
   end
 
-  def reset_pw_token_changeset(%__MODULE__{} = struct, params \\ %{}) do
+  def reset_pw_token_changeset(%__MODULE__{} = struct, _params \\ %{}) do
     struct
     |> change()
     |> put_change(:reset_password_token, SecureRandom.urlsafe_base64) # create reset pw token
