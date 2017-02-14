@@ -27,6 +27,12 @@ defmodule VirtualJudge.User do
     |> put_password_hash()
   end
 
+  def admin_edit_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:team_id])
+    |> cast_assoc(:team)
+  end
+
   def invitation_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :name])

@@ -56,7 +56,7 @@ defmodule VirtualJudge.Router do
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
 
-    resources "/user", UserController, only: [:index, :delete]
+    resources "/user", UserController, except: [:show]
     get "/export", UserController, :export
     resources "/contest", ContestController
     get "/contest/export/:id", ContestController, :export
