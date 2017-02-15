@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [onsubmit: "return confirm('Do you really want to submit the answer?');"], fn f -> %>
   <%= hidden_input f, :contest_id %>
   <div class="form-group">
     <%= label f, :body, class: "control-label" %>
