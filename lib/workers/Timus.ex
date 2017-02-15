@@ -135,7 +135,8 @@ defmodule Timus do
     resp = __MODULE__.get!("/status.aspx?count=1&author=" <> judge)
 
     resp.body
-    |> Floki.find("td.verdict_rj")
+    |> Floki.find("tr.even td")
+    |> Enum.at(5)
     |> Floki.text()
   end
 
