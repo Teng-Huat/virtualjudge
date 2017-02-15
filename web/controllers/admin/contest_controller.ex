@@ -94,19 +94,20 @@ defmodule VirtualJudge.Admin.ContestController do
 
     answer_query =
       Answer
+      |> preload([:user, user: :team])
       |> Answer.order_by_user_then_problem_id()
 
     contest =
       Contest
       |> Repo.get!(id)
-      |> Repo.preload([answers: answer_query, answers: :user])
+      |> Repo.preload(answers: answer_query)
 
     filename = convert_to_filename(contest.title)
 
     conn
     |> put_resp_content_type("text/csv")
     |> put_resp_header("Content-Disposition", "attachment; filename=\"#{filename}.csv\"")
-    |> send_resp(200, csv_content(contest.answers))
+    |> send_resp(200, csv_content(contest))
   end
 
   defp convert_to_filename(title) do
@@ -115,14 +116,16 @@ defmodule VirtualJudge.Admin.ContestController do
     |> String.downcase()
   end
 
-  defp csv_content(answers) do
+  defp csv_content(%Contest{answers: answers, start_time: start_time}) do
     answers
     |> Enum.map(fn(a) -> %{user_name: a.user.name,
+                           team_name: if(a.user.team, [do: a.user.team.name, else: "No team"]),
                            result: a.result,
                            status: a.status,
                            submitted_at: a.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime(),
+                           contest_start_time: start_time |> VirtualJudge.FormattingHelpers.format_datetime(),
                            problem_id: a.problem_id} end)
-    |> CSV.encode(headers: [:user_name, :result, :status, :submitted_at, :problem_id])
+    |> CSV.encode(headers: [:user_name, :team_name, :result, :status, :submitted_at, :contest_start_time, :problem_id])
     |> Enum.to_list
     |> to_string
   end
