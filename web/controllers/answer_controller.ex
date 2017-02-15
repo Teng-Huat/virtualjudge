@@ -48,7 +48,7 @@ defmodule VirtualJudge.AnswerController do
         {:ok, _ack} = Exq.enqueue(Exq, "default", worker, [answer.id])
         conn
         |> put_flash(:info, "Answer created successfully.")
-        |> redirect(to: problem_path(conn, :show, problem))
+        |> redirect(to: answer_path(conn, :show, answer))
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "Opps, something wrong happened")
