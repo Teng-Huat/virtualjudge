@@ -1,5 +1,11 @@
-<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>"
+<iframe id="problem-sandbox" sandbox src="<%= @problem.source %>+123"
                                      srcdoc="<%= link_css(@problem.source) %><%= @problem.description %>"
                                      frameborder="0"
                                      height="600px"
                                      class="col-md-12"></iframe>
+
+<button onclick="var printContents = document.getElementById('problem-sandbox').srcdoc;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;" class="btn btn-sm btn-primary">Print problem</button>
