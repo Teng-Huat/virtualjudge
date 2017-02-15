@@ -3,3 +3,7 @@
 #problem-description-input{
   min-height: 500px;
 }
+
+tr.clickable-row:hover{
+  cursor: pointer;
+}

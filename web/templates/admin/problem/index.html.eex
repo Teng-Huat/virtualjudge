@@ -8,7 +8,7 @@
     <th>Actions</th>
   </tr>
 <%= for p <- @problems do %>
-  <tr>
+  <tr class="clickable-row" data-href="<%= admin_problem_path(@conn, :show, p) %>">
     <td><%= p.title %></td>
     <td><%= p.source %></td>
     <td><%= link "Show", to: admin_problem_path(@conn, :show, p), class: "btn btn-default btn-sm" %></td>

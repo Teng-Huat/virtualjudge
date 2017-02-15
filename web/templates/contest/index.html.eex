@@ -16,7 +16,7 @@
   </thead>
   <tbody>
 <%= for contest <- @contests do %>
-    <tr>
+    <tr class="clickable-row" data-href="<%= contest_path(@conn, :show, contest) %>">
       <td><%= contest.title %></td>
       <td><%= contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
       <td><%= contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>

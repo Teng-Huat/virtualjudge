@@ -13,21 +13,21 @@
     </tr>
   </thead>
   <tbody>
-<%= for contest <- @contests do %>
-    <tr>
-      <td><%= contest.title %></td>
-      <td><%= contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
-      <td><%= contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
-      <td><%= contest.duration %></td>
-      <td><%= contest.description %></td>
+    <%= for contest <- @contests do %>
+        <tr class="clickable-row" data-href="<%= admin_contest_path(@conn, :show, contest) %>">
+          <td><%= contest.title %></td>
+          <td><%= contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+          <td><%= contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+          <td><%= contest.duration %></td>
+          <td><%= contest.description %></td>
 
-      <td class="text-right">
-        <%= link "Show", to: admin_contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: admin_contest_path(@conn, :edit, contest), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_contest_path(@conn, :delete, contest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
+          <td class="text-right">
+            <%= link "Show", to: admin_contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
+            <%= link "Edit", to: admin_contest_path(@conn, :edit, contest), class: "btn btn-default btn-xs" %>
+            <%= link "Delete", to: admin_contest_path(@conn, :delete, contest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+          </td>
+        </tr>
+    <% end %>
   </tbody>
 </table>
 

@@ -7,7 +7,7 @@
     <th>Actions</th>
   </tr>
   <%= for answer <- @answers do %>
-      <tr>
+    <tr class="clickable-row" data-href="<%= answer_path(@conn, :show, answer) %>">
         <td><%= answer.problem.title %></td>
         <td><%= answer.result %></td>
         <td><%= answer.status %></td>

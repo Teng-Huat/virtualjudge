@@ -28,6 +28,4 @@ import "./problem"
 import "./html_beautifier"
 import "./clipboard"
 
-
-
-
+import "./clickable_row"

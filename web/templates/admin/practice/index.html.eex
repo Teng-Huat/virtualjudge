@@ -7,7 +7,7 @@
     </tr>
   </thead>
 <%= for practice <- @practices do %>
-  <tr>
+  <tr class="clickable-row" data-href="<%= admin_problem_path(@conn, :show, practice) %>">
     <td><%= practice.name %></td>
     <td>
       <%= link "Show", to: admin_practice_path(@conn, :show, practice), class: "btn btn-default btn-xs" %>
