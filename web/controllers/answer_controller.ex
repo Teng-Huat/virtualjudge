@@ -8,6 +8,7 @@ defmodule VirtualJudge.AnswerController do
     page =
       user
       |> assoc(:answers)
+      |> order_by(desc: :inserted_at)
       |> preload(:problem)
       |> Repo.paginate(%{page: page_number})
     render conn, "index.html", answers: page.entries, page: page

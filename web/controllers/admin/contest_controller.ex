@@ -42,6 +42,7 @@ defmodule VirtualJudge.Admin.ContestController do
     page =
       Answer
       |> where(contest_id: ^id)
+      |> order_by(desc: :inserted_at)
       |> preload(:problem)
       |> preload(:user)
       |> Repo.paginate(%{page: page_number})

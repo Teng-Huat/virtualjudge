@@ -25,6 +25,7 @@ defmodule VirtualJudge.ContestController do
     answers =
       contest
       |> assoc(:answers)
+      |> order_by(desc: :inserted_at)
       |> preload(:problem)
       |> where(user_id: ^conn.assigns.current_user.id)
       |> Repo.all()
