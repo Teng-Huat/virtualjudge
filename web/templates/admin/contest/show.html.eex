@@ -39,6 +39,31 @@
   </div>
 </div>
 
-<%= link "Export contest results", to: admin_contest_path(@conn, :export, @contest) %> |
-<%= link "Edit", to: admin_contest_path(@conn, :edit, @contest) %> |
-<%= link "Back", to: admin_contest_path(@conn, :index) %>
+<p><%= link "Export contest results", to: admin_contest_path(@conn, :export, @contest), class: "btn btn-primary" %></p>
+
+
+<table class="table">
+  <tr>
+    <th>Problem</th>
+    <th>User's Name</th>
+    <th>Result</th>
+    <th>Status</th>
+    <th>Submitted</th>
+  </tr>
+  <%= for answer <- @page.entries do %>
+    <tr>
+      <td><%= answer.problem.title %></td>
+      <td><%= answer.user.name %></td>
+      <td><%= answer.result %></td>
+      <td><%= answer.status %></td>
+      <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+    </tr>
+  <% end %>
+</table>
+
+<center>
+  <%= if @page.total_pages != 1 do %>
+    <%= pagination_links @page %>
+  <% end %>
+</center>
+
