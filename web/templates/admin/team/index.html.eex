@@ -1,0 +1,27 @@
+<h1>Listing teams</h1>
+
+<div class="row">
+  <div class="col-md-3 col-md-offset-9">
+    <%= form_for @changeset, admin_team_path(@conn, :create), [class: "form-inline"], fn f -> %>
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+      <%= label f, :name, class: "control-label sr-only" %>
+      <%= text_input f, :name, class: "form-control", placeholder: "Enter team name" %>
+      <%= submit "Create", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<br />
+
+<ul class="list-group">
+  <%= for team <- @teams do %>
+    <li class="list-group-item">
+      <%= team.name %>
+      <%= link "Delete", to: admin_team_path(@conn, :delete, team), method: :delete, class: "btn btn-xs btn-danger pull-right" %>
+    </li>
+  <% end %>
+</ul>

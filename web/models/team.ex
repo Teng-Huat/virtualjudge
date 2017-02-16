@@ -4,7 +4,7 @@ defmodule VirtualJudge.Team do
   schema "teams" do
     field :name, :string
 
-    has_many :users, VirtualJudge.User
+    has_many :users, VirtualJudge.User, on_delete: :nilify_all
     timestamps()
   end
 

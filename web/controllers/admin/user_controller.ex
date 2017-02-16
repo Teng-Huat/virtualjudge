@@ -3,7 +3,6 @@ defmodule VirtualJudge.Admin.UserController do
   alias VirtualJudge.User
   alias VirtualJudge.Team
 
-  require IEx
   def index(conn, _params) do
     users =
       User
