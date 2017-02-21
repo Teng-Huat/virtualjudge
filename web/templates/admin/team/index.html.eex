@@ -20,8 +20,13 @@
 <ul class="list-group">
   <%= for team <- @teams do %>
     <li class="list-group-item">
-      <%= team.name %>
+      <b class="list-group-item-heading"><%= team.name %></b>
       <%= link "Delete", to: admin_team_path(@conn, :delete, team), method: :delete, class: "btn btn-xs btn-danger pull-right" %>
+      <ul>
+      <%= for user <- team.users do %>
+        <li><%= link user.name, to: admin_user_path(@conn, :edit, user) %></li>
+      <% end %>
+      </ul>
     </li>
   <% end %>
 </ul>

@@ -5,6 +5,7 @@ defmodule VirtualJudge.Admin.TeamController do
   def index(conn, _params) do
     teams =
       Team
+      |> preload(:users)
       |> Repo.all()
 
     changeset = Team.changeset(%Team{})

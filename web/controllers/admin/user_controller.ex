@@ -10,10 +10,7 @@ defmodule VirtualJudge.Admin.UserController do
       |> order_by([:inserted_at])
       |> Repo.all()
 
-    teams =
-      Team
-      |> Repo.all()
-    render conn, "index.html", users: users, teams: teams
+    render conn, "index.html", users: users
   end
 
   def edit(conn, %{"id" => id}) do
