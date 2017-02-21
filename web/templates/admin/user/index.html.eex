@@ -25,7 +25,6 @@
           <td><%= user.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
           <td><%= signed_up(user) %></td>
           <td>
-            <%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-xs btn-primary" %>
             <%= link "Delete", to: admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-danger" %>
           </td>
         </tr>

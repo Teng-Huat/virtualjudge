@@ -1,6 +1,7 @@
 defmodule VirtualJudge.Admin.TeamController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.Team
+  alias VirtualJudge.User
 
   def index(conn, _params) do
     teams =
@@ -8,8 +9,13 @@ defmodule VirtualJudge.Admin.TeamController do
       |> preload(:users)
       |> Repo.all()
 
+    teamless_users =
+      User
+      |> where([u], is_nil(u.team_id))
+      |> Repo.all
+
     changeset = Team.changeset(%Team{})
-    render conn, "index.html", teams: teams, changeset: changeset
+    render conn, "index.html", teams: teams, teamless_users: teamless_users, changeset: changeset
   end
 
   def create(conn, %{"team" => team_params}) do

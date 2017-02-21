@@ -37,7 +37,7 @@ defmodule VirtualJudge.Admin.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: admin_user_path(conn, :index))
+        |> redirect(to: admin_team_path(conn, :index))
       {:error, _changeset} ->
         teams = Repo.all(Team)
         render(conn, "edit.html", user: user, teams: teams, changeset: changeset)

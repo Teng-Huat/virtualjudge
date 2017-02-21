@@ -29,4 +29,15 @@
       </ul>
     </li>
   <% end %>
+
+  <%= if @teamless_users != [] do %>
+    <li class="list-group-item">
+      <b class="list-group-item-heading">Users without teams</b>
+      <ul>
+        <%= for user <- @teamless_users do %>
+          <li><%= link user.name, to: admin_user_path(@conn, :edit, user) %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
 </ul>

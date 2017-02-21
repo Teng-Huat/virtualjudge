@@ -10,7 +10,7 @@
   <% end %>
   <div class="form-group">
     <%= label f, :team_id, class: "control-label" %>
-    <%= select f, :team_id, @teams |> Enum.map(&{&1.name, &1.id}), prompt: "Select team" %>
+    <%= select f, :team_id, @teams |> Enum.map(&{&1.name, &1.id}), prompt: "No team" %>
     <%= error_tag f, :team_id %>
   </div>
   <%= submit "Submit", class: "btn btn-primary" %>
