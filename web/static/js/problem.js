@@ -56,3 +56,17 @@ if(document.getElementById('answer_body')!= null) {
     return false;
   };
 }
+
+// answer upload button binding to put contents to answer_body textarea
+if (document.getElementById("answer-upload-button")){
+  let input = document.getElementById("answer-upload-button")
+  input.addEventListener("change", function(event){
+    console.log('change')
+    let reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById('answer_body').value = e.target.result;
+    }
+    console.log(input)
+    reader.readAsText(input.files[0]);
+  })
+}

@@ -35,7 +35,7 @@ defmodule VirtualJudge.Admin.InvitationController do
         |> build_assoc(:users)
         |> User.invitation_changeset(%{email: email, name: name})
         |> Repo.insert!()
-      {user, _} -> nil
+      {_user, _} -> nil
     end
   end
 end
