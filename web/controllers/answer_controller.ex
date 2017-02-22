@@ -45,7 +45,8 @@ defmodule VirtualJudge.AnswerController do
     case Repo.insert(changeset) do
       {:ok, answer} ->
         {:ok, worker} = VirtualJudge.WorkRouter.route(problem.source, :submit)
-        {:ok, _ack} = Exq.enqueue(Exq, "default", worker, [answer.id])
+        {:ok, queue} = VirtualJudge.QueueRouter.route(problem.source)
+        {:ok, _ack} = Exq.enqueue(Exq, queue, worker, [answer.id])
         conn
         |> put_flash(:info, "Answer created successfully.")
         |> redirect(to: answer_path(conn, :show, answer))
