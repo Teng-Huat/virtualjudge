@@ -21,6 +21,22 @@ defmodule VirtualJudge.Admin.InvitationController do
     |> redirect(to: page_path(conn, :index))
   end
 
+  def resend_invitation(conn, %{"id" => id}) do
+    case Repo.get!(User, id) do
+      %{invitation_token: nil} ->
+        conn
+        |> put_flash(:error, "Sorry, user has already signed up")
+        |> redirect(to: admin_user_path(conn, :index))
+      %{invitation_token: _token} = user ->
+        VirtualJudge.Email.invitation_email(conn, user)
+        |> VirtualJudge.Mailer.deliver_later()
+
+        conn
+        |> put_flash(:info, "Email resent!")
+        |> redirect(to: admin_user_path(conn, :index))
+    end
+  end
+
   defp insert_if_new_email(%{"email" => email, "name" => name, "team" => team}) do
     case {Repo.get_by(User, email: email), Repo.get_by(Team, name: team)} do
       {nil, nil} ->

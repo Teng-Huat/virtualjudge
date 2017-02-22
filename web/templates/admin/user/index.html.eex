@@ -26,6 +26,9 @@
           <td><%= signed_up(user) %></td>
           <td>
             <%= link "Delete", to: admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-danger" %>
+            <%= if not VirtualJudge.User.signed_up?(user) do %>
+              <%= link "Resend invite", to: admin_invitation_path(@conn, :resend_invitation, user), method: :put, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-warning" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

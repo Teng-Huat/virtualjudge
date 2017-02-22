@@ -55,6 +55,7 @@ defmodule VirtualJudge.Router do
     pipe_through [:browser] # Use the default browser stack
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
+    put "/invite/:id", InvitationController, :resend_invitation
 
     resources "/user", UserController, except: [:show]
     resources "/team", TeamController, only: [:index, :create, :delete]
