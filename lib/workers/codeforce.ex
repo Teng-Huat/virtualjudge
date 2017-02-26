@@ -179,7 +179,7 @@ defmodule CodeForce do
     case result do
       "Running on " <> _test_xx ->
         # when the results is still "Running"
-        :timer.sleep(5000) # delay 10 seconds
+        :timer.sleep(5000) # delay 5 seconds
         retrieve_latest_result(username) # recursively run
       _ -> result # all other results, return it upwards
     end
