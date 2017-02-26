@@ -73,10 +73,17 @@ defmodule Fzu do
   end
 
   def retrieve_latest_result(username) do
-    __MODULE__.get!("/log.php?user=" <> username).body
+    result = __MODULE__.get!("/log.php?user=" <> username).body
     |> Floki.find("table tr td")
     |> Enum.at(2)
     |> Floki.text()
+    case result do
+      "Queuing" <> _dots ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 5 seconds
+        retrieve_latest_result(username) # recursively run
+      _ -> result # all other results, return it upwards
+    end
   end
 
   def get_problem_id("http://acm.fzu.edu.cn/problem.php?pid=" <> id), do: id
