@@ -18,6 +18,7 @@ defmodule VirtualJudge.Router do
   scope "/", VirtualJudge do
     pipe_through [:browser] # Use the default browser stack
     get "/", PageController, :index
+    get "/help", PageController, :help
     resources "/sign_up", RegistrationController, only: [:new, :create]
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
