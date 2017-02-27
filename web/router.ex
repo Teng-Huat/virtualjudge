@@ -10,6 +10,16 @@ defmodule VirtualJudge.Router do
     plug VirtualJudge.Auth, repo: VirtualJudge.Repo
   end
 
+  pipeline :user do
+    plug :authenticate_user
+    plug VirtualJudge.Authorize, scope: :user
+  end
+
+  pipeline :admin do
+    plug :authenticate_user
+    plug VirtualJudge.Authorize, scope: :admin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -32,7 +42,7 @@ defmodule VirtualJudge.Router do
 
   # normal user authenticated scope
   scope "/", VirtualJudge do
-    pipe_through [:browser, :authenticate_user] # Use the default browser stack
+    pipe_through [:browser, :user]
     resources "/problem", ProblemController, only: [:show]
     resources "/answer", AnswerController, only: [:index, :show]
 
@@ -53,7 +63,7 @@ defmodule VirtualJudge.Router do
 
   # admin scope
   scope "/admin", VirtualJudge.Admin, as: :admin do
-    pipe_through [:browser] # Use the default browser stack
+    pipe_through [:browser, :admin]
     get "/invite", InvitationController, :new
     post "/invite", InvitationController, :create
     put "/invite/:id", InvitationController, :resend_invitation

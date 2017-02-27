@@ -22,7 +22,6 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
 <a href="http://www.phoenixframework.org/" target="_blank">Phoenix framework</a>.
 </p>
 
-
 <hr />
 <div class="row marketing">
   <div class="col-lg-3">
@@ -48,7 +47,7 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
     <h4>Help</h4>
     <ul>
       <li>
-        Help page
+        <%= link "Help page", to: page_path(@conn, :help) %>
       </li>
       <li>
         <a href="https://groups.google.com/forum/#!forum/ntu-icpc" target="_blank">NTU ICPC Google groups</a>

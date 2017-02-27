@@ -2,7 +2,6 @@ defmodule VirtualJudge.Admin.InvitationController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
   alias VirtualJudge.Team
-  plug VirtualJudge.Authorize, [model: User] when action in [:new, :create]
 
   def new(conn, _params) do
     render(conn, "new.html")

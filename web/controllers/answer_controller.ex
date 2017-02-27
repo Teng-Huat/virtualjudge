@@ -16,9 +16,10 @@ defmodule VirtualJudge.AnswerController do
 
   def index(conn, _params, user), do: index(conn, %{"page" => 1}, user)
 
-  def show(conn, %{"id" => id}, _user) do
+  def show(conn, %{"id" => id}, user) do
     answer =
-      Answer
+      user
+      |> assoc(:answers)
       |> preload(:problem)
       |> Repo.get!(id)
     render conn, "show.html", answer: answer
