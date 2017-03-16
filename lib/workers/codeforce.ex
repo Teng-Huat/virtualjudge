@@ -112,6 +112,7 @@ defmodule CodeForce do
                 |> Floki.find("select[name=programTypeId] option")
                 |> Enum.map(fn {_option, [{"value", value}], [lang]} -> [value, lang]
                                {_option, [{"selected", "selected"}, {"value", value}], [lang]} -> [value, lang]
+                               {_option, [{"value", value}, {"selected", "selected"}], [lang]} -> [value, lang]
                                {_option, [{"value",value}, {"selected", "true"}], [lang]} -> [value, lang] end)
                 |> Enum.map(fn([value, lang]) -> %{name: lang, value: value} end)
 
