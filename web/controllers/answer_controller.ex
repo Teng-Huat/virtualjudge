@@ -4,6 +4,8 @@ defmodule VirtualJudge.AnswerController do
   alias VirtualJudge.Problem
   alias VirtualJudge.Answer
 
+  plug :check_contest when action in [:create]
+
   def index(conn, %{"page" => page_number}, user) do
     page =
       user
@@ -55,6 +57,19 @@ defmodule VirtualJudge.AnswerController do
         conn
         |> put_flash(:error, "Opps, something wrong happened")
         |> redirect(to: problem_path(conn, :show, problem))
+    end
+  end
+
+  defp check_contest(%{params: %{"answer" => %{"contest_id" => ""}}} = conn, _opts), do: conn
+  defp check_contest(%{params: %{"answer" => %{"contest_id" => id}}} = conn, _opts) do
+    contest = Repo.get!(VirtualJudge.Contest, id)
+    if VirtualJudge.Contest.joinable?(contest) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Opps, you can't submit a answer to a contest that is not joinable")
+      |> redirect(to: page_path(conn, :index))
+      |> halt()
     end
   end
 
