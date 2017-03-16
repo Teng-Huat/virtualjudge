@@ -156,14 +156,21 @@ defmodule CodeChef do
   end
 
   def retrieve_latest_result(username) do
-    __MODULE__.get!("/recent/user?page=0&user_handle=" <> username)
-      |> Map.fetch!(:body)
-      |> Poison.decode!()
-      |> Map.fetch!("content")
-      |> Floki.find("tbody tr span")
-      |> Enum.at(0)
-      |> Floki.attribute("title")
-      |> List.to_string()
+    result = __MODULE__.get!("/recent/user?page=0&user_handle=" <> username)
+             |> Map.fetch!(:body)
+             |> Poison.decode!()
+             |> Map.fetch!("content")
+             |> Floki.find("tbody tr span")
+             |> Enum.at(0)
+             |> Floki.attribute("title")
+             |> List.to_string()
+
+      case result do
+        "running.." ->
+          :timer.sleep(5000) # delay 5 seconds
+          retrieve_latest_result(username) # recursively run
+        _ -> result
+      end
   end
 
   @doc """
