@@ -15,16 +15,16 @@ defmodule VirtualJudge.ContestChannel do
   end
 
   def handle_in("new_problem", %{"url" => url} = params, socket) do
+    push socket, "job_processing", params
     problem = Repo.get_by(Problem, source: url)
     if problem do
       push socket, "job_done", params
     else
-      # problem not found in database, send the job to codechef worker
+      # problem not found in database
       "contest:" <> user_id = socket.topic
       {:ok, worker} = VirtualJudge.WorkRouter.route(url, :scrape)
       {:ok, queue} = VirtualJudge.QueueRouter.route(url)
       {:ok, _ack} = Exq.enqueue(Exq, queue, worker, [url, user_id])
-      push socket, "job_processing", params
     end
     {:noreply, socket}
   end
