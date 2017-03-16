@@ -29,9 +29,11 @@ defmodule VirtualJudge.Contest do
   end
 
   def still_open(query) do
-    now = Calendar.DateTime.now_utc
+    now = Calendar.DateTime.now!("Singapore") |> Calecto.DateTime.cast!()
     from c in query,
-    where: c.end_time > type(^now, Calecto.DateTime)
+    where:
+    type(^now, Calecto.DateTime) > c.start_time
+    and type(^now, Calecto.DateTime) < c.end_time
   end
 
   @doc """

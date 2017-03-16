@@ -10,6 +10,13 @@ defmodule VirtualJudge.DateTime do
   """
   def cast(string) when is_binary(string) do
     case Regex.run(~r/^([0-9]+)\/([0-9]+)\/([0-9]+)\s([0-9]+):([0-9]+)\s(AM|PM)$/, string) do
+      [_match, month, day, year, "12", min, "AM"] ->
+        Calecto.DateTime.cast(%{"year"=>year,
+                              "month"=>month,
+                              "day"=>day,
+                              "hour"=> "0",
+                              "minute"=>min,
+                              "time_zone" => "Singapore"})
       [_match, month, day, year, hour, min, "AM"] ->
         Calecto.DateTime.cast(%{"year"=>year,
                               "month"=>month,

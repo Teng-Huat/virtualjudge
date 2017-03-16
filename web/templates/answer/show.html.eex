@@ -26,4 +26,7 @@
   </tr>
 </table>
 
-<%= link "Back", to: answer_path(@conn, :index) %>
+<%= if @answer.contest_id do %>
+  <%= link "Contest", to: contest_path(@conn, :show, @answer.contest_id) %> |
+<% end %>
+<%= link "List of submitted answers", to: answer_path(@conn, :index) %>
