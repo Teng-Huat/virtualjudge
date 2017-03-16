@@ -27,6 +27,16 @@ Then edit it to your own likings and binding to your OS
 redis-cli flushdb # resets the redisdb
 ```
 
+To re-submit an answer
+```
+require Ecto.Query
+answer = VirtualJudge.Answer|> Ecto.Query.preload(:problem)|> VirtualJudge.Repo.get(35) # 26 is the answer id
+
+{:ok, worker} = VirtualJudge.WorkRouter.route(answer.problem.source, :submit)
+{:ok, queue} = VirtualJudge.QueueRouter.route(answer.problem.source)
+{:ok, _ack} = Exq.enqueue(Exq, queue, worker, [answer.id])
+```
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
