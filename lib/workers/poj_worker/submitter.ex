@@ -23,7 +23,7 @@ defmodule PojWorker.Submitter do
       :error -> "Answer too long/short"
       :success ->
         :timer.sleep(@wait_time)
-        CodeForce.retrieve_latest_result(username)
+        Poj.retrieve_latest_result(username)
       _ -> "Unknown error, contact sys admin"
     end
 

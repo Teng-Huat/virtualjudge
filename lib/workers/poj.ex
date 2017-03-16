@@ -136,7 +136,7 @@ defmodule Poj do
       __MODULE__.post!("/submit",
                        {:form, [problem_id: problem_id,
                                   language: language_val,
-                                  source: answer,
+                                  source: Base.encode64(answer),
                                   submit: "Submit",
                                   encoded: "1"
                                 ]
