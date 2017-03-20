@@ -47,6 +47,7 @@
     <th>Problem</th>
     <th>User's Name</th>
     <th>Result</th>
+    <th>Programming language</th>
     <th>Status</th>
     <th>Submitted</th>
   </tr>
@@ -55,6 +56,7 @@
       <td><%= answer.problem.title %></td>
       <td><%= answer.user.name %></td>
       <td><%= answer.result %></td>
+      <td><%= answer.programming_language.name %></td>
       <td><%= answer.status %></td>
       <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
     </tr>

@@ -2,6 +2,7 @@
   <tr>
     <th>Problem</th>
     <th>Result</th>
+    <th>Programming language</th>
     <th>Status</th>
     <th>Submitted</th>
     <th>Actions</th>
@@ -10,6 +11,7 @@
     <tr class="clickable-row" data-href="<%= answer_path(@conn, :show, answer) %>">
         <td><%= answer.problem.title %></td>
         <td><%= answer.result %></td>
+        <td><%= answer.programming_language.name %></td>
         <td><%= answer.status %></td>
         <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
         <td>

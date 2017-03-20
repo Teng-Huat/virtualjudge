@@ -43,7 +43,21 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
     </ul>
   </div>
 
-  <div class="col-lg-6">
+  <div class="col-lg-3">
+    <h4>Useful links</h4>
+    <ul>
+      <li><a target="_blank" href="http://www.comp.nus.edu.sg/~stevenha/">Dr Steven Halim Homepage</a></li>
+      <li><a target="_blank" href="https://www.udebug.com/">Hints from various online judges</a></li>
+      <li><a target="_blank" href="http://stanford.edu/class/cs97si/">Stanford ICPC course info</a></li>
+      <li><a target="_blank" href="https://uva.onlinejudge.org/index.php?option=com_content&task=view&id=15&Itemid=30">How to submit in ICPC format</a></li>
+      <li><a target="_blank" href="https://www.hackerearth.com/practice">Hackerearth</a></li>
+      <li><a target="_blank" href="https://www.codechef.com/wiki/sample-solutions">Codechef sample solutions wiki</a></li>
+      <li><a target="_blank" href="https://www.youtube.com/channel/UCmk2YHXZQk_3GsLKBqsZoBQ">YouTube tutorials</a></li>
+      <li><a target="_blank" href="http://codeforces.com/blog/entry/43230">MO algorithm on trees tutorial</a></li>
+    </ul>
+  </div>
+
+  <div class="col-lg-3">
     <h4>Help</h4>
     <ul>
       <li>
@@ -57,4 +71,6 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
       </li>
     </ul>
   </div>
+
 </div>
+
