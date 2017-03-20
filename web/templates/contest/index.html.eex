@@ -1,32 +1,5 @@
-<h2>Listing contests</h2>
+<h3>Upcoming contests</h3>
+<%= render "contest_table.html", conn: @conn, contests: @upcoming_contests %>
 
-<p>Listing all contests that are available now for you to join</p>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Start time</th>
-      <th>End time</th>
-      <th>Duration</th>
-      <th>Description</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for contest <- @contests do %>
-    <tr class="clickable-row" data-href="<%= contest_path(@conn, :show, contest) %>">
-      <td><%= contest.title %></td>
-      <td><%= contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
-      <td><%= contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
-      <td><%= contest.duration %></td>
-      <td><%= contest.description %></td>
-      <td class="text-right">
-        <%= link "View", to: contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
+<h3>Ongoing contests</h3>
+<%= render "contest_table.html", conn: @conn, contests: @contests %>

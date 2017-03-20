@@ -36,6 +36,12 @@ defmodule VirtualJudge.Contest do
     and type(^now, Calecto.DateTime) < c.end_time
   end
 
+  def upcoming(query) do
+    now = Calendar.DateTime.now!("Singapore") |> Calecto.DateTime.cast!()
+    from c in query,
+    where: type(^now, Calecto.DateTime) < c.start_time
+  end
+
   @doc """
   Takes in a `contest` struct loaded from database, and a `user` struct
 
