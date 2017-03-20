@@ -7,8 +7,13 @@ defmodule VirtualJudge.ContestController do
     contests =
       Contest
       |> Contest.still_open()
-      |> Repo.all
-    render conn, "index.html", contests: contests
+      |> Repo.all()
+
+    upcoming_contests =
+      Contest
+      |> Contest.upcoming()
+      |> Repo.all()
+    render conn, "index.html", contests: contests, upcoming_contests: upcoming_contests
   end
 
   def show(conn, %{ "id" => id }) do
