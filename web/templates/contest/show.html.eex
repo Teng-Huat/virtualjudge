@@ -14,6 +14,10 @@
         <th>Duration:</th>
         <td><%= @contest.duration %> mins</td>
       </tr>
+      <tr>
+        <th>Time left</th>
+        <td class="countdown" data-countdown="<%= Calendar.DateTime.Format.js_ms(@contest.end_time) %>">Computing..</td>
+      </tr>
     </table>
   </div>
   <div class="col-md-6">

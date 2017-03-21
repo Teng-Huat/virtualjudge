@@ -29,3 +29,4 @@ import "./html_beautifier"
 import "./clipboard"
 
 import "./clickable_row"
+import "./timeleft_timer"
