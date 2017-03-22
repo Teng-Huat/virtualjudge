@@ -1,6 +1,5 @@
 <div class="page-header">
   <h1><%= @problem.title %></h1>
-  <%= @problem.source %>
 </div>
 
 <%= render VirtualJudge.SharedView, "problem_iframe.html", problem: @problem %>

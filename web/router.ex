@@ -75,6 +75,7 @@ defmodule VirtualJudge.Router do
     get "/contest/export/:id", ContestController, :export
     resources "/practice", PracticeController
     resources "/problem", ProblemController
+    resources "/answer", AnswerController, only: [:show]
   end
 
   # Other scopes may use custom stacks.

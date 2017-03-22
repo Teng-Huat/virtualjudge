@@ -2,7 +2,8 @@
   <h1>Answer for <small><%= @answer.problem.title %></small></h1>
 </div>
 
-<h2>You submitted:</h2>
+
+<h2>Submitted:</h2>
 <div class="panel panel-default">
   <div class="panel-body">
     <%= text_to_html(@answer.body) %>
@@ -11,14 +12,27 @@
 
 <h3>More information</h3>
 <table class="table">
+
   <tr>
-    <th>Problem link: </th>
-    <td><%= link "Problem link", to: problem_path(@conn, :show, @answer.problem) %></td>
+    <th>Submitted by:</th>
+    <td><%= @answer.user.name %></td>
   </tr>
+
+  <tr>
+    <th>Email:</th>
+    <td><%= @answer.user.email %></td>
+  </tr>
+
   <tr>
     <th>Programming language selected:</th>
     <td><%= @answer.programming_language.name %></td>
   </tr>
+
+  <tr>
+    <th>Problem link: </th>
+    <td><%= link "Problem link", to: problem_path(@conn, :show, @answer.problem) %></td>
+  </tr>
+
   <tr>
     <th>Status:</th>
     <td> <%= @answer.status %></td>
@@ -28,8 +42,3 @@
     <td> <%= @answer.result %></td>
   </tr>
 </table>
-
-<%= if @answer.contest_id do %>
-  <%= link "Contest", to: contest_path(@conn, :show, @answer.contest_id) %> |
-<% end %>
-<%= link "List of submitted answers", to: answer_path(@conn, :index) %>

@@ -29,7 +29,7 @@
         <ul>
           <%= for problem <- @contest.problems do %>
             <li>
-              <%= link problem.title, to: problem_path(@conn, :show, problem) %>
+              <%= link problem.title, to: admin_problem_path(@conn, :show, problem) %>
               | ID (<%= problem.id %>)
             </li>
           <% end %>
@@ -52,7 +52,7 @@
     <th>Submitted</th>
   </tr>
   <%= for answer <- @page.entries do %>
-    <tr>
+    <tr class="clickable-row" data-href="<%= admin_answer_path(@conn, :show, answer) %>">
       <td><%= answer.problem.title %></td>
       <td><%= answer.user.name %></td>
       <td><%= answer.result %></td>
