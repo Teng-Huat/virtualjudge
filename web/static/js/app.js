@@ -30,3 +30,5 @@ import "./clipboard"
 
 import "./clickable_row"
 import "./timeleft_timer"
+import "./answer_textarea"
+

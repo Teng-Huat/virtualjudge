@@ -9,15 +9,18 @@
   <div class="form-group">
 
     <%= label f, :body, class: "control-label" %>
-    <%= textarea f, :body,
-          class: "form-control",
-          rows: 10,
-          # to enable tabs in textarea
-          onkeydown: "if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" %>
+    <%= textarea f, :body, class: "form-control",rows: 10 %>
     <%= error_tag f, :body %>
   </div>
 
-  <p id="status">File API &amp; FileReader API not supported</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p id="status">File API &amp; FileReader API not supported</p>
+    </div>
+    <div class="col-md-6">
+      <p class="pull-right">Hit Ctrl-Enter to submit answer</p>
+    </div>
+  </div>
 
   <%= inputs_for f, :programming_language, fn i -> %>
     <div class="form-group">
