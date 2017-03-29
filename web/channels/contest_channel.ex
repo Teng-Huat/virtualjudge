@@ -22,10 +22,14 @@ defmodule VirtualJudge.ContestChannel do
     else
       # problem not found in database
       "contest:" <> user_id = socket.topic
-      {:ok, worker} = VirtualJudge.WorkRouter.route(url, :scrape)
-      {:ok, queue} = VirtualJudge.QueueRouter.route(url)
-      {:ok, _ack} = Exq.enqueue(Exq, queue, worker, [url, user_id])
+      with {:ok, worker} <- VirtualJudge.WorkRouter.route(url, :scrape),
+            {:ok, queue} <- VirtualJudge.QueueRouter.route(url) do
+        {:ok, _ack} = Exq.enqueue(Exq, queue, worker, [url, user_id])
+      else
+        {:error, _reason} -> push socket, "job_error", params
+      end
     end
+
     {:noreply, socket}
   end
 
