@@ -12,7 +12,10 @@
     <td>
       <%= link "Show", to: admin_practice_path(@conn, :show, practice), class: "btn btn-default btn-xs" %>
       <%= link "Edit", to: admin_practice_path(@conn, :edit, practice), class: "btn btn-default btn-xs" %>
-      <%= link "Delete", to: admin_practice_path(@conn, :delete, practice), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+
+<%= form_for @conn, admin_practice_path(@conn, :delete, practice), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
+    <%= submit "Delete", class: "btn btn-danger btn-xs" %>
+<% end %>
     </td>
   </tr>
 <% end %>

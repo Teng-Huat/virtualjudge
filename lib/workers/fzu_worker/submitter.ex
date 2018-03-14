@@ -26,7 +26,7 @@ defmodule FzuWorker.Submitter do
 
       :timer.sleep(@wait_time)
 
-      result = Fzu.retrieve_latest_result(username)
+      result = Fzu.retrieve_latest_result(username, cookie_string)
 
       answer = Answer.submitted_changeset(answer, %{result: result})
       Repo.update!(answer)

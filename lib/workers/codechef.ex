@@ -165,12 +165,29 @@ defmodule CodeChef do
              |> Floki.attribute("title")
              |> List.to_string()
 
-      case result do
+
+    case result do
+      "compilation error" <> _test_xx ->
+        finalresult = __MODULE__.get!("/status.php?id=" <> username).body
+        |> Map.fetch!(:body)
+        |> Poison.decode!()
+        |> Map.fetch!("content")
+        |> Floki.find("tbody tr span")
+        |> Enum.at(0)
+        |> Floki.raw_html()
+
+      finalresult = String.replace(finalresult, "/view", "https://www.codechef.com/view")
+      finalresult = String.replace(finalresult, "_blank", "")
+IO.puts(finalresult)
+      finalresult
+
         "running.." ->
           :timer.sleep(5000) # delay 5 seconds
           retrieve_latest_result(username) # recursively run
         _ -> result
-      end
+    end
+
+
   end
 
   @doc """

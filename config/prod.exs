@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :virtual_judge, VirtualJudge.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "172.21.148.174", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production

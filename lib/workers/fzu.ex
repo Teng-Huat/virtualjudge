@@ -72,18 +72,29 @@ defmodule Fzu do
     __MODULE__.post!("/submit.php?act=5", {:form, form_data}, [{"Cookie", cookie}])
   end
 
-  def retrieve_latest_result(username) do
-    result = __MODULE__.get!("/log.php?user=" <> username).body
+  def retrieve_latest_result(username, cookie) do
+    result = __MODULE__.get!("/log.php?user=" <> username, [{"Cookie", cookie}]).body
     |> Floki.find("table tr td")
     |> Enum.at(2)
     |> Floki.text()
+
     case result do
+      "Compile Error" <> _test_xx ->
+        finalresult = __MODULE__.get!("/log.php?user=" <> username, [{"Cookie", cookie}]).body
+        |> Floki.find("table tr td")
+        |> Enum.at(2)
+        |> Floki.raw_html()
+
+      finalresult = String.replace(finalresult, "ce.php", "http://acm.fzu.edu.cn/ce.php")
+      finalresult
+
       "Queuing" <> _dots ->
         # when the results is still "Running"
         :timer.sleep(5000) # delay 5 seconds
-        retrieve_latest_result(username) # recursively run
+        retrieve_latest_result(username, cookie) # recursively run
       _ -> result # all other results, return it upwards
     end
+
   end
 
   def get_problem_id("http://acm.fzu.edu.cn/problem.php?pid=" <> id), do: id

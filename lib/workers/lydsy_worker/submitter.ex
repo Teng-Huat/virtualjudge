@@ -26,7 +26,7 @@ defmodule LydsyWorker.Submitter do
 
       :timer.sleep(@wait_time)
 
-      result = Lydsy.retrieve_latest_result(username)
+      result = Lydsy.retrieve_latest_result(username, cookie_string)
 
       answer = Answer.submitted_changeset(answer, %{result: result})
       Repo.update!(answer)

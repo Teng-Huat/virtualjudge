@@ -6,7 +6,7 @@
 
 <hr />
 
-<h2>Submit a answer</h2>
+<h2>Submit an answer</h2>
 <%= render VirtualJudge.SharedView, "answer_form.html",
                                     problem: @problem,
                                     action: contest_problem_answer_path(@conn, :create, @contest, @problem),

@@ -131,6 +131,8 @@ defmodule CodeForce do
     # get necessary informations
     resp = __MODULE__.get!(answer_url, [{"cookie", cookies}])
 
+IO.puts("CODEFORCE Cookie: " <> cookies)
+
     csrf_token =
       resp.body
       |> Floki.find("input[name=csrf_token]")
@@ -177,13 +179,20 @@ defmodule CodeForce do
     |> Floki.find("td.status-cell")
     |> Enum.at(0)
     |> Floki.text()
+
     case result do
+#      "Compilation error" <> _test_xx ->
+#        finalresult = resp.body
+#        |> Floki.find("div.information-box div pre")
+#        |> Enum.at(0)
+#        |> Floki.text()
       "Running on " <> _test_xx ->
         # when the results is still "Running"
         :timer.sleep(5000) # delay 5 seconds
         retrieve_latest_result(username) # recursively run
       _ -> result # all other results, return it upwards
     end
+
   end
 
   def get_relative_path(@endpoint <> relative_path), do: relative_path

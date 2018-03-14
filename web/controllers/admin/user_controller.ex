@@ -4,10 +4,12 @@ defmodule VirtualJudge.Admin.UserController do
   alias VirtualJudge.Team
 
   def index(conn, _params) do
+
     users =
       User
+      |> join(:left, [u], t in assoc(u, :team))
       |> preload(:team)
-      |> order_by([:inserted_at])
+      |> order_by([u, t], [t.name, u.name])
       |> Repo.all()
 
     render conn, "index.html", users: users

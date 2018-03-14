@@ -1,4 +1,18 @@
-<%= form_for @changeset, @action, [onsubmit: "return confirm('Do you really want to submit the answer?');"], fn f -> %>
+<script>
+window.onload = function () {
+    var editor = CodeMirror.fromTextArea($("#code")[0], {
+        lineNumbers: true,
+        lineWrapping: true,
+    });
+
+    $("#ansForm").submit(function(e){
+		var value = editor.getValue();
+                $("#code").val(value);
+	});
+};
+</script>
+
+<%= form_for @changeset, @action, [id: "ansForm", onsubmit: "return confirm('Do you really want to submit the answer?');"], fn f -> %>
   <%= hidden_input f, :contest_id %>
 
   <div class="form-group">
@@ -9,7 +23,7 @@
   <div class="form-group">
 
     <%= label f, :body, class: "control-label" %>
-    <%= textarea f, :body, class: "form-control",rows: 10 %>
+    <%= textarea f, :body, class: "form-control", id: "code", rows: 10 %>
     <%= error_tag f, :body %>
   </div>
 

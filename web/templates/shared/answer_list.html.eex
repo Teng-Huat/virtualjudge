@@ -10,7 +10,10 @@
   <%= for answer <- @answers do %>
     <tr class="clickable-row" data-href="<%= answer_path(@conn, :show, answer) %>">
         <td><%= answer.problem.title %></td>
-        <td><%= answer.result %></td>
+        <td><iframe id="problem-sandbox" sandbox src=""
+                                     srcdoc="<%= answer.result %>"
+                                     frameborder="0"
+                                     width="100%"></iframe></td>
         <td><%= answer.programming_language.name %></td>
         <td><%= answer.status %></td>
         <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
@@ -19,7 +22,9 @@
             <%= link "Problem link", to: problem_path(@conn, :show, answer.problem), class: "btn btn-default btn-xs" %>
           <% end %>
           <%= if @link_type == :contest_problem_path do %>
-            <%= link "View and resubmit", to: contest_problem_path(@conn, :show, answer.contest_id, answer.problem), class: "btn btn-default btn-xs" %>
+            <%= if answer.result != "Accepted" do %>
+              <%= link "View and resubmit", to: contest_problem_path(@conn, :show, answer.contest_id, answer.problem), class: "btn btn-default btn-xs" %>
+            <% end %>
           <% end %>
           <%= link "More info", to: answer_path(@conn, :show, answer), class: "btn btn-default btn-xs" %>
         </td>

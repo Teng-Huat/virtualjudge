@@ -28,7 +28,7 @@ defmodule ZojWorker.Submitter do
 
       :timer.sleep(@wait_time)
 
-      result = Zoj.retrieve_latest_result(username)
+      result = Zoj.retrieve_latest_result(username, cookies)
 
       answer = Answer.submitted_changeset(answer, %{result: result})
       Repo.update!(answer)

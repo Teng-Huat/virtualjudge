@@ -11,10 +11,14 @@
 <div class="row">
   <div class="col-md-12">
     <%= link "Edit problem", to: admin_problem_path(@conn, :edit, @problem), class: "btn btn-primary" %>
-
-    <%= link "Delete problem", to: admin_problem_path(@conn, :delete, @problem), class: "btn btn-danger", method: "delete", data: [confirm: "Are you sure?"]%>
+  </div>
+  <div class="col-md-12">
+<%= form_for @conn, admin_problem_path(@conn, :delete, @problem), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
+    <%= submit "Delete problem", class: "btn btn-danger" %>
+<% end %>
   </div>
 </div>
+
 <hr />
 <%= render VirtualJudge.SharedView, "problem_iframe.html", problem: @problem %>
 <hr />

@@ -19,12 +19,16 @@ defmodule VirtualJudge.User do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
+
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :bio, :password])
+    |> cast(params, [:email, :name, :bio, :password])
     |> validate_password_policy()
     |> put_change(:type, "user")
     |> put_password_hash()
+    |> validate_required([:email])
+    |> unique_constraint(:email)
+    |> update_change(:email, &String.downcase/1)
   end
 
   def admin_edit_changeset(struct, params \\ %{}) do

@@ -37,6 +37,7 @@ defmodule VirtualJudge.Admin.ContestController do
     contest =
       Contest
       |> preload(:problems)
+      |> preload(:users)
       |> Repo.get!(id)
 
     page =
@@ -47,7 +48,14 @@ defmodule VirtualJudge.Admin.ContestController do
       |> preload(:user)
       |> Repo.paginate(%{page: page_number})
 
-    render(conn, "show.html", contest: contest, page: page)
+    answers =
+      Answer
+      |> where(contest_id: ^id)
+      |> preload(:problem)
+      |> preload(:user)
+      |> Repo.all()
+
+    render(conn, "show.html", contest: contest, page: page, answers: answers)
   end
 
   def show(conn, %{"id" => id}), do: show(conn, %{"page" => 1, "id" => id})

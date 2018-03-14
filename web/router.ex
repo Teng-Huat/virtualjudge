@@ -52,7 +52,7 @@ defmodule VirtualJudge.Router do
       end
     end
 
-    put "/contest/:id", ContestController, :join
+    post "/contest/:id", ContestController, :join
 
     resources "/practice", PracticeController, only: [:index] do
       resources "/problem", ProblemController, only: [:show] do
@@ -69,12 +69,19 @@ defmodule VirtualJudge.Router do
     put "/invite/:id", InvitationController, :resend_invitation
 
     resources "/user", UserController, except: [:show]
+    post "/user/:id", UserController, :delete
     resources "/team", TeamController, only: [:index, :create, :delete]
+    post "/team/:id", TeamController, :delete
     get "/export", UserController, :export
+    get "/problem/export", ProblemController, :export
     resources "/contest", ContestController
+    post "/contest/:id", ContestController, :delete
     get "/contest/export/:id", ContestController, :export
     resources "/practice", PracticeController
+    post "/practice/:id", PracticeController, :delete
     resources "/problem", ProblemController
+    post "/problem", ProblemController, :filter
+    post "/problem/:id", ProblemController, :delete
     resources "/answer", AnswerController, only: [:show]
   end
 

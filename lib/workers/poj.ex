@@ -131,7 +131,7 @@ defmodule Poj do
   """
   def submit_answer(problem_url, answer, language_val, cookie_string) do
     "/problem?id=" <> problem_id = problem_url
-
+IO.puts("POJ COOKIE: " <> cookie_string)
     %{status_code: status_code} =
       __MODULE__.post!("/submit",
                        {:form, [problem_id: problem_id,
@@ -161,11 +161,36 @@ defmodule Poj do
   "Compile Error"
   """
   def retrieve_latest_result(username) do
-    __MODULE__.get!("/status?user_id=#{username}").body
-    |> Floki.find(".a tr")
-    |> Enum.at(1) # no css selectors, using position
-    |> Floki.find("td")
-    |> Enum.at(3) # no css selectors, using position
-    |> Floki.text()
+    resp = __MODULE__.get!("/status?user_id=#{username}")
+    result = resp.body
+     |> Floki.find(".a tr")
+     |> Enum.at(1) # no css selectors, using position
+     |> Floki.find("td")
+     |> Enum.at(3) # no css selectors, using position
+     |> Floki.text()
+
+
+    case result do
+      "Compile Error" <> _test_xx ->
+        finalresult = resp.body
+         |> Floki.find(".a tr")
+         |> Enum.at(1) # no css selectors, using position
+         |> Floki.find("td")
+         |> Enum.at(3) # no css selectors, using position
+         |> Floki.raw_html()
+
+      finalresult = String.replace(finalresult, "showcompileinfo", "http://poj.org/showcompileinfo")
+      finalresult = String.replace(finalresult, "_blank", "")
+      finalresult
+
+      "Running" <> _test_xx ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 5 seconds
+        retrieve_latest_result(username) # recursively run
+      _ -> result # all other results, return it upwards
+    end
+
+
+
   end
 end

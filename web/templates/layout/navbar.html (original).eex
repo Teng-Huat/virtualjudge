@@ -1,0 +1,44 @@
+<header class="header">
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link "Virtual Judge 2.0", to: page_path(@conn, :index), class: "navbar-brand" %>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <%= if @current_user && @current_user.type == "admin" do %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin dashboard <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link "View all problems", to: admin_problem_path(@conn, :index) %></li>
+              <li><%= link "Manage invitations", to: admin_invitation_path(@conn, :new) %></li>
+              <li><%= link "Manage users", to: admin_user_path(@conn, :index) %></li>
+              <li><%= link "Manage teams", to: admin_team_path(@conn, :index) %></li>
+              <li><%= link "Manage contests", to: admin_contest_path(@conn, :index) %></li>
+              <li><%= link "Manage practices", to: admin_practice_path(@conn, :index) %></li>
+            </ul>
+          </li>
+        <% end %>
+
+        <li><%= link "Practice", to: practice_path(@conn, :index) %></li>
+        <li><%= link "Contests", to: contest_path(@conn, :index) %></li>
+        <li><%= link "Submitted answers", to: answer_path(@conn, :index) %></li>
+        <%= if @current_user do %>
+          <li><%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
+          <%= else %>
+          <li><%= link("Sign in", to: session_path(@conn, :new)) %></li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+</header>

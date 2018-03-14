@@ -108,10 +108,10 @@ defmodule Lydsy do
     |> Map.get("id")
   end
 
-  def retrieve_latest_result(username) do
-    resp = __MODULE__.get!("/JudgeOnline/status.php?user_id=" <> username)
+  def retrieve_latest_result(username, cookie) do
+    resp = __MODULE__.get!("/JudgeOnline/status.php?user_id=" <> username, [{"Cookie", cookie}])
 
-    resp.body
+    result = resp.body
     |> Floki.find("table")
     |> Enum.at(2)
     |> Floki.find("tr")
@@ -119,5 +119,31 @@ defmodule Lydsy do
     |> Floki.find("td font")
     |> Enum.at(0)
     |> Floki.text()
+
+
+    case result do
+      "Compile_Error" <> _test_xx ->
+        finalresult = resp.body
+        |> Floki.find("table")
+        |> Enum.at(2)
+        |> Floki.find("tr")
+        |> Enum.at(1)
+        |> Floki.find("td a")
+        |> Enum.at(2)
+        |> Floki.raw_html()
+
+      finalresult = String.replace(finalresult, "ceinfo.php", "http://www.lydsy.com/JudgeOnline/ceinfo.php")
+      finalresult
+
+      "Running" <> _test_xx ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 5 seconds
+        retrieve_latest_result(username, cookie) # recursively run
+      _ -> result # all other results, return it upwards
+    end
+
+
+
+
   end
 end

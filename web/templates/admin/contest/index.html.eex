@@ -24,7 +24,10 @@
           <td class="text-right">
             <%= link "Show", to: admin_contest_path(@conn, :show, contest), class: "btn btn-default btn-xs" %>
             <%= link "Edit", to: admin_contest_path(@conn, :edit, contest), class: "btn btn-default btn-xs" %>
-            <%= link "Delete", to: admin_contest_path(@conn, :delete, contest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+
+<%= form_for @conn, admin_contest_path(@conn, :delete, contest), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
+    <%= submit "Delete", class: "btn btn-danger btn-xs" %>
+<% end %>
           </td>
         </tr>
     <% end %>

@@ -5,6 +5,14 @@ defmodule VirtualJudge.WorkRouter do
   Returns the worker modules associated with it
   """
   def route("https://www.codechef.com/" <> _path),         do: do_valid_url(CodechefWorker)
+  def route("http://codeforces.com/problemset/" <> _path), do: do_valid_url(CodeforceWorker)
+  def route("http://codeforces.com/gym/" <> _path),        do: do_valid_url(CodeforceGymWorker)
+  def route("http://acm.hdu.edu.cn/" <> _path),            do: do_valid_url(ACMHDU)
+  def route("https://a2oj.com/" <> _path),                 do: do_valid_url(A2OJ)
+  def route("http://www.spoj.com/" <> _path),              do: do_valid_url(SPOJ)
+  def route("http://lightoj.com/" <> _path),               do: do_valid_url(LightOJ)
+  def route("http://acm.sgu.ru/" <> _path),                do: do_valid_url(ACMSGU)
+  def route("https://www.urionlinejudge.com.br/judge/en/" <> _path),              do: do_valid_url(URIOJ)
   def route("http://codeforces.com/" <> _path),            do: do_valid_url(CodeforceWorker)
   def route("http://poj.org/" <> _path),                   do: do_valid_url(PojWorker)
   def route("http://acm.zju.edu.cn/" <> _path),            do: do_valid_url(ZojWorker)

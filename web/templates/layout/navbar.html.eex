@@ -29,6 +29,7 @@
           </li>
         <% end %>
 
+        <li><%= link "Register", to: registration_path(@conn, :new) %></li>
         <li><%= link "Practice", to: practice_path(@conn, :index) %></li>
         <li><%= link "Contests", to: contest_path(@conn, :index) %></li>
         <li><%= link "Submitted answers", to: answer_path(@conn, :index) %></li>

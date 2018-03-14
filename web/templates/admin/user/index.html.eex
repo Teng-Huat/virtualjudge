@@ -18,14 +18,17 @@
         <th>Actions</th>
       </tr>
       <%= for user <- @users do %>
-        <tr>
+        <tr class="clickable-row" data-href="<%= admin_user_path(@conn, :edit, user) %>">
           <td><%= user.email %></td>
           <td><%= user.name %></td>
           <td><%= if user.team, do: user.team.name, else: "Not assigned" %></td>
           <td><%= user.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
           <td><%= signed_up(user) %></td>
           <td>
-            <%= link "Delete", to: admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-danger" %>
+<%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %>
+<%= form_for @conn, admin_user_path(@conn, :delete, user), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
+    <%= submit "Delete", class: "btn btn-xs btn-danger" %>
+<% end %>
             <%= if not VirtualJudge.User.signed_up?(user) do %>
               <%= link "Resend invite", to: admin_invitation_path(@conn, :resend_invitation, user), method: :put, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-warning" %>
             <% end %>

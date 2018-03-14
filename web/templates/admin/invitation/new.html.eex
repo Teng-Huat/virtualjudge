@@ -11,7 +11,7 @@
 To export an excel worksheet as a CSV file, follow the following steps:
 <ol>
   <li>Click `File` &gt; `Save as`</li>
-  <li>Under filw format, select `CSV UFT-8(Comma delimited)`</li>
+  <li>Under file format, select `CSV UFT-8(Comma delimited)`</li>
   <li>Choose the file location</li>
   <li>Click `Save`</li>
 </ol>

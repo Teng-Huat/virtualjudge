@@ -1,3 +1,12 @@
+<script>
+window.onload = function () {
+    var editor = CodeMirror.fromTextArea($("#code")[0], {
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
+    });
+};
+</script>
 <div class="page-header">
   <h1>Answer for <small><%= @answer.problem.title %></small></h1>
 </div>
@@ -5,7 +14,8 @@
 <h2>You submitted:</h2>
 <div class="panel panel-default">
   <div class="panel-body">
-    <%= text_to_html(@answer.body) %>
+    <textarea id="code" class="form-control"><%= @answer.body %></textarea>
+<!--    <%= text_to_html(@answer.body) %>-->
   </div>
 </div>
 
@@ -25,7 +35,10 @@
   </tr>
   <tr>
     <th>Result:</th>
-    <td> <%= @answer.result %></td>
+    <td><iframe id="problem-sandbox" sandbox src=""
+                                     srcdoc="<%= @answer.result %>"
+                                     frameborder="0"
+                                     width="100%"></iframe></td>
   </tr>
 </table>
 

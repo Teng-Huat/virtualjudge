@@ -134,10 +134,29 @@ defmodule Timus do
 
     resp = __MODULE__.get!("/status.aspx?count=1&author=" <> judge)
 
-    resp.body
+    result = resp.body
     |> Floki.find("tr.even td")
     |> Enum.at(5)
     |> Floki.text()
+
+
+    case result do
+      "Compilation error" <> _test_xx ->
+        finalresult = resp.body
+        |> Floki.find("tr.even td")
+        |> Enum.at(5)
+        |> Floki.raw_html()
+IO.puts(finalresult)
+      finalresult = String.replace(finalresult, "ce.aspx", "http://acm.timus.ru/ce.aspx")
+      finalresult
+
+      "Running" <> _test_xx ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 5 seconds
+        retrieve_latest_result(judge_id) # recursively run
+      _ -> result # all other results, return it upwards
+    end
+
   end
 
 end

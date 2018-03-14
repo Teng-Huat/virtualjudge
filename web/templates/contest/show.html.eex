@@ -38,7 +38,11 @@
 
 <%= if not @joined and VirtualJudge.Contest.joinable?(@contest) do %>
   <center>
-    <%= link "Join contest", to: contest_path(@conn, :join, @contest), method: :put, class: "btn btn-primary btn-lg" %>
+
+<%= form_for @conn, contest_path(@conn, :join, @contest), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
+    <%= submit "Join contest", class: "btn btn-primary btn-lg" %>
+<% end %>
+
   </center>
 <% end %>
 

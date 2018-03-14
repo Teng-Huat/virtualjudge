@@ -103,8 +103,15 @@ defmodule Zoj do
     {title, problem, languages, source}
   end
 
+
+  def get_problem_id("http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=" <> id), do: id
+  def get_problem_id("/onlinejudge/showProblem.do?problemCode=" <> id), do: id
+  def get_problem_id("http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemId=" <> id), do: id
+  def get_problem_id("/onlinejudge/showProblem.do?problemId=" <> id), do: id
+
+
   def submit_answer(problem_url, answer, language_val, cookie_string) do
-    "/onlinejudge/showProblem.do?problemCode=" <> problem_id = problem_url
+    problem_id = get_problem_id(problem_url)
 
     form_data = [problemId: problem_id,
                  languageId: language_val,
@@ -123,15 +130,34 @@ defmodule Zoj do
   iex> Zoj.retrieve_latest_result("steve0hh")
   "Wrong Answer"
   """
-  def retrieve_latest_result(username) do
+  def retrieve_latest_result(username, cookie_string) do
 
-    resp = __MODULE__.get!("/onlinejudge/showRuns.do?contestId=1&handle=" <> username)
+    resp = __MODULE__.get!("/onlinejudge/showRuns.do?contestId=1&handle=" <> username, [{"Cookie", cookie_string}])
 
-    resp.body
+    result = resp.body
     |> Floki.find(".judgeReplyOther")
     |> Enum.at(0)
     |> Floki.text()
     |> String.strip()
+
+    case result do
+      "Compilation Error" <> _test_xx ->
+        finalresult = resp.body
+        |> Floki.find(".judgeReplyOther")
+        |> Enum.at(0)
+        |> Floki.raw_html()
+IO.puts(finalresult)
+      finalresult = String.replace(finalresult, "/onlinejudge/", "http://acm.zju.edu.cn/onlinejudge/")
+      finalresult
+
+      "Running" <> _test_xx ->
+        # when the results is still "Running"
+        :timer.sleep(5000) # delay 5 seconds
+        retrieve_latest_result(username, cookie_string) # recursively run
+      _ -> result # all other results, return it upwards
+    end
+
+
   end
 
   defp find_cookies_to_set(headers) do
