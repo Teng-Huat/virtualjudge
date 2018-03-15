@@ -63,7 +63,6 @@ defmodule VirtualJudge.Admin.ProblemController do
   end
 
   def delete(conn, %{"id" => id}) do
-IO.puts("coming")
     problem = Repo.get!(Problem, id)
     Repo.delete!(problem)
 

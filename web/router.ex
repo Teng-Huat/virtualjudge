@@ -31,6 +31,7 @@ defmodule VirtualJudge.Router do
     get "/help", PageController, :help
     resources "/sign_up", RegistrationController, only: [:new, :create]
     resources "/sign_in", SessionController, only: [:new, :create, :delete]
+    get "/sign_in/:id", SessionController, :delete
     get "/sign_up/:id/:invitation_token", RegistrationController, :edit
     put "/sign_up/:id/:invitation_token", RegistrationController, :update
     # reset password routes
