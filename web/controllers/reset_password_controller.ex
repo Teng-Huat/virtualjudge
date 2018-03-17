@@ -1,6 +1,8 @@
 defmodule VirtualJudge.ResetPasswordController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
+  alias SendGrid.{Mailer, Email}
+  alias VirtualJudge.Router.Helpers
 
   def new(conn, _params) do
     render conn, "new.html"
@@ -13,8 +15,26 @@ defmodule VirtualJudge.ResetPasswordController do
 
     user = Repo.update!(changeset)
 
-    VirtualJudge.Email.reset_pw_email(conn, user)
-    |> VirtualJudge.Mailer.deliver_later
+    email_body = """
+    Hello,
+
+    <p>Please follow this <a href='#{Helpers.reset_password_url(conn, :edit, user, user.reset_password_token)}'>link</a> to reset your password</p>
+    <p>Note that you've to be in NTU's network to access the server</p>
+
+    Thank you.
+    """
+
+    email = 
+      Email.build()
+      |> Email.put_from("admin@icpc.ntu.edu.sg")
+      |> Email.add_to(user.email)
+      |> Email.put_subject("Your reset password link")
+      |> Email.put_html(email_body)
+
+    Mailer.send(email)
+
+#    VirtualJudge.Email.reset_pw_email(conn, user)
+#    |> VirtualJudge.Mailer.deliver_later
 
     conn
     |> put_flash(:info, "Reset password token successfully sent!")

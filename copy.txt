@@ -1,3 +1,11 @@
+MailChimp: ea9d3ba5980dedb2f52868b1cc1fb7fa-us12
+
+
+
+RUBY, Sendgrid: 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
+
+cURL, Sendgrid: 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
+
 #AAE2AB no-repeat center/75% url("/images/standings/check.svg")
 
 #F67B51 no-repeat center/75% url("/images/standings/cross.svg")

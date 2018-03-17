@@ -16,13 +16,13 @@ defmodule Bamboo.MandrillHelper do
 
       email
       |> put_param(email, "track_opens", true)
-      |> put_param(email, "mege_vars", "merge_vars": [
+      |> put_param(email, "merge_vars", [
         %{
           rcpt: "recipient.email@example.com",
           vars: [
             %{
-              "name": "merge2",
-              "content": "merge2 content"
+              "name": "first_name",
+              "content": "John Doe"
             }
           ]
         }
@@ -33,6 +33,59 @@ defmodule Bamboo.MandrillHelper do
   end
   def put_param(email, key, value) do
     email |> Email.put_private(:message_params, %{}) |> put_param(key, value)
+  end
+
+  @doc """
+  Set merge_vars that are used by Mandrill 
+
+  ## Example
+
+      email
+      |> put_merge_vars(users, fn(user) -> %{first_name: user.first_name} end)
+
+  A convenience function for: 
+
+      email
+      |> put_param(email, "merge_vars", [
+        %{
+          rcpt: "user1@example.com",
+          vars: [
+            %{
+              "name": "full_name",
+              "content": "User 1"
+            }
+          ]
+        },
+        %{
+          rcpt: "user2@example.com",
+          vars: [
+            %{
+              "name": "full_name",
+              "content": "User 2"
+            }
+          ]
+        }
+      ])
+  """
+  def put_merge_vars(email, enumerable, fun) do
+    merge_vars = Enum.map(enumerable, fn(e) ->
+      %{
+        rcpt: e.email,
+        vars: merge_vars(e, fun)
+      }
+    end)
+
+    email |> put_param("merge_vars", merge_vars)
+  end
+
+  defp merge_vars(e, fun) do
+    fun.(e)
+    |> Enum.map(fn({ key, value }) ->
+      %{
+        "name": to_string(key),
+        "content": value
+      }
+    end)
   end
 
   @doc """

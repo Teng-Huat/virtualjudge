@@ -57,14 +57,15 @@ defmodule VirtualJudge.Mixfile do
      {:comeonin, "~> 2.5"},
      {:csv, "~> 1.4.2"},
      {:secure_random, "~> 0.5"},
-     {:bamboo, "~> 0.7.0"},
+     {:bamboo, "~> 0.8.0"},
      {:canada, "~>1.0.0"},
      {:scrivener_ecto, "~> 1.0"},
      {:scrivener_html, "~> 1.1"},
      {:calecto, "~> 0.16.0"},
      {:exq, "~> 0.8.2"},
      {:briefly, "~> 0.3"},
-     {:httpoison, "~> 0.11.0"}
+     {:httpoison, "~> 0.11.0"},
+     {:sendgrid, "~> 1.8.0"}
    ]
   end
 

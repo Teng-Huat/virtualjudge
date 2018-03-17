@@ -27,6 +27,10 @@ defmodule Bamboo.SendgridAdapter do
   defmodule ApiError do
     defexception [:message]
 
+    def exception(%{message: message}) do
+      %ApiError{message: message}
+    end
+
     def exception(%{params: params, response: response}) do
       filtered_params = params |> Plug.Conn.Query.decode |> Map.put("key", "[FILTERED]")
 
@@ -57,11 +61,15 @@ defmodule Bamboo.SendgridAdapter do
   def deliver(email, config) do
     api_key = get_key(config)
     body = email |> to_sendgrid_body |> Plug.Conn.Query.encode
+    url = [base_uri(), @send_message_path]
 
-    case HTTPoison.post!(base_uri <> @send_message_path, body, headers(api_key)) do
-      %{status_code: status} = response when status > 299 ->
+    case :hackney.post(url, headers(api_key), body, [:with_body]) do
+      {:ok, status, _headers, response} when status > 299 ->
         raise(ApiError, %{params: body, response: response})
-      response -> response
+      {:ok, status, headers, response} ->
+        %{status_code: status, headers: headers, body: response}
+      {:error, reason} ->
+        raise(ApiError, %{message: inspect(reason)})
     end
   end
 
@@ -107,6 +115,7 @@ defmodule Bamboo.SendgridAdapter do
     |> put_subject(email)
     |> put_html_body(email)
     |> put_text_body(email)
+    |> maybe_put_x_smtp_api(email)
   end
 
   defp put_from(body, %Email{from: {"", address}}), do: Map.put(body, :from, address)
@@ -146,6 +155,32 @@ defmodule Bamboo.SendgridAdapter do
 
   defp put_text_body(body, %Email{text_body: nil}), do: body
   defp put_text_body(body, %Email{text_body: text_body}), do: Map.put(body, :text, text_body)
+
+  defp maybe_put_x_smtp_api(body, %Email{private: %{"x-smtpapi" => fields}} = email) do
+    # SendGrid will error with empty bodies, even while using templates.
+    # Sets a default `text_body` and 'html_body' if either are not specified,
+    # allowing the consumer to neglect doing so themselves.
+    body = if is_nil(email.text_body) do
+      put_text_body(body, %Email{email | text_body: " "})
+    else
+      body
+    end
+
+    body = if is_nil(email.html_body) do
+      put_html_body(body, %Email{email | html_body: " "})
+    else
+      body
+    end
+
+    body = if is_nil(email.subject) do
+      put_subject(body, %Email{email | subject: " "})
+    else
+      body
+    end
+
+    Map.put(body, "x-smtpapi", Poison.encode!(fields))
+  end
+  defp maybe_put_x_smtp_api(body, _), do: body
 
   defp put_addresses(body, field, addresses), do: Map.put(body, field, addresses)
   defp put_names(body, field, names) do

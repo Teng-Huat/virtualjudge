@@ -30,10 +30,12 @@ and have had no issues. It's also pretty simple to [create your own adapter]. Fe
 to open an issue or a PR if you'd like to add a new adapter to the list.
 
 * `Bamboo.MailgunAdapter` - Ships with Bamboo. Thanks to [@princemaple].
+* `Bamboo.MailjetAdapter` - See [moxide/bamboo_mailjet](https://github.com/moxide/bamboo_mailjet).
 * `Bamboo.MandrillAdapter` - Ships with Bamboo.
 * `Bamboo.SendgridAdapter` - Ships with Bamboo.
 * `Bamboo.SMTPAdapter` - See [fewlinesco/bamboo_smtp](https://github.com/fewlinesco/bamboo_smtp).
 * `Bamboo.SparkPostAdapter` - See [andrewtimberlake/bamboo_sparkpost](https://github.com/andrewtimberlake/bamboo_sparkpost).
+* `Bamboo.PostmarkAdapter` - See [pablo-co/bamboo_postmark](https://github.com/pablo-co/bamboo_postmark).
 * `Bamboo.LocalAdapter` - Ships with Bamboo. Stores email in memory. Great for local development.
 * `Bamboo.TestAdapter` - Ships with Bamboo. Use in your test environment.
 
@@ -57,7 +59,7 @@ config :my_app, MyApp.Mailer,
   ```elixir
   def deps do
     # Get from hex
-    [{:bamboo, "~> 0.7"}]
+    [{:bamboo, "~> 0.8"}]
     # Or use the latest from master
     [{:bamboo, github: "thoughtbot/bamboo"}]
   end
@@ -94,7 +96,7 @@ defmodule MyApp.Mailer do
 end
 
 # Define your emails
-defmodule MyApp.Email do
+defmodule MyApp.Emails do
   import Bamboo.Email
 
   def welcome_email do
@@ -131,16 +133,15 @@ Bamboo offers `deliver_later` on your mailers to send emails in the background s
 By default delivering later uses [`Bamboo.TaskSupervisorStrategy`](https://hexdocs.pm/bamboo/Bamboo.TaskSupervisorStrategy.html). This strategy sends the email right away, but does so in the background without linking to the calling process, so errors in the mailer won't bring down your app.
 
 If you need something more custom you can
-can create a strategy with [Bamboo.DeliverLaterStrategy](https://hex.pm/packages/bamboo). For example, you could create strategies
+create a strategy with [`Bamboo.DeliverLaterStrategy`](https://hexdocs.pm/bamboo/Bamboo.DeliverLaterStrategy.html). For example, you could create strategies
 for adding emails to a background processing queue such as [exq](https://github.com/akira/exq) or [toniq](https://github.com/joakimk/toniq).
-
-[Bamboo.DeliverLaterStrategy]: https://hexdocs.pm/bamboo/Bamboo.DeliverLaterStrategy.html
 
 ## Composing with Pipes (for default from address, default layouts, etc.)
 
 ```elixir
 defmodule MyApp.Emails do
   import Bamboo.Email
+  import Bamboo.Phoenix
 
   def welcome_email do
     base_email
@@ -206,6 +207,12 @@ Mandrill offers extra features on top of regular SMTP email like tagging, merge
 vars, templates, and scheduling emails to send in the future. See
 [Bamboo.MandrillHelper](https://hexdocs.pm/bamboo/Bamboo.MandrillHelper.html).
 
+## SendGrid Specific Functionality (templates and substitution tags)
+
+SendGrid offers extra features on top of regular SMTP email like transactional
+templates with substitution tags. See
+[Bamboo.SendgridHelper](https://hexdocs.pm/bamboo/Bamboo.SendgridHelper.html).
+
 ## Heroku Configuration
 
 If you are deploying to Heroku, you will need to ensure that your configuration
@@ -248,7 +255,7 @@ defmodule MyApp.Registration do
 
     MyApp.Register(user)
 
-    assert_delivered_email MyApp.Email.welcome_email(user)
+    assert_delivered_email MyApp.Emails.welcome_email(user)
   end
 end
 ```

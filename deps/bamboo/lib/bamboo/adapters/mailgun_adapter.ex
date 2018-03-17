@@ -27,6 +27,10 @@ defmodule Bamboo.MailgunAdapter do
   defmodule ApiError do
     defexception [:message]
 
+    def exception(%{message: message}) do
+      %ApiError{message: message}
+    end
+
     def exception(%{params: params, response: response}) do
       message = """
       There was a problem sending the email through the Mailgun API.
@@ -47,10 +51,13 @@ defmodule Bamboo.MailgunAdapter do
   def deliver(email, config) do
     body = email |> to_mailgun_body |> Plug.Conn.Query.encode
 
-    case HTTPoison.post!(full_uri(config), body, headers(config)) do
-      %{status_code: status} = response when status > 299 ->
+    case :hackney.post(full_uri(config), headers(config), body, [:with_body]) do
+      {:ok, status, _headers, response} when status > 299 ->
         raise(ApiError, %{params: body, response: response})
-      response -> response
+      {:ok, status, headers, response} ->
+        %{status_code: status, headers: headers, body: response}
+      {:error, reason} ->
+        raise(ApiError, %{message: inspect(reason)})
     end
   end
 
@@ -85,16 +92,14 @@ defmodule Bamboo.MailgunAdapter do
     Base.encode64("api:" <> config.api_key)
   end
 
-  @mailgun_message_fields ~w(from to cc bcc subject text html)a
-
   defp to_mailgun_body(%Email{} = email) do
     email
     |> Map.from_struct
     |> combine_name_and_email
     |> put_html_body(email)
     |> put_text_body(email)
-    |> Map.take(@mailgun_message_fields)
-    |> remove_empty_fields
+    |> put_headers(email)
+    |> filter_non_empty_mailgun_fields
   end
 
   defp combine_name_and_email(map) when is_map(map) do
@@ -114,16 +119,27 @@ defmodule Bamboo.MailgunAdapter do
     end
   end
 
-  defp remove_empty_fields(params) do
-    Enum.reject(params, fn {_k, v} -> v in [nil, "", []] end)
-  end
-
   defp put_html_body(body, %Email{html_body: html_body}), do: Map.put(body, :html, html_body)
 
   defp put_text_body(body, %Email{text_body: text_body}), do: Map.put(body, :text, text_body)
 
+  defp put_headers(body, %Email{headers: headers}) do
+    Enum.reduce(headers, body, fn({key, value}, acc) ->
+      Map.put(acc, :"h:#{key}", value) 
+    end)
+  end
+
+  @mailgun_message_fields ~w(from to cc bcc subject text html)a
+
+  def filter_non_empty_mailgun_fields(map) do
+    Enum.filter(map, fn({key, value}) ->
+      # Key is a well known mailgun field or is an header field and its value is not empty
+      (key in @mailgun_message_fields || String.starts_with?(Atom.to_string(key), "h:")) && !(value in [nil, "", []]) 
+    end)
+  end
+
   defp full_uri(config) do
-    (Application.get_env(:bamboo, :mailgun_base_uri) || @base_uri)
+    Application.get_env(:bamboo, :mailgun_base_uri, @base_uri)
     <> config.domain <> "/messages"
   end
 end

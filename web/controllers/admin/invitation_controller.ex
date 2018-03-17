@@ -2,6 +2,8 @@ defmodule VirtualJudge.Admin.InvitationController do
   use VirtualJudge.Web, :controller
   alias VirtualJudge.User
   alias VirtualJudge.Team
+  alias SendGrid.{Mailer, Email}
+  alias VirtualJudge.Router.Helpers
 
   def new(conn, _params) do
     render(conn, "new.html")
@@ -13,8 +15,29 @@ defmodule VirtualJudge.Admin.InvitationController do
     |> CSV.decode(headers: true)
     |> Enum.map(&insert_if_new_email/1)
     |> Enum.each(fn (nil) -> nil
-                    (user) -> VirtualJudge.Email.invitation_email(conn, user)
-                              |> VirtualJudge.Mailer.deliver_later() end)
+                    (user) -> 
+
+email_body = """
+    Hello,
+
+    <p>Please follow this <a href='#{Helpers.registration_url(conn, :edit, user.id, user.invitation_token)}'>link</a> to create your account.</p>
+    <p>Note that you've to be in NTU's network</p>
+
+    Thank you.
+    """
+
+    email = 
+      Email.build()
+      |> Email.put_from("admin@icpc.ntu.edu.sg")
+      |> Email.add_to(user.email)
+      |> Email.put_subject("Your invitation link")
+      |> Email.put_html(email_body)
+
+    Mailer.send(email)    
+
+#VirtualJudge.Email.invitation_email(conn, user)
+#                              |> VirtualJudge.Mailer.deliver_later() 
+end)
     conn
     |> put_flash(:info, "Successfully added!")
     |> redirect(to: page_path(conn, :index))
@@ -27,8 +50,27 @@ defmodule VirtualJudge.Admin.InvitationController do
         |> put_flash(:error, "Sorry, user has already signed up")
         |> redirect(to: admin_user_path(conn, :index))
       %{invitation_token: _token} = user ->
-        VirtualJudge.Email.invitation_email(conn, user)
-        |> VirtualJudge.Mailer.deliver_later()
+
+email_body = """
+    Hello,
+
+    <p>Please follow this <a href='#{Helpers.registration_url(conn, :edit, user.id, user.invitation_token)}'>link</a> to create your account.</p>
+    <p>Note that you've to be in NTU's network</p>
+
+    Thank you.
+    """
+
+    email = 
+      Email.build()
+      |> Email.put_from("admin@icpc.ntu.edu.sg")
+      |> Email.add_to(user.email)
+      |> Email.put_subject("Your invitation link")
+      |> Email.put_html(email_body)
+
+    Mailer.send(email)    
+
+#        VirtualJudge.Email.invitation_email(conn, user)
+#        |> VirtualJudge.Mailer.deliver_later()
 
         conn
         |> put_flash(:info, "Email resent!")

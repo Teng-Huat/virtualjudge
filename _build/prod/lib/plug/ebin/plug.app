@@ -47,6 +47,6 @@
                         'Elixir.Plug.TimeoutError','Elixir.Plug.Upload',
                         'Elixir.Plug.UploadError',plug_multipart]},
               {registered,[]},
-              {vsn,"1.3.5"},
+              {vsn,"1.3.6"},
               {applications,[kernel,stdlib,elixir,crypto,logger,mime]},
               {mod,{'Elixir.Plug',[]}}]}.

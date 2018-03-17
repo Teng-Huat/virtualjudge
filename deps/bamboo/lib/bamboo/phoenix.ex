@@ -102,7 +102,7 @@ defmodule Bamboo.Phoenix do
   import Bamboo.Email, only: [put_private: 3]
 
   defmacro __using__(view: view_module) do
-    verify_phoenix_dep
+    verify_phoenix_dep()
     quote do
       import Bamboo.Email
       import Bamboo.Phoenix, except: [render: 3]
@@ -269,9 +269,9 @@ defmodule Bamboo.Phoenix do
     assigns = Map.put(email.assigns, :layout, email.private.html_layout)
 
     Phoenix.View.render_to_string(
-      email.private.view_module,
-      template,
-      assigns
+    email.private.view_module,
+    template,
+    assigns
     )
   end
 
@@ -279,9 +279,9 @@ defmodule Bamboo.Phoenix do
     assigns = Map.put(email.assigns, :layout, email.private.text_layout)
 
     Phoenix.View.render_to_string(
-      email.private.view_module,
-      template,
-      assigns
+    email.private.view_module,
+    template,
+    assigns
     )
   end
 end

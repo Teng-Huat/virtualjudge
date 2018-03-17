@@ -20,10 +20,12 @@ config :virtual_judge, VirtualJudge.Repo,
   template: "template0",
   size: 20 # The amount of database connections in the pool
 
+config :sendgrid,
+  api_key: "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"
+
 config :virtual_judge, VirtualJudge.Mailer,
   adapter: Bamboo.SendgridAdapter,
-  api_key: "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"
-
+  api_key: "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"
 
 config :virtual_judge, codechef_username: "steve0hh",
 codechef_password: "6RWCr+7ia^HtyN"

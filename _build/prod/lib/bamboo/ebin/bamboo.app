@@ -1,5 +1,5 @@
 {application,bamboo,
-             [{description,"Straightforward, powerful, and adapter based Elixir email library. Works with Mandrill, Mailgun, SendGrid, SparkPost, in-memory, and test."},
+             [{description,"Straightforward, powerful, and adapter based Elixir email library. Works with Mandrill, Mailgun, SendGrid, SparkPost, Postmark, in-memory, and test."},
               {modules,['Elixir.Bamboo','Elixir.Bamboo.Adapter',
                         'Elixir.Bamboo.DeliverLaterStrategy',
                         'Elixir.Bamboo.Email',
@@ -22,6 +22,7 @@
                         'Elixir.Bamboo.Phoenix',
                         'Elixir.Bamboo.SendgridAdapter',
                         'Elixir.Bamboo.SendgridAdapter.ApiError',
+                        'Elixir.Bamboo.SendgridHelper',
                         'Elixir.Bamboo.SentEmail',
                         'Elixir.Bamboo.SentEmail.DeliveriesError',
                         'Elixir.Bamboo.SentEmail.NoDeliveriesError',
@@ -29,6 +30,6 @@
                         'Elixir.Bamboo.Test','Elixir.Bamboo.TestAdapter',
                         'Elixir.Mix.Tasks.Bamboo.StartEmailPreview']},
               {registered,[]},
-              {vsn,"0.7.0"},
-              {applications,[kernel,stdlib,elixir,logger,httpoison,poison]},
+              {vsn,"0.8.0"},
+              {applications,[kernel,stdlib,elixir,logger,hackney,poison]},
               {mod,{'Elixir.Bamboo',[]}}]}.
