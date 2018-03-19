@@ -125,7 +125,7 @@ defmodule ACMSGU do
 
     problem_id = answer_url
     |> String.split("=")
-    |> Enum.at(2)
+    |> Enum.at(1)
 
     username = Application.get_env(:virtual_judge, :ACMSGU_username)
     password = Application.get_env(:virtual_judge, :ACMSGU_password)
@@ -154,16 +154,17 @@ defmodule ACMSGU do
   """
   def retrieve_latest_result(username) do
 
-    result = __MODULE__.get!("/status.php?id=" <> username).body
-    |> Floki.find("tr.st1")
-    |> Enum.at(0) # no css selectors, using position
-    |> Floki.find("td")
-    |> Enum.at(5) # no css selectors, using position
-    |> Floki.text()
+     resp = __MODULE__.get!("/status.php?id=" <> username)
+     result = resp.body
+      |> Floki.find("tr.st1")
+      |> Enum.at(0) # no css selectors, using position
+      |> Floki.find("td")
+      |> Enum.at(5) # no css selectors, using position
+      |> Floki.text()
 
     case result do
       "Compilation Error" <> _test_xx ->
-        finalresult = __MODULE__.get!("/status.php?id=" <> username).body
+        finalresult = resp.body
         |> Floki.find("tr.st1")
         |> Enum.at(0) # no css selectors, using position
         |> Floki.find("td")
@@ -171,7 +172,6 @@ defmodule ACMSGU do
         |> Floki.raw_html()
 
       finalresult = String.replace(finalresult, "cerror", "http://acm.sgu.ru/cerror")
-IO.puts(finalresult)
       finalresult
 
       "Queuing" <> _test_xx ->

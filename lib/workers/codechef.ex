@@ -112,12 +112,13 @@ defmodule CodeChef do
 
   defp logout_remaining_sessions(_cookie_string, 0), do: nil
   defp logout_remaining_sessions(cookie_string, n) do
+
     page_source = __MODULE__.get!("/session/limit", [{"Cookie", cookie_string}])
                   |> Map.fetch!(:body)
 
     sid =
       page_source
-      |> Floki.find("#session-limit-page input[name=sid]")
+      |> Floki.find("#session-limit-page input[type=checkbox]")
       |> Enum.at(0)
       |> Floki.attribute("value")
       |> to_string()
@@ -151,7 +152,7 @@ defmodule CodeChef do
 
   defp find_num_connected_sessions(session_limit_page_source) do
     session_limit_page_source
-    |> Floki.find("#session-limit-page input[name=sid]")
+    |> Floki.find("#session-limit-page input[type=checkbox]")
     |> Enum.count
   end
 
@@ -178,7 +179,6 @@ defmodule CodeChef do
 
       finalresult = String.replace(finalresult, "/view", "https://www.codechef.com/view")
       finalresult = String.replace(finalresult, "_blank", "")
-IO.puts(finalresult)
       finalresult
 
         "running.." ->

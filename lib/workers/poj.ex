@@ -131,7 +131,7 @@ defmodule Poj do
   """
   def submit_answer(problem_url, answer, language_val, cookie_string) do
     "/problem?id=" <> problem_id = problem_url
-IO.puts("POJ COOKIE: " <> cookie_string)
+
     %{status_code: status_code} =
       __MODULE__.post!("/submit",
                        {:form, [problem_id: problem_id,
