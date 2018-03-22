@@ -3,5 +3,5 @@
               {modules,['Elixir.Scrivener.Paginater.Atom',
                         'Elixir.Scrivener.Paginater.Ecto.Query']},
               {registered,[]},
-              {vsn,"1.0.3"},
+              {vsn,"1.3.0"},
               {applications,[kernel,stdlib,elixir,scrivener,logger]}]}.

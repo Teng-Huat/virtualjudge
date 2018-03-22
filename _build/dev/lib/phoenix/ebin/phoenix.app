@@ -68,7 +68,7 @@
                         'Elixir.Phoenix.Transports.WebSocketSerializer',
                         'Elixir.Phoenix.View']},
               {registered,[]},
-              {vsn,"1.2.1"},
+              {vsn,"1.2.5"},
               {mod,{'Elixir.Phoenix',[]}},
               {applications,[kernel,stdlib,elixir,plug,poison,logger,eex]},
               {env,[{stacktrace_depth,nil},

@@ -89,6 +89,4 @@ defmodule VirtualJudge.Admin.ProblemController do
     |> to_string
   end
 
-
-
 end

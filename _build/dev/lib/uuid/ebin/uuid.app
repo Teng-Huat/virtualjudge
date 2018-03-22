@@ -3,4 +3,4 @@
               {description,"UUID generator and utilities for Elixir.\n"},
               {modules,['Elixir.UUID']},
               {registered,[]},
-              {vsn,"1.1.6"}]}.
+              {vsn,"1.1.8"}]}.

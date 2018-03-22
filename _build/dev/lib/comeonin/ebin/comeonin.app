@@ -7,5 +7,5 @@
                         'Elixir.Comeonin.Pbkdf2.Base64',
                         'Elixir.Comeonin.Tools']},
               {registered,[]},
-              {vsn,"2.5.2"},
+              {vsn,"2.6.0"},
               {applications,[kernel,stdlib,elixir,crypto,logger]}]}.

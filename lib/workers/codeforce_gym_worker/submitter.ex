@@ -23,7 +23,6 @@ defmodule CodeforceGymWorker.Submitter do
 
     cookies = CodeForce.login(username, password)
 
-
     # submit answer
     CodeForce.submit_answer(answer_path, answer.body, answer.programming_language.value, cookies)
 

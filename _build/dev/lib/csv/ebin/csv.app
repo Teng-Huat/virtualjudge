@@ -1,6 +1,5 @@
 {application,csv,
-             [{applications,[kernel,stdlib,elixir,parallel_stream]},
-              {description,"CSV Decoding and Encoding for Elixir"},
+             [{description,"CSV Decoding and Encoding for Elixir"},
               {modules,['Elixir.CSV','Elixir.CSV.Decoder',
                         'Elixir.CSV.Decoder.RowLengthError',
                         'Elixir.CSV.Defaults','Elixir.CSV.Encode',
@@ -11,4 +10,5 @@
                         'Elixir.CSV.LineAggregator.CorruptStreamError',
                         'Elixir.CSV.Parser','Elixir.CSV.Parser.SyntaxError']},
               {registered,[]},
-              {vsn,"1.4.3"}]}.
+              {vsn,"1.4.4"},
+              {applications,[kernel,stdlib,elixir,parallel_stream]}]}.

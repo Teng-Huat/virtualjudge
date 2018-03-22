@@ -14,6 +14,6 @@
                         'Elixir.Phoenix.Tracker.Replica',
                         'Elixir.Phoenix.Tracker.State']},
               {registered,[]},
-              {vsn,"1.0.0"},
+              {vsn,"1.0.2"},
               {applications,[kernel,stdlib,elixir,logger,crypto]},
               {mod,{'Elixir.Phoenix.PubSub.Supervisor',[]}}]}.

@@ -4,6 +4,8 @@ defmodule VirtualJudge.Admin.ContestController do
   alias VirtualJudge.Problem
   alias VirtualJudge.Contest
   alias VirtualJudge.Answer
+  alias VirtualJudge.Team
+
   def index(conn, _params) do
     contests = Repo.all(Contest)
     render(conn, "index.html", contests: contests)
@@ -37,7 +39,7 @@ defmodule VirtualJudge.Admin.ContestController do
     contest =
       Contest
       |> preload(:problems)
-      |> preload(:users)
+      |> preload([:users, users: :team])
       |> Repo.get!(id)
 
     page =
@@ -52,7 +54,7 @@ defmodule VirtualJudge.Admin.ContestController do
       Answer
       |> where(contest_id: ^id)
       |> preload(:problem)
-      |> preload(:user)
+      |> preload([:user, user: :team])
       |> Repo.all()
 
     render(conn, "show.html", contest: contest, page: page, answers: answers)

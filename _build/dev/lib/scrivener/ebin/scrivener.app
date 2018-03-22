@@ -4,5 +4,5 @@
                         'Elixir.Scrivener.Config','Elixir.Scrivener.Page',
                         'Elixir.Scrivener.Paginater']},
               {registered,[]},
-              {vsn,"2.1.1"},
+              {vsn,"2.4.0"},
               {applications,[kernel,stdlib,elixir,logger]}]}.

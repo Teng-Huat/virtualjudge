@@ -1,3 +1,224 @@
+<h1>Showing contest details</h1>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-bordered">
+      <tr>
+        <th>Title:</th>
+        <td><%= @contest.title %></td>
+      </tr>
+      <tr>
+        <th>Start time:</th>
+        <td><%= @contest.start_time |> VirtualJudge.FormattingHelpers.format_datetime %></td>
+      </tr>
+      <tr>
+        <th>End time:</th>
+        <td><%= @contest.end_time |> VirtualJudge.FormattingHelpers.format_datetime %></td>
+      </tr>
+      <tr>
+        <th>Duration:</th>
+        <td><%= @contest.duration %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Problems</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <%= for problem <- @contest.problems do %>
+            <li>
+              <%= link problem.title, to: admin_problem_path(@conn, :show, problem) %>
+              | ID (<%= problem.id %>)
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p><%= link "Export contest results", to: admin_contest_path(@conn, :export, @contest), class: "btn btn-primary" %></p>
+
+
+<table class="table">
+  <tr>
+    <th>Problem</th>
+    <th>User's Name</th>
+    <th>Result</th>
+    <th>Programming language</th>
+    <th>Status</th>
+    <th>Submitted</th>
+  </tr>
+  <%= for answer <- @page.entries do %>
+    <tr class="clickable-row" data-href="<%= admin_answer_path(@conn, :show, answer) %>">
+      <td><%= answer.problem.title %></td>
+      <td><%= answer.user.name %></td>
+      <td><iframe id="problem-sandbox" sandbox src=""
+                                     srcdoc="<%= answer.result %>"
+                                     frameborder="0"
+                                     width="100%"></iframe></td>
+      <td><%= answer.programming_language.name %></td>
+      <td><%= answer.status %></td>
+      <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
+    </tr>
+  <% end %>
+</table>
+
+<!--<h2>Time Ranking Board</h2>
+<table class="table">    
+  <tr>
+    <th></th>
+      <%= for {problem, counter} <- Enum.with_index(@contest.problems, 1) do %> 
+        <th>Question <%= counter %>: <%= problem.title %></th>
+      <% end %>
+  </tr>
+  <tr>   
+  <%= for user <- @contest.users do %>
+    <th><%= user.name %></th>
+
+      <%= for problem <- @contest.problems do %>
+        <%= for answer <- @page.entries do %>
+            <%= if answer.problem.title == problem.title do %>      
+             <%= if answer.result == "Pending" && user.name == answer.user.name do %>
+             <td>Pending</td>
+             <% end %>
+             <%= if answer.result == "Accepted" && user.name == answer.user.name do %>
+           <td><%= Integer.floor_div(DateTime.diff(answer.inserted_at, @contest.start_time),60) %> minutes and <%= Integer.mod(DateTime.diff(answer.inserted_at, @contest.start_time),60) %> seconds 
+             (<%= Enum.count(@page.entries, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end) %>
+<%= if (Enum.count(@page.entries, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end)>1) do %>
+ attempts)
+             <% else %>
+attempt)
+             <% end %>
+
+</td>
+             <% end %>
+            <% end %>
+        <% end %>
+      <% end %>
+  </tr>
+  <% end %>
+</table>
+-->
+
+<h2>Score Ranking Board</h2>
+<table style="display:block;overflow-x:scroll" class="table">    
+  <tr>      
+   <th>Rank</th>
+   <th>Team Name</th>
+   <th>Username</th>
+   <th>Score</th>
+   <th>Number of Questions Solved</th>
+   <%= for {problem, counter} <- Enum.with_index(@contest.problems, 1) do %> 
+   <th><a href="/admin/problem/<%= problem.id %>">Question <%= counter %>: <%= problem.title %></a></th>
+   <% end %>
+  </tr>
+  <tr>   
+
+   <%= for {user, counter} <- Enum.with_index(Enum.sort(Enum.sort(@contest.users, &(Integer.floor_div(((Enum.count(@answers, fn(x) -> &1.name == x.user.name && Enum.member?(Enum.map(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && &1.name == x.user.name end), fn(x) -> x.problem.title end), fn(x) -> x.problem.title end), x.problem.title) end) - Enum.count(@answers, fn(x) -> x.result == "Accepted" && &1.name == x.user.name end))*20*60),60) + (Enum.sum(Enum.map(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && &1.name == x.user.name end), fn(x) -> Integer.floor_div(DateTime.diff(x.inserted_at, @contest.start_time),60) end)))) < (Integer.floor_div(((Enum.count(@answers, fn(x) -> &2.name == x.user.name && Enum.member?(Enum.map(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && &2.name == x.user.name end), fn(x) -> x.problem.title end), fn(x) -> x.problem.title end), x.problem.title) end) - Enum.count(@answers, fn(x) -> x.result == "Accepted" && &2.name == x.user.name end))*20*60),60) + (Enum.sum(Enum.map(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && &2.name == x.user.name end), fn(x) -> Integer.floor_div(DateTime.diff(x.inserted_at, @contest.start_time),60) end)))))), &((Enum.count(@answers, fn(x) -> x.result == "Accepted" && &1.name == x.user.name end)) > (Enum.count(@answers, fn(x) -> x.result == "Accepted" && &2.name == x.user.name end)))), 1) do %>
+   <th><%= counter %></th>
+   <td><%= if user.team, do: user.team.name, else: "Not assigned" %></td>
+   <td><%= user.name %></td>
+   <td><%= Integer.floor_div(((Enum.count(@answers, fn(x) -> user.name == x.user.name && Enum.member?(Enum.map(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> x.problem.title end), fn(x) -> x.problem.title end), x.problem.title) end) - Enum.count(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end))*20*60),60) + (Enum.sum(Enum.map(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> Integer.floor_div(DateTime.diff(x.inserted_at, @contest.start_time),60) end))) %>
+</td>
+   <td><%= Enum.count(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end) %> out of <%= Enum.count(@contest.problems) %> Questions</td>
+
+      <%= for {problem, counter1} <- Enum.with_index(Enum.sort_by(@contest.problems, &(&1.id)) ,1) do %>
+<td
+        <%= for {answer, counter2} <- Enum.with_index(Enum.sort_by(@answers, &(&1.problem.id)) ,0) do %>    
+
+            <%= if answer.problem.title == problem.title do %>  
+             <%= if answer.result == "Accepted" && user.name == answer.user.name do %>
+           style="background:#AAE2AB;"><%= Integer.floor_div(DateTime.diff(answer.inserted_at, @contest.start_time),60) %>
+             (<%= Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end) %>
+<%= if (Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end)>1) do %>
+ attempts)
+             <% else %>
+attempt)
+             <% end %>
+
+
+             <% else %>
+              <%= if answer.result != "Accepted" && answer.inserted_at == (Enum.max(Enum.map(Enum.filter(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end), fn(x) -> x.inserted_at end), fn -> 0 end)) && user.name == answer.user.name do %>
+              style="background:#F67B51;">Pending (<%= Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end) %>
+<%= if (Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end)>1) do %>
+ attempts)
+             <% else %>
+attempt)
+             <% end %>
+
+              <% end %>
+             <% end %>
+
+            <% end %>
+            <%= if counter2 == Enum.count(@answers) && answer.problem.title != problem.title do %>  
+            >  
+            <% end %>             
+
+        <% end %>
+</td>
+      <% end %>
+
+
+
+
+
+   </tr>
+  <% end %>
+</table>
+
+<center>
+  <%= if @page.total_pages != 1 do %>
+    <%= pagination_links @page %>
+  <% end %>
+</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%= Enum.count(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> x.problem.title end)) %>
+<%= 
+
+if Enum.count(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name && Enum.member?(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> x.problem.title end), x.problem.title) end) > 0 do
+Integer.floor_div(((Enum.count(@answers, fn(x) -> user.name == x.user.name end) - Enum.count(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end))*20*60),60) + (Enum.sum(Enum.map(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> Integer.floor_div(DateTime.diff(x.inserted_at, @contest.start_time),60) end)))
+else 
+(Enum.sum(Enum.map(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> Integer.floor_div(DateTime.diff(x.inserted_at, @contest.start_time),60) end)))
+end
+ %>
+
+
+
+
+
+
+
+
+
 MailChimp: ea9d3ba5980dedb2f52868b1cc1fb7fa-us12
 
 

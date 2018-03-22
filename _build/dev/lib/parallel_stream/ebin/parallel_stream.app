@@ -17,4 +17,4 @@
                         'Elixir.ParallelStream.Workers',
                         'Elixir.ParallelStream.Workers.Worker']},
               {registered,[]},
-              {vsn,"1.0.5"}]}.
+              {vsn,"1.0.6"}]}.

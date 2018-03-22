@@ -131,8 +131,6 @@ defmodule CodeForce do
     # get necessary informations
     resp = __MODULE__.get!(answer_url, [{"cookie", cookies}])
 
-IO.puts("CODEFORCE Cookie: " <> cookies)
-
     csrf_token =
       resp.body
       |> Floki.find("input[name=csrf_token]")

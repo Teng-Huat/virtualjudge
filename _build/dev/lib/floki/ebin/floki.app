@@ -8,5 +8,5 @@
                         'Elixir.Floki.SelectorTokenizer',
                         floki_selector_lexer]},
               {registered,[]},
-              {vsn,"0.10.0"},
+              {vsn,"0.10.1"},
               {applications,[kernel,stdlib,elixir,mochiweb_html]}]}.

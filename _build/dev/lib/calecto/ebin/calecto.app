@@ -17,5 +17,5 @@
                         'Elixir.Ecto.DataType.Time',
                         'Elixir.Mix.Tasks.Calecto.AddTypeMigration']},
               {registered,[]},
-              {vsn,"0.16.1"},
+              {vsn,"0.16.2"},
               {applications,[kernel,stdlib,elixir,logger,calendar]}]}.
