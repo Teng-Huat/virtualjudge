@@ -79,15 +79,6 @@ defmodule Fzu do
     |> Floki.text()
 
     case result do
-      "Compile Error" <> _test_xx ->
-        finalresult = __MODULE__.get!("/log.php?user=" <> username, [{"Cookie", cookie}]).body
-        |> Floki.find("table tr td")
-        |> Enum.at(2)
-        |> Floki.raw_html()
-
-      finalresult = String.replace(finalresult, "ce.php", "http://acm.fzu.edu.cn/ce.php")
-      finalresult
-
       "Queuing" <> _dots ->
         # when the results is still "Running"
         :timer.sleep(5000) # delay 5 seconds

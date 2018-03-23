@@ -137,7 +137,9 @@ attempt)
 attempt)
              <% end %>
              <% else %>
-              <%= if answer.result != "Accepted" && answer.inserted_at == (Enum.max(Enum.map(Enum.filter(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end), fn(x) -> x.inserted_at end), fn -> 0 end)) && user.name == answer.user.name do %>
+<%= if answer.inserted_at == (Enum.max(Enum.map(Enum.filter(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end), fn(x) -> x.inserted_at end), fn -> 0 end)) do %>
+
+              <%= if answer.result != "Accepted" && !(Enum.member?(Enum.map(Enum.uniq_by(Enum.filter(@answers, fn(x) -> x.result == "Accepted" && user.name == x.user.name end), fn(x) -> x.problem.title end), fn(x) -> x.problem.title end), answer.problem.title)) && user.name == answer.user.name do %>
               style="background:#F67B51;">Pending (<%= Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end) %>
 <%= if (Enum.count(@answers, fn(x) -> x.problem.title == problem.title && user.name == x.user.name end)>1) do %>
  attempts)
@@ -146,6 +148,14 @@ attempt)
              <% end %>
 
               <% end %>
+
+
+              <% end %>
+
+
+
+
+
              <% end %>
 
             <% end %>

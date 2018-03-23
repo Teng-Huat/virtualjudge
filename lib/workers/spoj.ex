@@ -191,8 +191,13 @@ defmodule SPOJ do
     |> Enum.at(0)
     |> Floki.text()
     |> String.trim()
+IO.puts(result)
 
     case result do
+      "acceptededit" <> _dots ->
+      result = String.replace(result, "acceptededit", "accepted")
+      result
+
       "compilation error" <> _dots ->
         finalresult = __MODULE__.get!("/status/" <> username <> "/", [{"cookie", cookie}]).body
         |> Floki.find("td.statusres a")
@@ -200,7 +205,6 @@ defmodule SPOJ do
         |> Floki.raw_html()
 
       finalresult = String.replace(finalresult, "/error", "http://www.spoj.com/error")
-IO.puts(finalresult)
       finalresult
 
       "Waiting" <> _dots ->
