@@ -151,8 +151,6 @@ defmodule SPOJ do
                         },
                       [{"cookie", cookie}])
     cookie <> find_cookies_to_set(post_resp.headers)
-#IO.puts("SPOJ Cookie: " <> cookie)
-
   end
 
   def submit_answer(source_url, answer, language_val, cookie) do
@@ -160,12 +158,6 @@ defmodule SPOJ do
 
  # get necessary informations
     problem_id = get_problem_id(source_url)
-
-#IO.puts("COOKIE: " <> cookie <> ".")
-#IO.puts("PROBLEM ID: " <> problem_id <> ".")
-#IO.puts("Language ID: " <> language_val <> ".")
-#IO.puts("Source URL: " <> source_url <> ".")
-
     problem_id = problem_id
     |> String.split("/")
     |> Enum.at(0)
@@ -191,7 +183,6 @@ defmodule SPOJ do
     |> Enum.at(0)
     |> Floki.text()
     |> String.trim()
-IO.puts(result)
 
     case result do
       "acceptededit" <> _dots ->

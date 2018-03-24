@@ -146,7 +146,7 @@ defmodule Zoj do
         |> Floki.find(".judgeReplyOther")
         |> Enum.at(0)
         |> Floki.raw_html()
-IO.puts(finalresult)
+
       finalresult = String.replace(finalresult, "/onlinejudge/", "http://acm.zju.edu.cn/onlinejudge/")
       finalresult
 
@@ -156,8 +156,6 @@ IO.puts(finalresult)
         retrieve_latest_result(username, cookie_string) # recursively run
       _ -> result # all other results, return it upwards
     end
-
-
   end
 
   defp find_cookies_to_set(headers) do

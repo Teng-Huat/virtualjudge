@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Virtual judge!" %></h2>
+  <h2><%= gettext "Welcome to %{name}", name: "Virtual Judge!" %></h2>
   <p class="lead">Create contests using other virtual judge systems!</p>
 </div>
 
@@ -29,8 +29,10 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
     <ul>
       <li><a href="https://www.codechef.com" target="_blank">Codechef</a></li>
       <li><a href="http://codeforces.com" target="_blank">Codeforces</a></li>
+      <li><a href="http://codeforces.com/gyms" target="_blank">Codeforces - Gym</a></li>
       <li><a href="http://poj.org/" target="_blank">POJ</a></li>
       <li><a href="http://acm.zju.edu.cn/onlinejudge/" target="_blank">ZOJ</a></li>
+      <li><a href="http://spoj.com/" target="_blank">SPOJ</a></li>
     </ul>
   </div>
   <div class="col-lg-3">
@@ -40,6 +42,8 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
       <li><a href="http://acm.hust.edu.cn/" target="_blank">HUSTOJ</a></li>
       <li><a href="http://www.lydsy.com/JudgeOnline/" target="_blank">Lydsy</a></li>
       <li><a href="http://acm.fzu.edu.cn/" target="_blank">FZU</a></li>
+      <li><a href="http://acm.hdu.edu.cn/" target="_blank">HDU</a></li>
+      <li><a href="http://acm.sgu.ru/" target="_blank">SGU</a></li>
     </ul>
   </div>
 
@@ -67,7 +71,7 @@ This application is written on <a href="http://elixir-lang.org/" target="_blank"
         <a href="https://groups.google.com/forum/#!forum/ntu-icpc" target="_blank">NTU ICPC Google groups</a>
       </li>
       <li>
-        <a href="mailto:stevettan@gmail.com" target="_blank">Bug report</a>
+        <a href="mailto:sang022@e.ntu.edu.sg" target="_blank">Bug report</a>
       </li>
     </ul>
   </div>

@@ -146,7 +146,7 @@ defmodule Timus do
         |> Floki.find("tr.even td")
         |> Enum.at(5)
         |> Floki.raw_html()
-IO.puts(finalresult)
+
       finalresult = String.replace(finalresult, "ce.aspx", "http://acm.timus.ru/ce.aspx")
       finalresult
 

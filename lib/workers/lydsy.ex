@@ -141,9 +141,5 @@ defmodule Lydsy do
         retrieve_latest_result(username, cookie) # recursively run
       _ -> result # all other results, return it upwards
     end
-
-
-
-
   end
 end
