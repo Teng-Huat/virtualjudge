@@ -1,3 +1,4 @@
+<!-- CodeMirror Script for syntax highlighter -->
 <script>
 window.onload = function () {
     var editor = CodeMirror.fromTextArea($("#code")[0], {
@@ -23,6 +24,7 @@ window.onload = function () {
   <div class="form-group">
 
     <%= label f, :body, class: "control-label" %>
+<!-- Answer display with Syntax Highlighter -->
     <%= textarea f, :body, class: "form-control", id: "code", rows: 10 %>
     <%= error_tag f, :body %>
   </div>

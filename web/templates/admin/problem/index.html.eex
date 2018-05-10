@@ -8,7 +8,7 @@
 <tr><%= link "Export", to: admin_problem_path(@conn, :export), class: "btn btn-default" %></td></tr>
 <tr>
     <%= form_for @conn, admin_problem_path(@conn, :filter), [class: "form-inline", onsubmit: "return confirm('Are you sure you want to filter?');"], fn form -> %>
- 
+ <!-- Search Filter input boxes -->
     <div class="form-group">
       <%= text_input form, :title, class: "form-control", placeholder: "Problem Title"%>
       <%= text_input form, :source, class: "form-control", placeholder: "Problem Source"%>
