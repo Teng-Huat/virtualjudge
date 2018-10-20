@@ -5,6 +5,7 @@
     </div>
   <% end %>
 
+
   <div class="form-group">
     <%= label f, :email, class: "control-label" %>
     <%= text_input f, :email, class: "form-control", readonly: true %>
@@ -38,4 +39,6 @@
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
+
+ 
 <% end %>

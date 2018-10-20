@@ -6,30 +6,31 @@
       </div>
     <% end %>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= label f, :name, class: "control-label" %>
-          <%= text_input f, :name, class: "form-control" %>
-          <%= error_tag f, :name %>
-        </div>
-      </div>
-
-      <div class="col-md-6 problem-container">
-        <div class="form-group">
-          <div class="col-md-9">
-            <input type="text" class="form-control" id="problem-input" />
-          </div>
-          <div class="col-md-3">
-            <a href="#" id="add-problem-btn" class="btn btn-primary">Add problem</a>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <%= label f, :name, class: "col-form-label col-sm-2" %>
+            <div class="col-md-8">
+              <%= text_input f, :name, class: "form-control" %>
+            </div>
+            <%= error_tag f, :name %>
           </div>
         </div>
-        <div id="problem-inputs-ctn">
-          <%= if @practice do %>
-            <%= for problem <- @practice.problems do %>
-              <input class="original-problems" type="text" value="<%= problem.source %>"/>
+        <div class="problem-container col-md-6">
+          <div class="form-group row">
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="problem-input" />
+            </div>
+              <a href="#" id="add-problem-btn" class="btn btn-primary col-md-3">Add problem</a>
+          </div>
+          <div id="problem-inputs-ctn">
+            <%= if @practice do %>
+              <%= for problem <- @practice.problems do %>
+                <input class="original-problems form-control" type="text" value="<%= problem.source %>"/>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>

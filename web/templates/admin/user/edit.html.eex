@@ -1,16 +1,30 @@
 <h1>Edit user info</h1>
 
-<p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.email %></p>
+<div class="form-group row">
+  <div class="col-md-2">
+    <label class="col-form-label">Name: </label>
+  </div>
+  <label class="col-form-label"><%= @user.name %></label>
+</div>
+
+<div class="form-group row">
+  <div class="col-md-2">
+    <label class="col-form-label">Email: </label>
+  </div>
+  <label class="col-form-label"><%= @user.email %></label>
+</div>
+
 <%= form_for @changeset, admin_user_path(@conn, :update, @user), fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= label f, :team_id, class: "control-label" %>
-    <%= select f, :team_id, @teams |> Enum.map(&{&1.name, &1.id}), prompt: "No team" %>
+  <div class="form-group row">
+    <div class="col-md-2">
+      <%= label f, :team_id, class: "col-form-label" %>
+    </div>
+    <%= select f, :team_id, @teams |> Enum.map(&{&1.name, &1.id}), prompt: "No team", class: "form-control col-md-9" %>
     <%= error_tag f, :team_id %>
   </div>
   <%= submit "Submit", class: "btn btn-primary" %>

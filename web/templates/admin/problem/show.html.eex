@@ -1,24 +1,19 @@
+
 <div class="page-header">
   <h1><%= @problem.title %></h1>
-  <div class="row">
+  <div class="row mb-2">
     <div class="col-md-5">
       <input id="problem-link" class="form-control" value="<%= @problem.source %>" readonly>
     </div>
     <button class="btn btn-default copy-to-clipboard" data-clipboard-target="#problem-link">Copy link to clipboard</button>
   </div>
-
-</div>
-<div class="row">
-  <div class="col-md-12">
+  <%= form_for @conn, admin_problem_path(@conn, :delete, @problem), [onsubmit: "return confirm('Are you sure?');", class: "form-group"], fn form -> %>
     <%= link "Edit problem", to: admin_problem_path(@conn, :edit, @problem), class: "btn btn-primary" %>
-  </div>
-  <div class="col-md-12">
-<%= form_for @conn, admin_problem_path(@conn, :delete, @problem), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
     <%= submit "Delete problem", class: "btn btn-danger" %>
-<% end %>
-  </div>
+  <% end %>
 </div>
-
 <hr />
-<%= render VirtualJudge.SharedView, "problem_iframe.html", problem: @problem %>
+<div class="row">
+  <%= render VirtualJudge.SharedView, "problem_iframe.html", problem: @problem %>
+</div>
 <hr />

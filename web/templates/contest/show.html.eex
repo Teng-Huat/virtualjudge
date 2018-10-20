@@ -50,7 +50,7 @@
   <h2>Your previously submitted answers for this contest:</h2>
   <%= if VirtualJudge.Contest.expired?(@contest) do %>
     <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, link_type: :problem_path, answers: @answers %>
-    <%= else %>
+    <% else %>
     <%= render VirtualJudge.SharedView, "answer_list.html", conn: @conn, link_type: :contest_problem_path, answers: @answers %>
   <% end %>
 <% end %>

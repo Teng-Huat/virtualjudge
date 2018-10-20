@@ -1,8 +1,9 @@
-<h1>Listing users currently in the system</h1>
 
-<div class="row">
-  <div class="col-md-offset-11 col-md-1">
-    <%= link "Export", to: admin_user_path(@conn, :export), class: "btn btn-default" %>
+
+<div class="row mr-sm-2">
+  <div class="col-md-11"><h1>Listing users currently in the system</h1></div>
+  <div class="float-right">
+    <%= link "Export", to: admin_user_path(@conn, :export), class: "btn btn-primary" %>
   </div>
 </div>
 
@@ -25,12 +26,15 @@
           <td><%= user.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
           <td><%= signed_up(user) %></td>
           <td>
-<%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %>
-<%= form_for @conn, admin_user_path(@conn, :delete, user), [onsubmit: "return confirm('Are you sure?');"], fn form -> %>
-    <%= submit "Delete", class: "btn btn-xs btn-danger" %>
-<% end %>
+
+            <%= form_for @conn, admin_user_path(@conn, :delete, user), [onsubmit: "return confirm('Are you sure?');", class: "form-inline"], fn form -> %>
+              <div class="btn-group">
+                <%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-default btn-sm" %>
+                <%= submit "Delete", class: "btn btn-sm btn-danger" %>
+              </div>
+            <% end %>
             <%= if not VirtualJudge.User.signed_up?(user) do %>
-              <%= link "Resend invite", to: admin_invitation_path(@conn, :resend_invitation, user), method: :put, data: [confirm: "Are you sure?"], class: "btn btn-xs btn-warning" %>
+              <%= link "Resend invite", to: admin_invitation_path(@conn, :resend_invitation, user), method: :put, data: [confirm: "Are you sure?"], class: "btn btn-sm btn-warning mt-1" %>
             <% end %>
           </td>
         </tr>

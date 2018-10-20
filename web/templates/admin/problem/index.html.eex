@@ -3,25 +3,24 @@
 </div>
 
 <div class="row">
-  <div>
-<table class="table">
-<tr><%= link "Export", to: admin_problem_path(@conn, :export), class: "btn btn-default" %></td></tr>
-<tr>
-    <%= form_for @conn, admin_problem_path(@conn, :filter), [class: "form-inline", onsubmit: "return confirm('Are you sure you want to filter?');"], fn form -> %>
- <!-- Search Filter input boxes -->
-    <div class="form-group">
-      <%= text_input form, :title, class: "form-control", placeholder: "Problem Title"%>
-      <%= text_input form, :source, class: "form-control", placeholder: "Problem Source"%>
-    </div>
-
-  <div class="form-group">
-    <%= submit "Filter", class: "btn btn-primary" %>
+  <div class="col-md-11">
+    <%= form_for @conn, admin_problem_path(@conn, :filter), [class: "form-inline", onsubmit: "return confirm('Are you sure you want to filter?');", class: "form-inline"], fn form -> %>
+    <!-- Search Filter input boxes -->
+      <div class="input-group mb-2 mr-sm-2 col-md-3">
+        <%= text_input form, :title, class: "form-control", placeholder: "Problem Title" %>
+      </div>
+      <div class="input-group mb-2 mr-sm-2 col-md-3">
+        <%= text_input form, :source, class: "form-control", placeholder: "Problem Source" %>
+      </div>
+      <div class="form-group">
+          <%= submit "Filter", class: "btn btn-primary" %>
+      </div>
   </div>
+  <div class="col-md-1">
+    <%= link "Export", to: admin_problem_path(@conn, :export), class: "btn btn-primary float-right" %>
+  </div>
+    
 <% end %>
-
-</td></tr>
- </table>
- </div>
 </div>
 
 <table class="table">
@@ -39,6 +38,6 @@
 <% end %>
 </table>
 <center>
-  <%= pagination_links @page %>
+  <%= pagination_links @page, view_style: :bootstrap_v4 %>
 </center>
 

@@ -7,3 +7,9 @@
 tr.clickable-row:hover{
   cursor: pointer;
 }
+
+/* Fixes nav clipping */
+header {
+  margin-bottom: 1rem;
+}
+

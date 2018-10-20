@@ -15,7 +15,7 @@
       </div>
 
       <div class="col-md-6 problem-container">
-        <div class="form-group">
+        <div class="form-group row">
           <div class="col-md-9">
             <input type="text" class="form-control" id="problem-input" />
           </div>
@@ -26,7 +26,7 @@
         <div id="problem-inputs-ctn">
           <%= if @contest do %>
             <%= for problem <- @contest.problems do %>
-              <input class="original-problems" type="text" value="<%= problem.source %>"/>
+              <input class="original-problems form-control" type="text" value="<%= problem.source %>"/>
             <% end %>
           <% end %>
         </div>

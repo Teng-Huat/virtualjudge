@@ -2,7 +2,13 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      joinTo: "js/app.js",
+      order: {
+        after: [
+          "web/static/js/bootstrap.min.js",
+          "js/app.js"
+        ]
+      }
 
       // To use a separate vendor.js bundle, specify two files path
       // http://brunch.io/docs/config#-files-
@@ -22,7 +28,10 @@ exports.config = {
     stylesheets: {
       joinTo: "css/app.css",
       order: {
-        after: ["web/static/css/app.css"] // concat app.css last
+        after: [
+          "web/static/css/theme.css",
+          "web/static/css/app.css"
+        ] // concat app.css last
       }
     },
     templates: {
@@ -72,7 +81,7 @@ exports.config = {
       moment: 'moment',
     },
     static: [
-      "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"
+      "node_modules/tempusdominus-bootstrap-4/src/js/tempusdominus-bootstrap-4.js"
     ],
     enabled: true,
     whitelist: ["phoenix", "phoenix_html", "react", "react-dom"]

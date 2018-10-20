@@ -42,7 +42,7 @@
 <p><%= link "Export contest results", to: admin_contest_path(@conn, :export, @contest), class: "btn btn-primary" %></p>
 
 
-<table class="table">acftv
+<table class="table">
   <tr>
     <th>Problem</th>
     <th>User's Name</th>
@@ -135,7 +135,7 @@ attempt)
 
 <center>
   <%= if @page.total_pages != 1 do %>
-    <%= pagination_links @page %>
+    <%= pagination_links @page, view_style: :bootstrap_v4 %>
   <% end %>
 </center>
 

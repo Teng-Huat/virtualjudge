@@ -1,5 +1,10 @@
 /* Phoenix flash messages */
 .alert:empty { display: none; }
+.alert > p { margin-bottom: 0px; }
+.alert {
+  color: #0c5460;
+  background-color: #d1ecf1;
+}
 
 /* Phoenix inline forms in links and buttons */
 form.link, form.button {
@@ -16,3 +21,6 @@ form.link, form.button {
   color: #777;
 }
 
+a.nav-link {
+  font-size: 0.9rem;
+}

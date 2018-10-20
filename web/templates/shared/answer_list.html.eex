@@ -19,14 +19,14 @@
         <td><%= answer.inserted_at |> VirtualJudge.FormattingHelpers.format_datetime() %></td>
         <td>
           <%= if @link_type == :problem_path do %>
-            <%= link "Problem link", to: problem_path(@conn, :show, answer.problem), class: "btn btn-default btn-xs" %>
+            <%= link "Problem link", to: problem_path(@conn, :show, answer.problem), class: "btn btn-primary btn-sm btn-block" %>
           <% end %>
           <%= if @link_type == :contest_problem_path do %>
             <%= if answer.result != "Accepted" do %>
-              <%= link "View and resubmit", to: contest_problem_path(@conn, :show, answer.contest_id, answer.problem), class: "btn btn-default btn-xs" %>
+              <%= link "View and resubmit", to: contest_problem_path(@conn, :show, answer.contest_id, answer.problem), class: "btn btn-primary btn-sm btn-block" %>
             <% end %>
           <% end %>
-          <%= link "More info", to: answer_path(@conn, :show, answer), class: "btn btn-default btn-xs" %>
+          <%= link "More info", to: answer_path(@conn, :show, answer), class: "btn btn-primary btn-sm btn-block" %>
         </td>
       </tr>
   <% end %>

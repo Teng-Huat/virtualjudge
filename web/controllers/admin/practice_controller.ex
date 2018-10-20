@@ -1,10 +1,12 @@
 defmodule VirtualJudge.Admin.PracticeController do
+  require Logger
   use VirtualJudge.Web, :controller
   alias VirtualJudge.Practice
   alias VirtualJudge.Problem
 
   def index(conn, _params) do
     practices = Repo.all(Practice)
+
     render(conn, "index.html", practices: practices)
   end
 
@@ -85,12 +87,12 @@ defmodule VirtualJudge.Admin.PracticeController do
 
   def delete(conn, %{"id" => id}) do
     problem = Repo.get!(Problem, id)
-    Repo.delete!(problem)
+    Repo.delete(problem)
+
     conn
     |> put_flash(:info, "Contest deleted successfully.")
     |> redirect(to: admin_practice_path(conn, :index))
   end
-
 
   defp get_problems(nil), do: []
   defp get_problems(list) do

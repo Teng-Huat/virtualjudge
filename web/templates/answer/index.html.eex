@@ -5,6 +5,6 @@ link_type: :problem_path,
 answers: @answers %>
 
 <center>
-  <%= pagination_links @page %>
+  <%= pagination_links @page, view_style: :bootstrap_v4 %>
 </center>
 
